@@ -2,16 +2,15 @@
 Capstone design project. Features: karaoke, charts, custom playlists, upload your own cover to website and others 
 can listen to it, and many other features are there.
 
-=================================================================================
+=======================================================
 		     Welcome to memoApp Android Application
 		        developers: 12174117 & 12174152
-=================================================================================
+=======================================================
 
 In the following you can find about:
 
 1. How to use this app
 2. Additional features
-3. 
 
 ---------------------------------------------------------------------------------
 

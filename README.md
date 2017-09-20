@@ -1,7 +1,6 @@
 # MusicApp
-Capstone design project. Features: karaoke, charts, custom playlists, upload your own cover to website and others 
+Capstone design project. Features: karaoke, charts, custom playlists, upload your own cover to website so that others
 can listen to it, and many other features are there.
-
 
 In the following you can find about:
 
@@ -10,6 +9,30 @@ In the following you can find about:
 
 ---------------------------------------------------------------------------------
 
+index - list, artists     -------   new songs, top songs
+sign up
+sign in
+about
+contact
+genre - songs
+
+create playlist, upload songs, karaoke, push notification when someone likes or votes
+
+profile settings
+follow other users
+
+left aside:
+    home
+    news
+    top songs
+    genres
+    uploads
+
+    black:
+    playlist +
+    2 best playlist
+
+---------------------------------------------------------------------------------
 1. How to use this app
 
 * When you open this app you will see login page.

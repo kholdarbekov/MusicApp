@@ -9,7 +9,7 @@ from .serializers import DailyChartSerializer, WeeklyChartSerializer, MonthlyCha
 # Create your views here.
 
 
-@login_required
+# @login_required
 def update_charts(request):
     music_pk = request.POST.get('music_pk')
     if music_pk:

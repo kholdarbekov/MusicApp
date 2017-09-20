@@ -3,9 +3,16 @@ from django.db import models
 # Create your models here.
 
 
+class Genre(models.Model):
+    genre_name = models.CharField(max_length=128)
+
+    def __str__(self):
+        return self.genre_name
+
+
 class Music(models.Model):
     name = models.CharField(max_length=256)
-    genre = models.CharField(max_length=128)
+    genre = models.ForeignKey(Genre, related_name='all_music_in_genre')
     link = models.URLField(help_text='main link to music')
     additional_links = models.CharField(max_length=4096, blank=True, null=True,
                                         help_text='Space (" ") separated links. '

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Daily, Weekly, Monthly, Music
+from .models import Daily, Weekly, Monthly, Music, Genre
 # Register your models here.
 
 
@@ -24,3 +24,8 @@ class MonthlyChartAdmin(admin.ModelAdmin):
 @admin.register(Music)
 class MusicAdmin(admin.ModelAdmin):
     list_display = ['name', 'link']
+
+
+@admin.register(Genre)
+class GenreAdmin(admin.ModelAdmin):
+    list_display = ['genre_name',]

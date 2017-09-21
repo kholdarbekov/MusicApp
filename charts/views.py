@@ -1,15 +1,12 @@
 from django.shortcuts import render
-from django.views.generic.detail import DetailView
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
-from rest_framework import generics, mixins
 from .models import Daily, Weekly, Monthly, Music
-from .serializers import DailyChartSerializer, WeeklyChartSerializer, MonthlyChartSerializer
 
 # Create your views here.
 
 
-# @login_required
+@login_required
 def update_charts(request):
     music_pk = request.POST.get('music_pk')
     if music_pk:
@@ -71,12 +68,3 @@ def update_charts(request):
 
     else:
         return JsonResponse({'status': 'ko'})
-
-
-class DailyChartView(mixins.ListModelMixin, generics.GenericAPIView):
-    queryset = Daily.objects.all()
-    serializer_class = DailyChartSerializer
-
-    def get(self, request, *args, **kwargs):
-        return self.list(request, *args, **kwargs)
-

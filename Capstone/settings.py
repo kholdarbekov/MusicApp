@@ -38,16 +38,25 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # external packages
     'rest_framework',
+    'rest_framework.authtoken',
+
+    # apps
     'charts',
+    'authentication',
 ]
 
-# REST_FRAMEWORK = {
-#     'DEFAULT_PERMISSION_CLASSES': [
-#         'rest_framework.permissions.IsAdminUser',
-#     ],
-#     'PAGE_SIZE': 10
-# }
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+        # 'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+    'PAGE_SIZE': 10
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -137,3 +146,14 @@ TEMPLATE_DIRS = (os.path.join(BASE_DIR,  'templates'),)
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# AUTHENTICATION_BACKENDS = (
+#     'django.contrib.auth.backends.ModelBackend',
+#     'tokenapi.backends.TokenBackend',
+# )
+
+AUTH_USER_MODEL = 'authentication.Profile'
+
+FORMAT_MODULE_PATH = [
+    'authentication.formats',
+]

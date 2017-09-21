@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Daily, Weekly, Monthly, Music
+from ..models import Daily, Weekly, Monthly, Music
 
 
 class DailyChartSerializer(serializers.ModelSerializer):

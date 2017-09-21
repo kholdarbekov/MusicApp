@@ -25,6 +25,8 @@ router = routers.DefaultRouter()
 
 urlpatterns = [
     url(r'^', include('charts.urls')),
+    url(r'^api/', include('charts.api.urls', namespace='api')),
+
     url(r'^$', TemplateView.as_view(template_name='index.html'), name='index'),
     url(r'^genres/$', TemplateView.as_view(template_name='genres.html'), name='genres'),
     url(r'^profile/$', TemplateView.as_view(template_name='profile.html'), name='profile'),
@@ -36,6 +38,7 @@ urlpatterns = [
     url(r'^sign-up/$', TemplateView.as_view(template_name='signup.html'), name='signup'),
     url(r'^change-password/$', TemplateView.as_view(template_name='change_password.html')),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+
     url(r'^admin/', admin.site.urls),
 ]
 

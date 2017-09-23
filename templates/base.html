@@ -3,7 +3,7 @@
 <html lang="{{ request.LANGUAGE_CODE }}" class="app">
 <head>
     <meta charset="utf-8"/>
-    <title>{% block title %}MooZee | {% endblock %}</title>
+    <title>MooZee | {% block title %}{% endblock %}</title>
     <meta name="description"
           content="app, web app, responsive, admin dashboard, admin, flat, flat ui, ui kit, off screen nav"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
@@ -87,8 +87,8 @@
                                             class="font-bold">What's new</span> </a></li>
                                     <li><a href="{% url 'genres' %}"> <i class="icon-music-tone-alt icon text-info"></i> <span
                                             class="font-bold">Genres</span> </a></li>
-                                    <li><a href="{% url 'listen' %}"> <i class="icon-list icon text-info-dker"></i> <span
-                                            class="font-bold">Listen</span> </a></li>
+                                    <li><a href="{% url 'album' %}"> <i class="icon-list icon text-info-dker"></i> <span
+                                            class="font-bold">Album</span> </a></li>
                                     <li><a href="video.html" data-target="#content" data-el="#bjax-el"
                                            data-replace="true"> <i class="icon-social-youtube icon text-primary"></i>
                                         <span class="font-bold">Top Charts</span> </a></li>
@@ -120,7 +120,6 @@
                                     <li><a href="{% url 'profile' %}">Profile</a></li>
                                     <li><a href="#"> <span class="badge bg-danger pull-right">3</span> Notifications
                                     </a></li>
-                                    <li><a href="docs.html">Help</a></li>
                                     <li class="divider"></li>
                                     <li><a href="modal.lockme.html" data-toggle="ajaxModal">Logout</a></li>
                                 </ul>

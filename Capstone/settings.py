@@ -49,12 +49,12 @@ INSTALLED_APPS = [
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
-        # 'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
+        # 'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
     ],
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.TokenAuthentication',
-    ),
+    # 'DEFAULT_AUTHENTICATION_CLASSES': (
+    #     'rest_framework.authentication.TokenAuthentication',
+    # ),
     'PAGE_SIZE': 10
 }
 
@@ -147,13 +147,18 @@ TEMPLATE_DIRS = (os.path.join(BASE_DIR,  'templates'),)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-# AUTHENTICATION_BACKENDS = (
-#     'django.contrib.auth.backends.ModelBackend',
-#     'tokenapi.backends.TokenBackend',
-# )
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'authentication.authentication.EmailAuthBackend',
+    # 'tokenapi.backends.TokenBackend',
+)
 
 AUTH_USER_MODEL = 'authentication.Profile'
 
 FORMAT_MODULE_PATH = [
     'authentication.formats',
 ]
+
+LOGIN_REDIRECT_URL = 'index'
+
+GEOIP_PATH = os.path.join(BASE_DIR, 'geoip')

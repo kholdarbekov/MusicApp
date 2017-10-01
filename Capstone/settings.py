@@ -98,7 +98,7 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
+# TODO: check this one. What it does???
 import dj_database_url
 db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
@@ -168,5 +168,3 @@ FORMAT_MODULE_PATH = [
 LOGIN_REDIRECT_URL = 'index'
 
 GEOIP_PATH = os.path.join(BASE_DIR, 'geoip')
-
-STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'

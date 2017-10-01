@@ -25,11 +25,12 @@ class ProfileRegisterView(FormView):
         allowed_countries = ['Uzbekistan', 'United States', 'Korea', 'Germany']
         g =GeoIP2()
 
-        x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-        if x_forwarded_for:
-            ip = x_forwarded_for.split(',')[0]
+        if 'HTTP_X_FORWARDED_FOR' in request.META:
+            ip = request.META['HTTP_X_FORWARDED_FOR'].split(",", 1)[0].strip()
+        elif 'REMOTE_ADDR' in request.META:
+            ip = request.META['REMOTE_ADDR']
         else:
-            ip = request.META.get('REMOTE_ADDR')
+            ip = None
 
         if ip:
             country = g.country(ip)['country_name']

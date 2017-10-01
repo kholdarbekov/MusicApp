@@ -32,7 +32,6 @@ class ProfileRegisterView(FormView):
             ip = request.META['REMOTE_ADDR']
         else:
             ip = None
-
         if ip:
             country = g.country(ip)['country_code']
         else:

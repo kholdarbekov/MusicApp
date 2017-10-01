@@ -3,7 +3,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils import six
 from django.contrib.auth.validators import UnicodeUsernameValidator, ASCIIUsernameValidator
 from django.contrib.auth.models import (
-    BaseUserManager, AbstractBaseUser
+    BaseUserManager, AbstractBaseUser, AbstractUser
 )
 
 
@@ -40,7 +40,7 @@ class ProfileManager(BaseUserManager):
         return user
 
 
-class Profile(AbstractBaseUser):
+class Profile(AbstractUser):
     username_validator = UnicodeUsernameValidator() if six.PY3 else ASCIIUsernameValidator()
     username = models.CharField(
         _('username'),

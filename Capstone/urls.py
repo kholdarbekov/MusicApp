@@ -38,6 +38,9 @@ urlpatterns = [
     url(r'^sign-in/$', TemplateView.as_view(template_name='signin.html'), name='signin'),
     url(r'^sign-up/$', TemplateView.as_view(template_name='signup.html'), name='signup'),
     url(r'^change-password/$', TemplateView.as_view(template_name='change_password.html')),
+
+    url(r'^not-available/$', TemplateView.as_view(template_name='genres.html'), name='disallowed_country'),
+
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 
     url(r'^admin/', admin.site.urls),

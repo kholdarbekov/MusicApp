@@ -22,7 +22,7 @@ class ProfileRegisterView(FormView):
         Check that user is from allowed regions before even bothering to
         dispatch or do other processing.
         """
-        allowed_countries = ['South Korea', 'Uzbekistan', 'United States']
+        allowed_countries = ['Korea, Republic of', 'Uzbekistan', 'United States']
         g =GeoIP2()
         try:
             ip = request.META.get('HTTP_X_FORWARDED_FOR', None)

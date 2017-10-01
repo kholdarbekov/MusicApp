@@ -23,6 +23,7 @@ class ProfileRegisterView(FormView):
         dispatch or do other processing.
         """
         allowed_countries = ['Uzbekistan', 'United States', 'South Korea', 'Korea, Republic of']
+        allowed_countries_codes = ['UZ', 'US', 'KR']
         g =GeoIP2()
 
         if 'HTTP_X_FORWARDED_FOR' in request.META:
@@ -33,11 +34,11 @@ class ProfileRegisterView(FormView):
             ip = None
 
         if ip:
-            country = g.country(ip)['country_name']
+            country = g.country(ip)['country_code']
         else:
             country = None
 
-        if country in allowed_countries:
+        if country in allowed_countries_codes:
             return super(ProfileRegisterView, self).dispatch(request, *args, **kwargs)
         else:
             return redirect(self.disallowed_countries)

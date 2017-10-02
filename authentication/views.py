@@ -4,13 +4,13 @@ from django.views.generic.edit import FormView
 from django.utils.decorators import method_decorator
 from django.views.decorators.debug import sensitive_post_parameters
 
-from .forms import ProfileForm
+from .forms import UserCreationForm
 from .models import Profile
 # Create your views here.
 
 
 class ProfileRegisterView(FormView):
-    form_class = ProfileForm
+    form_class = UserCreationForm
     success_url = 'index'
     http_method_names = ['post', 'get']
     template_name = 'signup.html'
@@ -22,7 +22,6 @@ class ProfileRegisterView(FormView):
         Check that user is from allowed regions before even bothering to
         dispatch or do other processing.
         """
-        allowed_countries = ['Uzbekistan', 'United States', 'South Korea', 'Korea, Republic of']
         allowed_countries_codes = ['UZ', 'US', 'KR']
         g =GeoIP2()
 

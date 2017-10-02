@@ -10,9 +10,19 @@ class UserCreationForm(forms.ModelForm):
     password1 = forms.CharField(label='Password', strip=False, widget=forms.PasswordInput)
     password2 = forms.CharField(label='Password confirmation', strip=False, widget=forms.PasswordInput)
 
+    tos = forms.BooleanField(widget=forms.CheckboxInput,
+                             label=_('I have read and agree to the Terms of Service'),
+                             error_messages={'required': _("You must agree to the terms to register")})
+
     class Meta:
         model = Profile
         fields = ('username', 'email',)
+
+    def clean_email(self):
+        if Profile.objects.filter(email__iexact=self.cleaned_data['email']):
+            raise forms.ValidationError(
+                _("This email address is already in use. Please supply a different email address."))
+        return self.cleaned_data['email']
 
     def clean_password2(self):
         # Check that the two password entries match
@@ -47,20 +57,3 @@ class UserChangeForm(forms.ModelForm):
         # This is done here, rather than on the field, because the
         # field does not have access to the initial value
         return self.initial["password"]
-
-
-class ProfileForm(UserCreationForm):
-    required_css_class = 'required'
-
-    tos = forms.BooleanField(widget=forms.CheckboxInput,
-                             label=_('I have read and agree to the Terms of Service'),
-                             error_messages={'required': _("You must agree to the terms to register")})
-
-    def clean_email(self):
-        if Profile.objects.filter(email__iexact=self.cleaned_data['email']):
-            raise forms.ValidationError(_("This email address is already in use. Please supply a different email address."))
-        return self.cleaned_data['email']
-
-    class Meta:
-        model = Profile
-        fields = ('username', 'email', 'first_name')

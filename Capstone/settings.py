@@ -168,3 +168,6 @@ FORMAT_MODULE_PATH = [
 LOGIN_REDIRECT_URL = 'index'
 
 GEOIP_PATH = os.path.join(BASE_DIR, 'geoip')
+
+DEFAULT_FROM_EMAIL = 'inhaice@gmail.com'
+

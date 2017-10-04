@@ -41,10 +41,12 @@ INSTALLED_APPS = [
     # external packages
     'rest_framework',
     'rest_framework.authtoken',
+    # 'haystack',
 
     # apps
     'charts',
     'authentication',
+    'music',
 ]
 
 REST_FRAMEWORK = {
@@ -98,11 +100,10 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-# TODO: check this one. What it does???
-# import dj_database_url
-# db_from_env = dj_database_url.config(conn_max_age=500)
-# DATABASES['default'].update(db_from_env)
 
+import dj_database_url
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
@@ -171,3 +172,10 @@ GEOIP_PATH = os.path.join(BASE_DIR, 'geoip')
 
 DEFAULT_FROM_EMAIL = 'inhaice@gmail.com'
 
+# HAYSTACK_CONNECTIONS = {
+#     'default': {
+#         'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
+#         'URL': 'http://127.0.0.1:9200/',
+#         'INDEX_NAME': 'musics',
+#     },
+# }

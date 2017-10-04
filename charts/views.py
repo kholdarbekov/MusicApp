@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
-from .models import Daily, Weekly, Monthly, Music
+from .models import Daily, Weekly, Monthly
+from music.models import Music
 
 # Create your views here.
 

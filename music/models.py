@@ -18,7 +18,7 @@ class Genre(models.Model):
 
     def __str__(self):
         return self.genre_name
-
+    '''
     def save(self, *args, **kwargs):
         super(Genre, self).save(*args, **kwargs)
         for music in self.all_music_in_genre.all():
@@ -33,6 +33,7 @@ class Genre(models.Model):
                     }
                 }
             )
+    '''
 
 
 class Music(models.Model):
@@ -94,7 +95,7 @@ class Music(models.Model):
                 'release_date': {'type': 'date'},
             }
         }
-
+    '''
     def save(self, *args, **kwargs):
         is_new = self.pk
         super(Music, self).save(*args, **kwargs)
@@ -130,3 +131,4 @@ class Music(models.Model):
             id=prev_pk,
             refresh=True,
         )
+    '''

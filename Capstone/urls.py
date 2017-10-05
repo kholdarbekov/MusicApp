@@ -35,8 +35,6 @@ urlpatterns = [
     url(r'^album/$', TemplateView.as_view(template_name='listen.html'), name='album'),
     url(r'^not-available/$', TemplateView.as_view(template_name='genres.html'), name='disallowed_country'),
 
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-
     url(r'^admin/', admin.site.urls),
 ]
 

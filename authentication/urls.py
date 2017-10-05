@@ -1,8 +1,10 @@
 from django.contrib.auth import views
 from django.conf.urls import url
-from .views import ProfileRegisterView
+from .views import ProfileRegisterView, UserCreate
 
 urlpatterns = [
+    url(r'^api/register/$', UserCreate.as_view(), name='api-account-create'),
+
     url(r'^register/$', ProfileRegisterView.as_view(), name='register'),
 
     url(r'^login/$', views.login, {'template_name': 'signin.html'}, name='login'),

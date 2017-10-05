@@ -5,7 +5,7 @@ from .models import Music, Genre
 
 @admin.register(Music)
 class MusicAdmin(admin.ModelAdmin):
-    list_display = ['name', 'link']
+    list_display = ['name', 'links']
 
 
 @admin.register(Genre)

@@ -45,7 +45,7 @@ class UserCreate(APIView):
             return redirect(self.disallowed_countries)
     '''
     def post(self, request, format='json'):
-        serializer = UserSerializer(data=json.load(request.data))
+        serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
             user = serializer.save()
             if user:

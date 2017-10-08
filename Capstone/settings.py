@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     # external packages
     'rest_framework',
     'rest_framework.authtoken',
-    'django_extensions',
+    'pafy',
+    'youtube_dl',
 
     # apps
     'charts',
@@ -230,3 +231,5 @@ ES_CLIENT = Elasticsearch(
     connection_class=RequestsHttpConnection
 )
 ES_AUTOREFRESH = True
+
+APPEND_SLASH=False

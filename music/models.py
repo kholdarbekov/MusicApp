@@ -1,15 +1,10 @@
 import django.db.models.options as options
+from django.db import models
+from . import signals
+
 options.DEFAULT_NAMES = options.DEFAULT_NAMES + (
     'es_index_name', 'es_type_name', 'es_mapping'
 )
-from django.conf import settings
-es_client = settings.ES_CLIENT
-
-from django.db import models
-
-from django.dispatch import receiver
-from django.db.models.signals import post_save
-
 # Create your models here.
 
 
@@ -18,22 +13,6 @@ class Genre(models.Model):
 
     def __str__(self):
         return self.genre_name
-    '''
-    def save(self, *args, **kwargs):
-        super(Genre, self).save(*args, **kwargs)
-        for music in self.all_music_in_genre.all():
-            data = music.field_es_repr('genre')
-            es_client.update(
-                index=music._meta.es_index_name,
-                doc_type=music._meta.es_type_name,
-                id=music.pk,
-                body={
-                    'doc': {
-                        'genre': data
-                    }
-                }
-            )
-    '''
 
 
 class Music(models.Model):
@@ -95,40 +74,13 @@ class Music(models.Model):
                 'release_date': {'type': 'date'},
             }
         }
-    '''
+
     def save(self, *args, **kwargs):
         is_new = self.pk
         super(Music, self).save(*args, **kwargs)
-        payload = self.es_repr()
-        if is_new is not None:
-            del payload['_id']
-            es_client.update(
-                index=self._meta.es_index_name,
-                doc_type=self._meta.es_type_name,
-                id=self.pk,
-                refresh=settings.ES_AUTOREFRESH,
-                body={
-                    'doc': payload
-                }
-            )
-        else:
-            es_client.create(
-                index=self._meta.es_index_name,
-                doc_type=self._meta.es_type_name,
-                id=self.pk,
-                refresh=settings.ES_AUTOREFRESH,
-                body={
-                    'doc': payload
-                }
-            )
+        # signals.music_saved.send(sender=self.__class__, is_new=is_new, instance=self)
 
     def delete(self, *args, **kwargs):
         prev_pk = self.pk
         super(Music, self).delete(*args, **kwargs)
-        es_client.delete(
-            index=self._meta.es_index_name,
-            doc_type=self._meta.es_type_name,
-            id=prev_pk,
-            refresh=True,
-        )
-    '''
+        # signals.music_delete.send(sender=self.__class__, prev_pk=prev_pk, instance=self)

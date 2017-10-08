@@ -1,3 +1,5 @@
+import json
+
 from django.shortcuts import render, redirect
 from django.contrib.gis.geoip2 import GeoIP2
 from django.views.generic.edit import FormView
@@ -16,7 +18,7 @@ from .serializers import UserSerializer
 
 class UserCreate(APIView):
     disallowed_countries = 'disallowed_country'
-
+    '''
     @method_decorator(sensitive_post_parameters('password1', 'password2'))
     def dispatch(self, request, *args, **kwargs):
         """
@@ -41,10 +43,9 @@ class UserCreate(APIView):
             return super(UserCreate, self).dispatch(request, *args, **kwargs)
         else:
             return redirect(self.disallowed_countries)
-
-
+    '''
     def post(self, request, format='json'):
-        serializer = UserSerializer(data=request.data)
+        serializer = UserSerializer(data=json.load(request.data))
         if serializer.is_valid():
             user = serializer.save()
             if user:

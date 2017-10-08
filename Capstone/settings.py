@@ -231,5 +231,3 @@ ES_CLIENT = Elasticsearch(
     connection_class=RequestsHttpConnection
 )
 ES_AUTOREFRESH = True
-
-APPEND_SLASH = True

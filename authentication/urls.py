@@ -3,7 +3,7 @@ from django.conf.urls import url
 from .views import ProfileRegisterView, UserCreate
 
 urlpatterns = [
-    url(r'^api/register/$', UserCreate.as_view(), name='api-account-create'),
+    url(r'^api/register', UserCreate.as_view(), name='api-account-create'),
 
     url(r'^register/$', ProfileRegisterView.as_view(), name='register'),
 

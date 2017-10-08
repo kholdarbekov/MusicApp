@@ -31,6 +31,8 @@ urlpatterns = [
 
     url(r'^$', TemplateView.as_view(template_name='index.html'), name='index'),
     url(r'^genres/$', TemplateView.as_view(template_name='genres.html'), name='genres'),
+    url(r'^playlist/$', TemplateView.as_view(template_name='playlist.html'), name='playlist'),
+    url(r'^lock/$', TemplateView.as_view(template_name='lock.html'), name='lock'),
     url(r'^profile/$', TemplateView.as_view(template_name='profile.html'), name='profile'),
     url(r'^album/$', TemplateView.as_view(template_name='listen.html'), name='album'),
     url(r'^not-available/$', TemplateView.as_view(template_name='genres.html'), name='disallowed_country'),

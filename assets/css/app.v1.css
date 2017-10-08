@@ -13459,6 +13459,11 @@ a.bg-light:hover, a.bg-light:focus {
     display: inline-block;
 }
 
+.thumb-xl {
+    width: 200px;
+    display: inline-block;
+}
+
 .thumb-md {
     width: 64px;
     display: inline-block;
@@ -13484,7 +13489,7 @@ a.bg-light:hover, a.bg-light:focus {
     border: 1px solid #dbe2e7;
 }
 
-.thumb img, .thumb-xs img, .thumb-sm img, .thumb-md img, .thumb-lg img, .thumb-btn img {
+.thumb img, .thumb-xs img, .thumb-xl img, .thumb-sm img, .thumb-md img, .thumb-lg img, .thumb-btn img {
     height: auto;
     max-width: 100%;
     vertical-align: middle;

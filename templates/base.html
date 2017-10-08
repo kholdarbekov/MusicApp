@@ -14,20 +14,20 @@
     <script src="js/ie/respond.min.js"></script>
     <script src="js/ie/excanvas.js"></script><![endif]-->
 
-<script type="text/javascript">
-$(function() {
-  $("#search").autocomplete({
-    source: "{% url 'autocomplete-view' %}",
-    minLength: 1,
-    select: function(event, ui) {
-      window.location.href = "{% url 'index' %}";
-    },
-    open: function(event, ui) {
-        $(".ui-autocomplete").css("z-index", 1000);
-    }
-  });
-});
-</script>
+    <script type="text/javascript">
+        $(function () {
+            $("#search").autocomplete({
+                source: "{% url 'autocomplete-view' %}",
+                minLength: 1,
+                select: function (event, ui) {
+                    window.location.href = "{% url 'index' %}";
+                },
+                open: function (event, ui) {
+                    $(".ui-autocomplete").css("z-index", 1000);
+                }
+            });
+        });
+    </script>
 
 </head>
 <body class="">
@@ -71,7 +71,7 @@ $(function() {
                                 <span class="media-body block m-b-none"> 1.0 initial released<br> <small
                                         class="text-muted">1 hour ago</small> </span> </a></div>
                             <div class="panel-footer text-sm"><a href="#" class="pull-right"><i
-                                    class="fa fa-cog"></i></a> <a href="#notes"
+                                    class="fa fa-cog"></i></a> <a href="{% url 'profile' %}"
                                                                   data-toggle="class:show animated fadeInRight">See all
                                 the notifications</a></div>
                         </section>
@@ -84,9 +84,11 @@ $(function() {
                     <ul class="dropdown-menu animated fadeInRight">
                         <li><span class="arrow top"></span> <a href="#">Settings</a></li>
                         <li><a href="{% url 'profile' %}">Profile</a></li>
-                        <li><a href="#"> <span class="badge bg-danger pull-right">3</span> Notifications </a></li>
+                        <li><a href="{% url 'profile' %}"> <span class="badge bg-danger pull-right">3</span>
+                            Notifications </a></li>
                         <li><a href="docs.html">Help</a></li>
                         <li class="divider"></li>
+                        <li><a href="{% url 'lock' %}">Lock screen</a></li>
                         <li><a href="{% url 'logout' %}" data-toggle="ajaxModal">Logout</a></li>
                     </ul>
                 </li>
@@ -104,14 +106,12 @@ $(function() {
                                 <ul class="nav bg clearfix">
                                     <li class="hidden-nav-xs padder m-t m-b-sm text-xs text-muted"> Discover</li>
                                     <li><a href="{% url 'index' %}"> <i class="icon-disc icon text-success"></i> <span
-                                            class="font-bold">What's new</span> </a></li>
+                                            class="font-bold">New songs</span> </a></li>
                                     <li><a href="{% url 'genres' %}"> <i class="icon-music-tone-alt icon text-info"></i>
-                                        <span
-                                                class="font-bold">Genres</span> </a></li>
+                                        <span class="font-bold">Genres</span> </a></li>
                                     <li><a href="{% url 'album' %}"> <i class="icon-list icon text-info-dker"></i> <span
                                             class="font-bold">Album</span> </a></li>
-                                    <li><a href="video.html" data-target="#content" data-el="#bjax-el"
-                                           data-replace="true"> <i class="icon-social-youtube icon text-primary"></i>
+                                    <li><a href="#"> <i class="icon-social-youtube icon text-primary"></i>
                                         <span class="font-bold">Top Charts</span> </a></li>
                                     <li class="m-b hidden-nav-xs"></li>
                                 </ul>
@@ -120,8 +120,8 @@ $(function() {
                                             class="pull-right"><a href="#"><i class="icon-plus i-lg"></i></a></span>
                                         Playlist
                                     </li>
-                                    <li><a href="#"> <i class="icon-music-tone icon"></i> <span>Hip-Pop</span> </a></li>
-                                    <li><a href="#"> <i class="icon-playlist icon text-success-lter"></i> <b
+                                    <li><a href="{% url 'playlist' %}"> <i class="icon-music-tone icon"></i> <span>Hip-Pop</span> </a></li>
+                                    <li><a href="{% url 'playlist' %}"> <i class="icon-playlist icon text-success-lter"></i> <b
                                             class="badge bg-success dker pull-right">9</b> <span>Jazz</span> </a></li>
                                 </ul>
                             </nav> <!-- / nav --> </div>
@@ -227,15 +227,15 @@ $(function() {
                                 </div>
                             </footer>
                         </section>
-                    </section> <!-- side content -->
+                    </section>
                 </section>
                 <a href="#" class="hide nav-off-screen-block" data-toggle="class:nav-off-screen,open"
                    data-target="#nav,html"></a></section>
         </section>
     </section>
-</section> <!-- Bootstrap --> <!-- App -->
+</section>
 <script src="{% static 'js/app.v1.js' %}"></script>
-<script src="{% static 'js/app.plugin.js' %}"></script>
+{#<script src="{% static 'js/app.plugin.js' %}"></script>#}
 <script type="text/javascript" src="{% static 'js/jPlayer/jquery.jplayer.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/jPlayer/add-on/jplayer.playlist.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/jPlayer/demo.js' %}"></script>

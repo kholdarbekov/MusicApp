@@ -14,21 +14,21 @@ $(document).ready(function(){
     {
       title:"Lentement",
       artist:"Miaow",
-      mp3: "http://flatfull.com/themes/assets/musics/Miaow-03-Lentement.mp3",
-      oga: "http://flatfull.com/themes/assets/musics/Miaow-03-Lentement.ogg",
+      mp3: "http://flatfull.com/themes/assets/musics/Miaow-07-Bubble.mp3",
+      oga: "http://flatfull.com/themes/assets/musics/Miaow-07-Bubble.ogg",
       poster: "images/m0.jpg"
     },
     {
       title:"Partir",
       artist:"Miaow",
-      mp3: "http://flatfull.com/themes/assets/musics/Miaow-09-Partir.mp3",
-      oga: "http://flatfull.com/themes/assets/musics/Miaow-09-Partir.ogg",
+      mp3: "http://flatfull.com/themes/assets/musics/Miaow-07-Bubble.mp3",
+      oga: "http://flatfull.com/themes/assets/musics/Miaow-07-Bubble.ogg",
       poster: "images/m0.jpg"
     }
   ], {
     playlistOptions: {
       enableRemoveControls: true,
-      autoPlay: true
+      autoPlay: false
     },
     swfPath: "js/jPlayer",
     supplied: "webmv, ogv, m4v, oga, mp3",

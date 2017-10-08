@@ -1,0 +1,27 @@
+{% extends 'auth_base.html' %}
+{% load staticfiles %}
+
+{% block title %}Lock screen{% endblock %}
+
+{% block content %}
+    <section class="m-b-lg">
+        <br><br>
+        <form action="" method="post">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            <div class="user-profile text-center">
+                <div class="thumb-xl">
+                    <img class="avatar" src="{% static 'images/b2.jpg' %}" alt="...">
+                </div>
+                <br>
+                <h3>Bunyod Ibrokhimov</h3>
+                <br><br>
+                <div class="form-group"><input type="password" placeholder="Password" name="password"
+                                               class="form-control rounded input-lg text-center no-border"></div>
+                <button type="submit" class="btn btn-lg btn-warning lt b-white b-2x btn-block btn-rounded"><i
+                        class="icon-arrow-right pull-right"></i><span class="m-r-n-lg">Unlock</span></button>
+            </div>
+        </form>
+    </section>
+{% endblock %}
+

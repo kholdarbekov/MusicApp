@@ -232,4 +232,4 @@ ES_CLIENT = Elasticsearch(
 )
 ES_AUTOREFRESH = True
 
-APPEND_SLASH=False
+APPEND_SLASH = True

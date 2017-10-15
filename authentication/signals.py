@@ -23,4 +23,3 @@ user_created.connect(login_user)
 def create_auth_token(sender, instance=None, created=False, **kwargs):
     if created:
         Token.objects.create(user=instance)
-        # user_created.send(sender=sender, user=instance, request=kwargs['request'])

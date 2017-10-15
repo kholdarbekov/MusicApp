@@ -1,9 +1,11 @@
 from django.contrib.auth import views
 from django.conf.urls import url
-from .views import ProfileRegisterView, UserCreate
+from .views import ProfileRegisterView, APIUserCreate, APIUserLogin
 
 urlpatterns = [
-    url(r'^api/register', UserCreate.as_view(), name='api-account-create'),
+    url(r'^api/register', APIUserCreate.as_view(), name='api-account-create'),
+
+    url(r'^api/login', APIUserLogin.as_view(), name='api-login'),
 
     url(r'^register/$', ProfileRegisterView.as_view(), name='register'),
 

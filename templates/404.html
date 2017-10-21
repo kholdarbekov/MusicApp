@@ -1,25 +1,28 @@
 {% load staticfiles %}
 <!DOCTYPE html>
-<html lang="{{ request.LANGUAGE_CODE }}" class="app">
+<html lang="en" class="app">
 <head>
     <meta charset="utf-8"/>
-    <title>MooZee | {% block title %}{% endblock %}</title>
+    <title>MooZee | Page not found</title>
     <meta name="description"
           content="music, app, best, uzbek, songs, capstone"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
     <link rel="stylesheet" href="{% static 'js/jPlayer/jplayer.flat.css' %}" type="text/css"/>
     <link rel="stylesheet" href="{% static 'css/app.v1.css' %}" type="text/css"/>
-    <!--[if lt IE 9]>
-    <script src="js/ie/html5shiv.js"></script>
-    <script src="js/ie/respond.min.js"></script>
-    <script src="js/ie/excanvas.js"></script> <![endif]--></head>
-<body class="bg-info">
-<section id="content" class="m-t-lg wrapper-md animated fadeInDown">
-    <div class="container aside-xl"><a class="navbar-brand block" href="{% url 'index' %}"><span
-            class="h1 font-bold">MooZee</span></a>
-        {% block content %}
-
-        {% endblock %}
+    </head>
+<body class="bg-light dk">
+<section id="content">
+    <div class="row m-n">
+        <div class="col-sm-4 col-sm-offset-4">
+            <div class="text-center m-b-lg">
+                <br><br><br><h1 class="h text-white animated fadeInDownBig">404</h1>
+            <h4>Page not found</h4></div>
+            <br>
+            <div class="list-group auto m-b-sm m-b-lg"><a href="{% url 'index' %}" class="list-group-item"> <i
+                    class="fa fa-chevron-right icon-muted"></i> <i class="fa fa-fw fa-home icon-muted"></i> Goto
+                homepage </a> </div>
+            <br><br><br><br>
+        </div>
     </div>
 </section>
 <footer id="footer">
@@ -28,7 +31,7 @@
             <small>Web app is designed by Bunyod.Ibrokhimov<br>&copy; 2017</small>
         </p>
     </div>
-</footer>
+</footer> 
 <script src="{% static 'js/app.v1.js' %}"></script>
 <script src="{% static 'js/app.plugin.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/jPlayer/jquery.jplayer.min.js' %}"></script>

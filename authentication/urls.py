@@ -22,5 +22,4 @@ urlpatterns = [
     url(r'^password/reset/confirm/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>.+)/$', views.password_reset_confirm,
         {'template_name': 'reset_password.html', 'post_reset_redirect': 'index'}, name='password_reset_confirm'),
 
-
 ]

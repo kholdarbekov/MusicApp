@@ -35,6 +35,8 @@ urlpatterns = [
     url(r'^lock/$', TemplateView.as_view(template_name='lock.html'), name='lock'),
     url(r'^profile/$', TemplateView.as_view(template_name='profile.html'), name='profile'),
     url(r'^album/$', TemplateView.as_view(template_name='listen.html'), name='album'),
+    url(r'^404/$', TemplateView.as_view(template_name='404.html'), name='404'),
+    url(r'^search/$', TemplateView.as_view(template_name='search.html'), name='search'),
     url(r'^not-available/$', TemplateView.as_view(template_name='genres.html'), name='disallowed_country'),
 
     url(r'^admin/', admin.site.urls),

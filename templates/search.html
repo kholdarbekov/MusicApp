@@ -1,27 +1,14 @@
 {% extends 'base.html' %}
 {% load staticfiles music_extras %}
 
-{% block title %}Genres{% endblock %}
+{% block title %}Search{% endblock %}
 
 {% block content %}
     <section class="w-f-md" id="bjax-target">
-        <section class="hbox stretch"> <!-- side content -->
-            <aside class="aside bg-light dk" id="sidebar">
-                <section class="vbox animated fadeInUp">
-                    <section class="scrollable hover">
-                        <div class="list-group no-radius no-border no-bg m-t-n-xxs m-b-none auto">
-                            {% genres as list_of_genres %}
-                            <a href="genres.html" class="list-group-item active"> All </a>
-                            {% for genre in list_of_genres %}
-                                <a href="" class="list-group-item">{{ genre.genre_name }}</a>
-                            {% endfor %}
-                        </div>
-                    </section>
-                </section>
-            </aside> <!-- / side content -->
+        <section class="hbox stretch">
             <section>
                 <section class="vbox">
-                    <section class="scrollable padder-lg"><h2 class="font-thin m-b">Acoustic</h2>
+                    <section class="scrollable padder-lg"><h2 class="font-thin m-b">Search results for 'bla bla'</h2>
                         <div class="row row-sm">
                             <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
                                 <div class="item">

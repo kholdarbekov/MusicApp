@@ -41,7 +41,7 @@ class APIUserCreate(APIView):
             country = None
 
         if country in allowed_countries_codes:
-            return super(UserCreate, self).dispatch(request, *args, **kwargs)
+            return super(APIUserCreate, self).dispatch(request, *args, **kwargs)
         else:
             return Response({'error': 'this application is not available in your country yet!'},
                             status=status.HTTP_503_SERVICE_UNAVAILABLE)

@@ -21,6 +21,7 @@ class Music(models.Model):
     links = models.CharField(max_length=4096, blank=True, null=True,
                              help_text='Space (" ") separated links. '
                                        'If one does not work the next will be attempted')
+    file = models.FileField(upload_to='music/', blank=True, null=True)
     artist = models.CharField(max_length=256)
     release_date = models.DateField()
 

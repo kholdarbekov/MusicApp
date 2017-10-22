@@ -52,6 +52,7 @@ class APIUserCreate(APIView):
             user = serializer.save()
             if user:
                 token = Token.objects.get(user=user)
+                authenticate(username=user.username, password=serializer._kwargs['data']['password1'])
                 user_created.send(sender=Profile, user=user, request=request)
                 return Response({'token': token.key}, status=status.HTTP_201_CREATED)
 

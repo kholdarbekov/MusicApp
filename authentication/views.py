@@ -19,7 +19,7 @@ from .signals import user_created
 class APIUserCreate(APIView):
     http_method_names = ['post', ]
     permission_classes = [permissions.AllowAny, ]
-
+    '''
     @method_decorator(sensitive_post_parameters('password1', 'password2'))
     def dispatch(self, request, *args, **kwargs):
         """
@@ -45,7 +45,7 @@ class APIUserCreate(APIView):
         else:
             return Response({'error': 'this application is not available in your country yet!'},
                             status=status.HTTP_503_SERVICE_UNAVAILABLE)
-
+    '''
     def post(self, request, format='json'):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():

@@ -12042,7 +12042,6 @@ body.container {
 }
 
 .bg-dark.auto .list-group-item, .bg-dark .auto .list-group-item {
-    border-color: #4f5d6b !important;
     background-color: transparent;
 }
 

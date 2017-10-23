@@ -9,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
     <link rel="stylesheet" href="{% static 'js/jPlayer/jplayer.flat.css' %}" type="text/css"/>
     <link rel="stylesheet" href="{% static 'css/app.v1.css' %}" type="text/css"/>
+    <link rel="stylesheet" href="{% static 'js/slider/slider.css' %}" type="text/css"/>
     <!--[if lt IE 9]>
     <script src="js/ie/html5shiv.js"></script>
     <script src="js/ie/respond.min.js"></script>
@@ -63,7 +64,7 @@
                             <div class="panel-heading b-light bg-light"><strong>You have <span class="count">2</span>
                                 notifications</strong></div>
                             <div class="list-group list-group-alt"><a href="#" class="media list-group-item"> <span
-                                    class="pull-left thumb-sm"> <img src="{% static 'images/b2.jpg' %}" alt="..."
+                                    class="pull-left thumb-sm"> <img src="{% static 'images/b2.JPG' %}" alt="..."
                                                                      class="img-circle"> </span>
                                 <span class="media-body block m-b-none"> Use awesome animate.css<br> <small
                                         class="text-muted">10 minutes ago</small> </span> </a> <a href="#"
@@ -79,7 +80,7 @@
                 </li>
                 <li class="dropdown"><a href="#" class="dropdown-toggle bg clear" data-toggle="dropdown"> <span
                         class="thumb-sm avatar pull-right m-t-n-sm m-b-n-sm m-l-sm"> <img
-                        src="{% static 'images/b2.jpg' %}" alt="..."> </span>
+                        src="{% static 'images/b2.JPG' %}" alt="..."> </span>
                     Bunyod.Ibrokhimov <b class="caret"></b> </a>
                     <ul class="dropdown-menu animated fadeInRight">
                         <li><span class="arrow top"></span> <a href="#">Settings</a></li>
@@ -117,11 +118,11 @@
                                 </ul>
                                 <ul class="nav text-sm">
                                     <li class="hidden-nav-xs padder m-t m-b-sm text-xs text-muted"><span
-                                            class="pull-right"><a href="#"><i class="icon-plus i-lg"></i></a></span>
+                                            class="pull-right"><a href="#modal-form" data-toggle="modal"><i class="icon-plus i-lg"></i></a></span>
                                         Playlist
                                     </li>
                                     <li><a href="{% url 'playlist' %}"> <i class="icon-music-tone icon"></i> <span>Hip-Pop</span> </a></li>
-                                    <li><a href="{% url '404' %}"> <i class="icon-playlist icon text-success-lter"></i> <b
+                                    <li><a href="{% url 'playlist' %}"> <i class="icon-playlist icon text-success-lter"></i> <b
                                             class="badge bg-success dker pull-right">9</b> <span>Jazz</span> </a></li>
                                 </ul>
                             </nav> <!-- / nav --> </div>
@@ -130,7 +131,7 @@
                         <div class="bg hidden-xs ">
                             <div class="dropdown dropup wrapper-sm clearfix"><a href="#" class="dropdown-toggle"
                                                                                 data-toggle="dropdown"> <span
-                                    class="thumb-sm avatar pull-left m-l-xs"> <img src="{% static 'images/b2.jpg' %}"
+                                    class="thumb-sm avatar pull-left m-l-xs"> <img src="{% static 'images/b2.JPG' %}"
                                                                                    class="dker"
                                                                                    alt="..."> <i class="on b-black"></i> </span>
                                 <span class="hidden-nav-xs clear"> <span class="block m-l"> <strong
@@ -235,7 +236,41 @@
     </section>
 </section>
 <script src="{% static 'js/app.v1.js' %}"></script>
-{#<script src="{% static 'js/app.plugin.js' %}"></script>#}
+
+<div class="modal fade" id="modal-form">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body wrapper-lg">
+                <div class="row">
+                    <div class="col-sm-6 b-r"><h3 class="m-t-none m-b">Create playlist</h3>
+                        <p>Enjoy and share with friends!</p>
+                        <form role="form">
+                            <div class="form-group"><label>Name</label> <input type="text" class="form-control"
+                                                                               placeholder="Name of playlist"></div>
+                            <div class="form-group"><label>Description</label> <input type="text" class="form-control"
+                                                                                      placeholder="Short description">
+                            </div>
+                            <div class="checkbox m-t-lg">
+                                <button type="submit" class="btn btn-sm btn-success pull-right text-uc m-t-n-xs">
+                                    <strong>Create</strong></button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-sm-6"><h4>Upload cover photo</h4>
+                        <p>You can search on internet <a target="_blank" href="https://www.google.com"
+                                                         class="text-info">here</a></p>
+                        <p>OR</p>
+                        <div class="form-group">
+                            <input type="file">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="{% static 'js/slider/bootstrap-slider.js' %}"></script>
+<script src="{% static 'js/app.plugin.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/jPlayer/jquery.jplayer.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/jPlayer/add-on/jplayer.playlist.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/jPlayer/demo.js' %}"></script>

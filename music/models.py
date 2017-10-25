@@ -90,7 +90,8 @@ class Music(models.Model):
         similar_musics = self.__class__.objects.filter(name=self.name)
         for music in similar_musics:
             artists = music.artist.all()
-            if artists.__eq__(self.artist.all()):
+            diff = set(artists).difference(set(self.artist))
+            if diff:
                 raise ValidationError('This song seems to be already created!')
 
         is_new = self.pk

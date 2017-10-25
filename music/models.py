@@ -60,7 +60,15 @@ class Music(models.Model):
         return field_es_value
 
     def __str__(self):
-        return '{} - {}'.format(self.artist, self.name)
+        singers = ''
+        num = self.artist.count()
+        for a in self.artist.all():
+            num -= 1
+            if not num:
+                singers += a
+            else:
+                singers += a + ' feat '
+        return '%s - %s' % (self.name, singers)
 
     def get_links(self):
         if self.links:

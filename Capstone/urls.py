@@ -22,6 +22,7 @@ from django.views.generic.base import TemplateView
 router = routers.DefaultRouter()
 # router.register(r'users', views.UserViewSet)
 
+handler404 = 'charts.views.page_not_found_view'
 
 urlpatterns = [
     url(r'^', include('charts.urls')),

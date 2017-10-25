@@ -60,6 +60,8 @@ class Profile(AbstractUser):
     first_name = models.CharField(_('first name'), max_length=64, blank=True)
     last_name = models.CharField(_('last name'), max_length=64, blank=True)
 
+    photo = models.FileField(upload_to='users/', blank=True, null=True)
+
     date_of_birth = models.DateField(blank=True, null=True)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)

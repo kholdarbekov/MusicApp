@@ -1,5 +1,6 @@
 import django.db.models.options as options
 from django.db import models
+from django.core.exceptions import ValidationError
 from . import signals
 
 options.DEFAULT_NAMES = options.DEFAULT_NAMES + (
@@ -15,14 +16,24 @@ class Genre(models.Model):
         return self.genre_name
 
 
+class Performer(models.Model):
+    name = models.CharField(max_length=128)
+    description = models.TextField(blank=True)
+    photo = models.ImageField(blank=True)
+
+    def __str__(self):
+        return self.name
+
+
 class Music(models.Model):
     name = models.CharField(max_length=256)
     genre = models.ForeignKey(Genre, related_name='all_music_in_genre')
     links = models.CharField(max_length=4096, blank=True, null=True,
                              help_text='Space (" ") separated links. '
                                        'If one does not work the next will be attempted')
+    photo = models.ImageField(upload_to='music_photos/', blank=True, null=True)
     file = models.FileField(upload_to='music/', blank=True, null=True)
-    artist = models.CharField(max_length=256)
+    artist = models.ManyToManyField(Performer, related_name='all_songs')
     release_date = models.DateField()
 
     def es_repr(self):
@@ -58,7 +69,6 @@ class Music(models.Model):
             return None
 
     class Meta:
-        unique_together = ('name', 'artist')
         es_index_name = 'moozee'
         es_type_name = 'music'
         es_mapping = {
@@ -77,6 +87,12 @@ class Music(models.Model):
         }
 
     def save(self, *args, **kwargs):
+        similar_musics = self.__class__.objects.filter(name=self.name)
+        for music in similar_musics:
+            artists = music.artist.all()
+            if artists.__eq__(self.artist.all()):
+                raise ValidationError('This song seems to be already created!')
+
         is_new = self.pk
         super(Music, self).save(*args, **kwargs)
         # signals.music_saved.send(sender=self.__class__, is_new=is_new, instance=self)
@@ -85,3 +101,15 @@ class Music(models.Model):
         prev_pk = self.pk
         super(Music, self).delete(*args, **kwargs)
         # signals.music_delete.send(sender=self.__class__, prev_pk=prev_pk, instance=self)
+
+
+class Album(models.Model):
+    name = models.CharField(max_length=255)
+    photo = models.ImageField(upload_to='albums/', blank=True, null=True)
+    artist = models.ForeignKey(Performer, related_name='albums')
+    musics = models.ManyToManyField(Music, related_name='albums_of_music')
+    number_of_views = models.PositiveIntegerField(default=0)
+    release_date = models.DateField()
+
+    def __str__(self):
+        return '%s by %s' % (self.name, self.artist)

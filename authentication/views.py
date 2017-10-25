@@ -81,7 +81,7 @@ class ProfileRegisterView(FormView):
     http_method_names = ['post', 'get']
     template_name = 'signup.html'
     disallowed_countries = 'disallowed_country'
-
+    '''
     @method_decorator(sensitive_post_parameters('password1', 'password2'))
     def dispatch(self, request, *args, **kwargs):
         """
@@ -106,6 +106,7 @@ class ProfileRegisterView(FormView):
             return super(ProfileRegisterView, self).dispatch(request, *args, **kwargs)
         else:
             return redirect(self.disallowed_countries)
+    '''
 
     def form_valid(self, form):
         if hasattr(form, 'save'):

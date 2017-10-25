@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, render_to_response
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from .models import Daily, Weekly, Monthly
@@ -69,3 +69,9 @@ def update_charts(request):
 
     else:
         return JsonResponse({'status': 'ko'})
+
+
+def page_not_found_view(request):
+    response = render_to_response('404.html')
+    response.status_code = 404
+    return response

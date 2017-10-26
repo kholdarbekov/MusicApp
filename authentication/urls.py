@@ -1,6 +1,6 @@
 from django.contrib.auth import views
 from django.conf.urls import url
-from .views import ProfileRegisterView, APIUserCreate, APIUserLogin
+from .views import ProfileRegisterView, APIUserCreate, APIUserLogin, ProfileView
 
 urlpatterns = [
     url(r'^api/register', APIUserCreate.as_view(), name='api-account-create'),
@@ -22,4 +22,5 @@ urlpatterns = [
     url(r'^password/reset/confirm/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>.+)/$', views.password_reset_confirm,
         {'template_name': 'reset_password.html', 'post_reset_redirect': 'index'}, name='password_reset_confirm'),
 
+    url(r'^profile/$', ProfileView.as_view(), name='profile'),
 ]

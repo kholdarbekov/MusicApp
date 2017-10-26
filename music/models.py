@@ -1,6 +1,7 @@
 import django.db.models.options as options
 from django.db import models
 from django.core.exceptions import ValidationError
+from authentication.models import Profile
 from . import signals
 
 options.DEFAULT_NAMES = options.DEFAULT_NAMES + (
@@ -19,7 +20,7 @@ class Genre(models.Model):
 class Performer(models.Model):
     name = models.CharField(max_length=128)
     description = models.TextField(blank=True)
-    photo = models.ImageField(blank=True)
+    photo = models.ImageField(upload_to='performers/', blank=True, null=True)
 
     def __str__(self):
         return self.name
@@ -65,10 +66,11 @@ class Music(models.Model):
         for a in self.artist.all():
             num -= 1
             if not num:
-                singers += a
+                singers += a.name
             else:
-                singers += a + ' feat '
-        return '%s - %s' % (self.name, singers)
+                singers += a.name + ' feat '
+
+        return '%s - %s' % (singers, self.name)
 
     def get_links(self):
         if self.links:
@@ -95,16 +97,15 @@ class Music(models.Model):
         }
 
     def save(self, *args, **kwargs):
+        is_new = self.pk
+        super(Music, self).save(*args, **kwargs)
+        # signals.music_saved.send(sender=self.__class__, is_new=is_new, instance=self)
         similar_musics = self.__class__.objects.filter(name=self.name)
         for music in similar_musics:
             artists = music.artist.all()
             diff = set(artists.all()).difference(set(self.artist.all()))
             if diff:
                 raise ValidationError('This song seems to be already created!')
-
-        is_new = self.pk
-        super(Music, self).save(*args, **kwargs)
-        # signals.music_saved.send(sender=self.__class__, is_new=is_new, instance=self)
 
     def delete(self, *args, **kwargs):
         prev_pk = self.pk
@@ -122,3 +123,15 @@ class Album(models.Model):
 
     def __str__(self):
         return '%s by %s' % (self.name, self.artist)
+
+
+class Playlist(models.Model):
+    name = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+    musics = models.ManyToManyField(Music, related_name='playlists', blank=True)
+    photo = models.ImageField(upload_to='playlist/', blank=True)
+    creator = models.ForeignKey(Profile, related_name='playlists')
+    created_date = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return 'Playlist: %s created by %s' % (self.name, self.creator)

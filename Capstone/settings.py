@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '*jt$f(591p8*2jobiv4jbcae%00!t=j8_x2eoi2y4nql%1+q)r'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -174,6 +174,7 @@ FORMAT_MODULE_PATH = [
 ]
 
 LOGIN_REDIRECT_URL = 'index'
+LOGIN_URL = 'login'
 
 GEOIP_PATH = os.path.join(BASE_DIR, 'geoip')
 

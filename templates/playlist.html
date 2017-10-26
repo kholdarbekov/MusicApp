@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
 
-{% block title %}Home{% endblock %}
+{% block title %}Playlist{% endblock %}
 
 {% block content %}
     <section class="w-f-md">
@@ -17,113 +17,34 @@
                                     class="bar3 a1 bg"></span> <span class="bar4 a4 dk"></span> <span
                                     class="bar5 a2 dker"></span> </span></div>
                             <div class="bottom gd bg-info wrapper-lg"><span class="pull-right text-sm">101,400 <br>Followers</span>
-                                <span class="h2 font-thin">Jazz</span></div>
-                            <img class="img-full" src="{% static 'images/m41.jpg' %}" alt="..."></div>
+                                <span class="h2 font-thin">{{ playlist.name }}</span></div>
+                            {% if playlist.photo %}
+                                <img class="img-full" src="{{ playlist.photo.url }}" alt="...">
+                            {% else %}
+                                <img class="img-full" src="{% static 'images/m41.jpg' %}" alt="...">
+                            {% endif %}
+                        </div>
                         <ul class="list-group list-group-lg no-radius no-border no-bg m-t-n-xxs m-b-none auto">
-                            <li class="list-group-item">
-                                <div class="pull-right m-l"><a href="#" class="m-r-sm"><i
-                                        class="icon-cloud-download"></i></a> <a href="#" class="m-r-sm"><i
-                                        class="icon-plus"></i></a> <a href="#"><i
-                                        class="icon-close"></i></a></div>
-                                <a href="#" class="jp-play-me m-r-sm pull-left"> <i
-                                        class="icon-control-play text"></i> <i
-                                        class="icon-control-pause text-active"></i> </a>
-                                <div class="clear text-ellipsis"><span>E.T.M</span> <span
-                                        class="text-muted"> -- 04:35</span></div>
-                            </li>
-                            <li class="list-group-item">
-                                <div class="pull-right m-l"><a href="#" class="m-r-sm"><i
-                                        class="icon-cloud-download"></i></a> <a href="#"><i
-                                        class="icon-plus"></i></a></div>
-                                <a href="#" class="jp-play-me m-r-sm pull-left"> <i
-                                        class="icon-control-play text"></i> <i
-                                        class="icon-control-pause text-active"></i> </a>
-                                <div class="clear text-ellipsis"><span>Vestibulum id ligula porta</span>
-                                    <span class="text-muted"> -- 04:15</span></div>
-                            </li>
-                            <li class="list-group-item">
-                                <div class="pull-right m-l"><a href="#" class="m-r-sm"><i
-                                        class="icon-cloud-download"></i></a> <a href="#"><i
-                                        class="icon-plus"></i></a></div>
-                                <a href="#" class="jp-play-me m-r-sm pull-left"> <i
-                                        class="icon-control-play text"></i> <i
-                                        class="icon-control-pause text-active"></i> </a>
-                                <div class="clear text-ellipsis">
-                                    <span>Praesent commodo cursus magna</span> <span class="text-muted"> -- 02:25</span>
-                                </div>
-                            </li>
-                            <li class="list-group-item">
-                                <div class="pull-right m-l"><a href="#" class="m-r-sm"><i
-                                        class="icon-cloud-download"></i></a> <a href="#"><i
-                                        class="icon-plus"></i></a></div>
-                                <a href="#" class="jp-play-me m-r-sm pull-left"> <i
-                                        class="icon-control-play text"></i> <i
-                                        class="icon-control-pause text-active"></i> </a>
-                                <div class="clear text-ellipsis"><span>Curabitur blandit tempus</span>
-                                    <span class="text-muted"> -- 05:00</span></div>
-                            </li>
-                            <li class="list-group-item">
-                                <div class="pull-right m-l"><a href="#" class="m-r-sm"><i
-                                        class="icon-cloud-download"></i></a> <a href="#"><i
-                                        class="icon-plus"></i></a></div>
-                                <a href="#" class="jp-play-me m-r-sm pull-left"> <i
-                                        class="icon-control-play text"></i> <i
-                                        class="icon-control-pause text-active"></i> </a>
-                                <div class="clear text-ellipsis"><span>Faucibus dolor auctor</span>
-                                    <span class="text-muted"> -- 03:50</span></div>
-                            </li>
-                            <li class="list-group-item">
-                                <div class="pull-right m-l"><a href="#" class="m-r-sm"><i
-                                        class="icon-cloud-download"></i></a> <a href="#"><i
-                                        class="icon-plus"></i></a></div>
-                                <a href="#" class="jp-play-me m-r-sm pull-left"> <i
-                                        class="icon-control-play text"></i> <i
-                                        class="icon-control-pause text-active"></i> </a>
-                                <div class="clear text-ellipsis"><span>Get lacinia odio sem nec elit cibus dolor auctor sed odio dui mollis ornare</span>
-                                    <span class="text-muted"> -- 04:05</span></div>
-                            </li>
-                            <li class="list-group-item">
-                                <div class="pull-right m-l"><a href="#" class="m-r-sm"><i
-                                        class="icon-cloud-download"></i></a> <a href="#"><i
-                                        class="icon-plus"></i></a></div>
-                                <a href="#" class="jp-play-me m-r-sm pull-left"> <i
-                                        class="icon-control-play text"></i> <i
-                                        class="icon-control-pause text-active"></i> </a>
-                                <div class="clear text-ellipsis"><span>Faucibus dolor auctor</span>
-                                    <span class="text-muted"> -- 02:55</span></div>
-                            </li>
-                            <li class="list-group-item">
-                                <div class="pull-right m-l"><a href="#" class="m-r-sm"><i
-                                        class="icon-cloud-download"></i></a> <a href="#"><i
-                                        class="icon-plus"></i></a></div>
-                                <a href="#" class="jp-play-me m-r-sm pull-left"> <i
-                                        class="icon-control-play text"></i> <i
-                                        class="icon-control-pause text-active"></i> </a>
-                                <div class="clear text-ellipsis"><span>Donec sed odio dui</span> <span
-                                        class="text-muted"> -- 04:35</span></div>
-                            </li>
-                            <li class="list-group-item">
-                                <div class="pull-right m-l"><a href="#" class="m-r-sm"><i
-                                        class="icon-cloud-download"></i></a> <a href="#"><i
-                                        class="icon-plus"></i></a></div>
-                                <a href="#" class="jp-play-me m-r-sm pull-left"> <i
-                                        class="icon-control-play text"></i> <i
-                                        class="icon-control-pause text-active"></i> </a>
-                                <div class="clear text-ellipsis">
-                                    <span>Urna mollis ornare vel eu leo</span> <span class="text-muted"> -- 05:10</span>
-                                </div>
-                            </li>
-                            <li class="list-group-item">
-                                <div class="pull-right m-l"><a href="#" class="m-r-sm"><i
-                                        class="icon-cloud-download"></i></a> <a href="#"><i
-                                        class="icon-plus"></i></a></div>
-                                <a href="#" class="jp-play-me m-r-sm pull-left"> <i
-                                        class="icon-control-play text"></i> <i
-                                        class="icon-control-pause text-active"></i> </a>
-                                <div class="clear text-ellipsis">
-                                    <span>Vivamus sagittis lacus vel augue</span> <span
-                                        class="text-muted"> -- 02:35</span></div>
-                            </li>
+                            {% for music in playlist.musics.all %}
+                                <li class="list-group-item">
+                                    <div class="pull-right m-l">
+                                        <a href="#" class="m-r-sm">
+                                            <i class="icon-cloud-download"></i>
+                                        </a>
+                                        <a href="#">
+                                            <i class="icon-plus"></i>
+                                        </a>
+                                    </div>
+                                    <a href="#" class="jp-play-me m-r-sm pull-left">
+                                        <i class="icon-control-play text"></i>
+                                        <i class="icon-control-pause text-active"></i>
+                                    </a>
+                                    <div class="clear text-ellipsis">
+                                        <span>{{ music.name }}</span>
+                                        <span class="text-muted"> -- 04:15</span>
+                                    </div>
+                                </li>
+                            {% endfor %}
                         </ul>
                     </section>
                 </section>

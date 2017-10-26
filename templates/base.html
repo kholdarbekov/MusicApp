@@ -1,4 +1,4 @@
-{% load staticfiles authentication_extras %}
+{% load staticfiles authentication_extras music_extras %}
 <!DOCTYPE html>
 <html lang="{{ request.LANGUAGE_CODE }}" class="app">
 <head>
@@ -125,7 +125,7 @@
                                             class="font-bold">New songs</span> </a></li>
                                     <li><a href="{% url 'genres' %}"> <i class="icon-music-tone-alt icon text-info"></i>
                                         <span class="font-bold">Genres</span> </a></li>
-                                    <li><a href="{% url 'album' %}"> <i class="icon-list icon text-info-dker"></i> <span
+                                    <li><a href="{% url 'all_albums' %}"> <i class="icon-list icon text-info-dker"></i> <span
                                             class="font-bold">Album</span> </a></li>
                                     <li><a href="#"> <i class="icon-social-youtube icon text-primary"></i>
                                         <span class="font-bold">Top Charts</span> </a></li>
@@ -136,9 +136,14 @@
                                             class="pull-right"><a href="#modal-form" data-toggle="modal"><i class="icon-plus i-lg"></i></a></span>
                                         Playlist
                                     </li>
-                                    <li><a href="{% url 'playlist' %}"> <i class="icon-music-tone icon"></i> <span>Hip-Pop</span> </a></li>
-                                    <li><a href="{% url 'playlist' %}"> <i class="icon-playlist icon text-success-lter"></i> <b
-                                            class="badge bg-success dker pull-right">9</b> <span>Jazz</span> </a></li>
+                                    {% for playlist in request.user|playlists %}
+                                        <li>
+                                            <a href="{% url 'playlist' pk=playlist.pk %}">
+                                                <i class="icon-music-tone icon"></i>
+                                                <span>{{ playlist.name }}</span>
+                                            </a>
+                                        </li>
+                                    {% endfor %}
                                 </ul>
                             </nav> <!-- / nav --> </div>
                     </section>
@@ -266,28 +271,31 @@
         <div class="modal-content">
             <div class="modal-body wrapper-lg">
                 <div class="row">
-                    <div class="col-sm-6 b-r"><h3 class="m-t-none m-b">Create playlist</h3>
-                        <p>Enjoy and share with friends!</p>
-                        <form role="form">
-                            <div class="form-group"><label>Name</label> <input type="text" class="form-control"
-                                                                               placeholder="Name of playlist"></div>
-                            <div class="form-group"><label>Description</label> <input type="text" class="form-control"
-                                                                                      placeholder="Short description">
+                    <form role="form" method="post" action="{% url 'create_playlist' %}" enctype="multipart/form-data">
+                        <div class="col-sm-6 b-r"><h3 class="m-t-none m-b">Create playlist</h3>
+                            <p>Enjoy and share with friends!</p>
+                            {% csrf_token %}
+                            <div class="form-group"><label>Name</label>
+                                <input type="text" name="name" class="form-control" placeholder="Name of playlist">
+                            </div>
+                            <div class="form-group"><label>Description</label>
+                                <input type="text" name="description" class="form-control"
+                                       placeholder="Short description">
                             </div>
                             <div class="checkbox m-t-lg">
                                 <button type="submit" class="btn btn-sm btn-success pull-right text-uc m-t-n-xs">
                                     <strong>Create</strong></button>
                             </div>
-                        </form>
-                    </div>
-                    <div class="col-sm-6"><h4>Upload cover photo</h4>
-                        <p>You can search on internet <a target="_blank" href="https://www.google.com"
-                                                         class="text-info">here</a></p>
-                        <p>OR</p>
-                        <div class="form-group">
-                            <input type="file">
                         </div>
-                    </div>
+                        <div class="col-sm-6"><h4>Upload cover photo</h4>
+                            <p>You can search on internet <a target="_blank" href="https://www.google.com"
+                                                             class="text-info">here</a></p>
+                            <p>OR</p>
+                            <div class="form-group">
+                                <input type="image" name="photo">
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

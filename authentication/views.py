@@ -2,8 +2,10 @@ from django.shortcuts import render, redirect
 from django.contrib.gis.geoip2 import GeoIP2
 from django.contrib.auth import authenticate, login
 from django.views.generic.edit import FormView
+from django.views.generic import TemplateView
 from django.utils.decorators import method_decorator
 from django.views.decorators.debug import sensitive_post_parameters
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -122,3 +124,12 @@ class ProfileRegisterView(FormView):
             return redirect(self.get_success_url())
         else:
             return redirect(to, *args, **kwargs)
+
+
+class ProfileView(LoginRequiredMixin, TemplateView):
+    template_name = 'profile.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(ProfileView, self).get_context_data(**kwargs)
+        context['profile'] = Profile.objects.get(pk=self.request.user.pk)
+        return context

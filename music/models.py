@@ -60,7 +60,7 @@ class Music(models.Model):
                 field_es_value = getattr(self, field_name)
         return field_es_value
 
-    def __str__(self):
+    def get_singers(self):
         singers = ''
         num = self.artist.count()
         for a in self.artist.all():
@@ -69,8 +69,10 @@ class Music(models.Model):
                 singers += a.name
             else:
                 singers += a.name + ' feat '
+        return singers
 
-        return '%s - %s' % (singers, self.name)
+    def __str__(self):
+        return '%s - %s' % (self.get_singers(), self.name)
 
     def get_links(self):
         if self.links:

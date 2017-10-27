@@ -6,7 +6,6 @@ from .models import Music, Vote
 
 
 class MusicRecommendationProvider(RecommendationProvider):
-    algorithm = RecSysAlgorithm()
 
     def get_users(self):
         return Profile.objects.filter(is_active=True, votes__isnull=False).distinct()

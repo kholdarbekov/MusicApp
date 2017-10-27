@@ -326,9 +326,9 @@
                                 <div class="padder-v">
                                     <a href="#" class="text-ellipsis">{{ song.name }}</a>
                                     <a href="#" class="text-ellipsis text-xs text-muted">{{ song.get_singers }}</a>
-                                    {% for similarity in song|similarities:5 %}
-                                        {{ similarity.related_object }}
-                                    {% endfor %}
+{#                                    {% for similarity in song|similarities:5 %}#}
+{#                                        {{ similarity.related_object }}#}
+{#                                    {% endfor %}#}
                                 </div>
                             </div>
                         </div>

@@ -144,7 +144,7 @@ class Playlist(models.Model):
 @python_2_unicode_compatible
 class Vote(models.Model):
     user = models.ForeignKey(Profile, related_name='votes')
-    music = models.ForeignKey(Music, related_name='music_votes')
+    music = models.ForeignKey(Music)
     score = models.FloatField()
     site = models.ForeignKey(Site)
 

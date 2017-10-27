@@ -1,6 +1,8 @@
 import django.db.models.options as options
 from django.db import models
+from django.utils.encoding import python_2_unicode_compatible
 from django.core.exceptions import ValidationError
+from django.contrib.sites.models import Site
 from authentication.models import Profile
 from . import signals
 
@@ -137,3 +139,14 @@ class Playlist(models.Model):
 
     def __str__(self):
         return 'Playlist: %s created by %s' % (self.name, self.creator)
+
+
+@python_2_unicode_compatible
+class Vote(models.Model):
+    user = models.ForeignKey(Profile, related_name='votes')
+    music = models.ForeignKey(Music, related_name='music_votes')
+    score = models.FloatField()
+    site = models.ForeignKey(Site)
+
+    def __str__(self):
+        return 'Vote: %s - %s' % (self.user, self.music)

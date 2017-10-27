@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '*jt$f(591p8*2jobiv4jbcae%00!t=j8_x2eoi2y4nql%1+q)r'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -48,7 +48,14 @@ INSTALLED_APPS = [
     'charts',
     'authentication',
     'music',
+
+    'recommends',
+    'recommends.storages.djangoorm',
+    'django.contrib.sites'
+
 ]
+
+SITE_ID = 1
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
@@ -229,3 +236,5 @@ ES_CLIENT = Elasticsearch(
     connection_class=RequestsHttpConnection
 )
 ES_AUTOREFRESH = True
+
+RECOMMENDS_TASK_CRONTAB = {'minute': '*/15'}

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Music, Genre, Performer, Album, Playlist
+from .models import Music, Genre, Performer, Album, Playlist, Vote
 # Register your models here.
 
 
@@ -28,3 +28,8 @@ class AlbumAdmin(admin.ModelAdmin):
 @admin.register(Playlist)
 class PlaylistAdmin(admin.ModelAdmin):
     list_display = ['name', 'photo', 'created_date']
+
+
+@admin.register(Vote)
+class VoteAdmin(admin.ModelAdmin):
+    list_display = ['user', 'music', 'score']

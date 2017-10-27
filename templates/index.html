@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load staticfiles music_extras %}
+{% load staticfiles music_extras recommends %}
 
 {% block title %}Home{% endblock %}
 
@@ -326,6 +326,9 @@
                                 <div class="padder-v">
                                     <a href="#" class="text-ellipsis">{{ song.name }}</a>
                                     <a href="#" class="text-ellipsis text-xs text-muted">{{ song.get_singers }}</a>
+{#                                    {% for similarity in song|similarities:5 %}#}
+{#                                        {{ similarity.related_object }}#}
+{#                                    {% endfor %}#}
                                 </div>
                             </div>
                         </div>
@@ -334,6 +337,10 @@
             </div>
             <div class="col-md-5"><h3 class="font-thin">Top Albums</h3>
                 <div class="list-group bg-white list-group-lg no-bg auto">
+                    {% suggested as suggestions limit 5 %}
+                    {% for suggested in suggestions %}
+                        {{ suggested.object }}
+                    {% endfor %}
                     {% get_top_albums as top_albums %}
                     {% for album in top_albums %}
                         <a href="{% url 'album' pk=album.pk %}" class="list-group-item clearfix">

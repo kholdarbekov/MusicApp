@@ -48,7 +48,14 @@ INSTALLED_APPS = [
     'charts',
     'authentication',
     'music',
+
+    'recommends',
+    'recommends.storages.djangoorm',
+    'django.contrib.sites'
+
 ]
+
+SITE_ID = 1
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
@@ -229,3 +236,6 @@ ES_CLIENT = Elasticsearch(
     connection_class=RequestsHttpConnection
 )
 ES_AUTOREFRESH = True
+
+RECOMMENDS_TASK_CRONTAB = {'minute': '*/5'}
+RECOMMENDS_STORAGE_COMMIT_THRESHOLD = 3

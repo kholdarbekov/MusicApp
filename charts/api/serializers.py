@@ -4,7 +4,7 @@ from ..models import Daily, Weekly, Monthly
 
 class DailyChartSerializer(serializers.ModelSerializer):
     music_name = serializers.CharField(source='music.name')
-    artist = serializers.CharField(source='music.artist')
+    artist = serializers.CharField(source='music.get_singers')
     genre = serializers.CharField(source='music.genre')
     links = serializers.ListField(source='music.get_links')
     music_pk = serializers.IntegerField(source='music.pk')

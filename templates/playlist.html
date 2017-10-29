@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load staticfiles %}
+{% load staticfiles thumbnail %}
 
 {% block title %}Playlist{% endblock %}
 
@@ -18,11 +18,12 @@
                                     class="bar5 a2 dker"></span> </span></div>
                             <div class="bottom gd bg-info wrapper-lg"><span class="pull-right text-sm">101,400 <br>Followers</span>
                                 <span class="h2 font-thin">{{ playlist.name }}</span></div>
-                            {% if playlist.photo %}
-                                <img class="img-full" src="{{ playlist.photo.url }}" alt="...">
-                            {% else %}
-                                <img class="img-full" src="{% static 'images/m41.jpg' %}" alt="...">
-                            {% endif %}
+                        <img class="img-full" src="{{ playlist.photo|thumbnail_url:'playlist_cover' }}" alt="...">
+{#                            {% if playlist.photo %}#}
+{#                                <img class="img-full" src="{{ playlist.photo|thumbnail_url:'playlist_cover' }}" alt="...">#}
+{#                            {% else %}#}
+{#                                <img class="img-full" src="{% static 'images/m41.jpg' %}" alt="...">#}
+{#                            {% endif %}#}
                         </div>
                         <ul class="list-group list-group-lg no-radius no-border no-bg m-t-n-xxs m-b-none auto">
                             {% for music in playlist.musics.all %}

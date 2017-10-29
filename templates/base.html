@@ -1,4 +1,4 @@
-{% load staticfiles authentication_extras music_extras %}
+{% load staticfiles authentication_extras music_extras thumbnail %}
 <!DOCTYPE html>
 <html lang="{{ request.LANGUAGE_CODE }}" class="app">
 <head>
@@ -67,11 +67,12 @@
                                     notifications</strong></div>
                                 <div class="list-group list-group-alt"><a href="#" class="media list-group-item">
                                     <span class="pull-left thumb-sm">
-                                        {% if user.photo %}
-                                            <img src="{{ user.photo.file }}" alt="..." class="img-circle">
-                                            {% else %}
-                                            <img src="" alt="..." class="img-circle">
-                                        {% endif %}
+                                    <img src="{{ user.photo|thumbnail_url:'avatar' }}" alt="..." class="img-circle">
+{#                                        {% if user.photo %}#}
+{#                                            <img src="{{ user.photo|thumbnail_url:'avatar' }}" alt="..." class="img-circle">#}
+{#                                            {% else %}#}
+{#                                            <img src="" alt="..." class="img-circle">#}
+{#                                        {% endif %}#}
 
                                     </span>
                                     <span class="media-body block m-b-none"> Use awesome animate.css<br> <small

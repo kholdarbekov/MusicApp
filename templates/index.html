@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load staticfiles music_extras recommends %}
+{% load staticfiles music_extras recommends thumbnail %}
 
 {% block title %}Home{% endblock %}
 
@@ -316,11 +316,12 @@
                                         </div>
                                     </div>
                                     <a href="#">
-                                        {% if song.photo %}
-                                            <img src="{{ song.photo.url }}" alt="" class="r r-2x img-full">
-                                        {% else %}
-                                            <img src="{% static 'images/a2.png' %}" alt="" class="r r-2x img-full">
-                                        {% endif %}
+                                    <img src="{{ song.photo|thumbnail_url:'new_songs_index' }}" alt="" class="r r-2x img-full">
+{#                                        {% if song.photo %}#}
+{#                                            <img src="{{ song.photo|thumbnail_url:'new_songs_index' }}" alt="" class="r r-2x img-full">#}
+{#                                        {% else %}#}
+{#                                            <img src="{% static 'images/a2.png' %}" alt="" class="r r-2x img-full">#}
+{#                                        {% endif %}#}
                                     </a>
                                 </div>
                                 <div class="padder-v">
@@ -346,11 +347,12 @@
                         <a href="{% url 'album' pk=album.pk %}" class="list-group-item clearfix">
                             <span class="pull-right h2 text-muted m-l">{{ forloop.counter }}</span>
                             <span class="pull-left thumb-sm avatar m-r">
-                                {% if album.photo %}
-                                    <img src="{{ album.photo.url }}" alt="...">
-                                {% else %}
-                                    <img src="{% static 'images/a4.png' %}" alt="...">
-                                {% endif %}
+                            <img src="{{ album.photo|thumbnail_url:'top_albums_index' }}" alt="...">
+{#                                {% if album.photo %}#}
+{#                                    <img src="{{ album.photo|thumbnail_url:'top_albums_index' }}" alt="...">#}
+{#                                {% else %}#}
+{#                                    <img src="{% static 'images/a4.png' %}" alt="...">#}
+{#                                {% endif %}#}
                             </span>
                             <span class="clear">
                                 <span>{{ album.name }}</span>

@@ -29,6 +29,7 @@ urlpatterns = [
     url(r'^', include('charts.api.urls', namespace='api')),
     url(r'^auth/', include('authentication.urls')),
     url(r'^', include('music.urls')),
+    url(r'^', include('music.api.urls')),
 
     url(r'^$', TemplateView.as_view(template_name='index.html'), name='index'),
     url(r'^genres/$', TemplateView.as_view(template_name='genres.html'), name='genres'),

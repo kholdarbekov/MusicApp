@@ -64,6 +64,7 @@ class AllAlbumsView(TemplateView):
         context['albums'] = Album.objects.all()
         return context
 
+
 class PlaylistView(DetailView):
     model = Playlist
     context_object_name = 'playlist'
@@ -75,5 +76,5 @@ class PlaylistView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(PlaylistView, self).get_context_data(**kwargs)
-        context['all_playlists'] = Playlist.objects.exclude(pk=self.get_object().pk)
+        context['all_playlists'] = self.get_queryset().exclude(pk=self.get_object().pk)
         return context

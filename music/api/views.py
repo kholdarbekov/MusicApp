@@ -14,11 +14,8 @@ class PlayListCreate(APIView):
 
         serializer = PlaylistSerializers(data=request.data)
         if serializer.is_valid():
-            plylst = serializer.save()
-            if plylst:
-                plylst.creator = self.request.user
-                # plylst.save()
-                return Response({'status': 'ok'}, status=status.HTTP_201_CREATED)
+            serializer.save(creator=request.user)
+            return Response({'status': 'ok'}, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

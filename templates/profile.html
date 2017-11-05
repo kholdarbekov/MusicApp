@@ -6,16 +6,16 @@
 {% block content %}
     <section class="scrollable">
         <section class="hbox stretch">
-            <aside class="aside-lg bg-light lter b-r">
+            <aside class="col-lg-8 bg-light lter b-r">
                 <section class="vbox">
                     <section class="scrollable">
                         <div class="wrapper">
                             <div class="text-center m-b m-t">
                                 <a href="#" class="thumb-lg">
                                     {% if profile.photo %}
-                                        <img src="{{ profile.photo.url }}" class="img-circle">
+                                        <img style="width: 200px" src="{{ profile.photo.url }}" class="img-circle">
                                     {% else %}
-                                        <img src="{% static 'images/b22.jpg' %}" class="img-circle">
+                                        <img style="width: 200px" src="{% static 'images/b22.jpg' %}" class="img-circle">
                                     {% endif %}
                                 </a>
                                 <div>
@@ -42,19 +42,24 @@
                                 <a class="btn btn-dark btn-rounded"> <i class="fa fa-eye"></i>Watch </a>
                             </div>
                             <div>
-                                <small class="text-uc text-xs text-muted">about me</small>
-                                <p>Artist</p>
-                                <small class="text-uc text-xs text-muted">info</small>
+                                <h4 class="text-muted">About Me</h4>
                                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi id
+                                    neque quam. Aliquam sollicitudin venenatis ipsum ac feugiat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi id
+                                    neque quam. Aliquam sollicitudin venenatis ipsum ac feugiat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi id
+                                    neque quam. Aliquam sollicitudin venenatis ipsum ac feugiat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi id
+                                    neque quam. Aliquam sollicitudin venenatis ipsum ac feugiat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi id
+                                    neque quam. Aliquam sollicitudin venenatis ipsum ac feugiat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi id
                                     neque quam. Aliquam sollicitudin venenatis ipsum ac feugiat.</p>
+
                                 <div class="line"></div>
-                                <h4><a href="#"><i class="fa fa-edit"></i> Edit Profile</a></h4>
+                                <h4><a href="{% url 'edit_profile' %}"><i class="fa fa-edit"></i> Edit Profile</a></h4>
+                                <div style="padding-bottom: 100px"></div>
                             </div>
                         </div>
                     </section>
                 </section>
             </aside>
-            <aside class="col-lg-3 b-l">
+            <aside class="col-lg-4 b-l">
                 <section class="vbox">
                     <section class="scrollable padder-v">
                         <div class="panel"><h4 class="font-thin padder">Notificatons</h4>

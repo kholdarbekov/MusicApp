@@ -9,7 +9,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
     <link rel="stylesheet" href="{% static 'js/jPlayer/jplayer.flat.css' %}" type="text/css"/>
     <link rel="stylesheet" href="{% static 'css/app.v1.css' %}" type="text/css"/>
+    <link rel="stylesheet" href="{% static 'js/datepicker/datepicker.css' %}" type="text/css"/>
     <link rel="stylesheet" href="{% static 'js/slider/slider.css' %}" type="text/css"/>
+    <link rel="stylesheet" href="{% static 'js/chosen/chosen.css' %}" type="text/css"/>
+
     <!--[if lt IE 9]>
     <script src="js/ie/html5shiv.js"></script>
     <script src="js/ie/respond.min.js"></script>
@@ -296,7 +299,7 @@
                             <p>OR</p>
                             <div class="form-group">
                                 <input type="file" name="photo" accept=".jpg,.jpeg,.png" onchange="my_validateFileType()">
-                            </div>
+                            <span class="help-block m-b-none">If not chosen, default picture will be used</span></div>
                         </div>
                     </form>
                 </div>
@@ -304,7 +307,10 @@
         </div>
     </div>
 </div>
+<script src="{% static 'js/datepicker/bootstrap-datepicker.js' %}"></script>
 <script src="{% static 'js/slider/bootstrap-slider.js' %}"></script>
+<script src="{% static 'js/file-input/bootstrap-filestyle.min.js' %}"></script>
+<script src="{% static 'js/chosen/chosen.jquery.min.js' %}"></script>
 <script src="{% static 'js/app.plugin.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/jPlayer/jquery.jplayer.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/jPlayer/add-on/jplayer.playlist.min.js' %}"></script>

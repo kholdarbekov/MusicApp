@@ -84,7 +84,8 @@ class PlaylistView(DetailView):
 
 
 def play(request):
-    wf = wave.open('aromat.wav', 'rb')
+    # music = Music.objects.last()
+    wf = wave.open("/var/www/moozee/MusicApp/music/aromat.wav", 'rb')
 
     p = pyaudio.PyAudio()
 

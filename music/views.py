@@ -150,7 +150,7 @@ def record(request):
 
 def play_song(request):
     music = Music.objects.last()
-    filepath = os.path.join(settings.MP3_STORAGE, music.file.name).replace('\\', '/')
+    filepath = os.path.join(settings.MEDIA_ROOT, music.file.name).replace('\\', '/')
     wrapper = FileWrapper(open(filepath), 'rb')
     response = HttpResponse(wrapper, content_type='audio/mpeg')
     response['Content-Length'] = os.path.getsize(filepath.replace('/', '\\'))

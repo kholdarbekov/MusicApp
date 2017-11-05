@@ -10,6 +10,9 @@ from django.views.generic.edit import FormView
 from .models import Music, Album, Playlist
 from .forms import PlaylistForm
 
+import os, tempfile, zipfile
+from wsgiref.util import FileWrapper
+
 client = settings.ES_CLIENT
 CHUNK = 1024
 # Create your views here.
@@ -84,15 +87,14 @@ class PlaylistView(DetailView):
 
 
 def play(request):
-    # music = Music.objects.last()
-    wf = wave.open("/var/www/moozee/MusicApp/music/aromat.wav", 'rb')
+    wf = wave.open("C:/Users/Umar/PycharmProjects/Capstone/music/aromat.wav", 'rb')
 
     p = pyaudio.PyAudio()
 
     stream = p.open(format=p.get_format_from_width(wf.getsampwidth()),
                     channels=wf.getnchannels(),
                     rate=wf.getframerate(),
-                    output=True)
+                    output=True, output_device_index=1)
 
     data = wf.readframes(CHUNK)
 
@@ -105,3 +107,53 @@ def play(request):
 
     p.terminate()
     return HttpResponse('success')
+
+
+def record(request):
+    FORMAT = pyaudio.paInt16
+    CHANNELS = 2
+    RATE = 44100
+    RECORD_SECONDS = 5
+    WAVE_OUTPUT_FILENAME = "output.wav"
+
+    p = pyaudio.PyAudio()
+
+    stream = p.open(format=FORMAT,
+                    channels=CHANNELS,
+                    rate=RATE,
+                    input=True,
+                    frames_per_buffer=CHUNK)
+
+    print("* recording")
+
+    frames = []
+
+    for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
+        data = stream.read(CHUNK)
+        frames.append(data)
+
+    print("* done recording")
+
+    stream.stop_stream()
+    stream.close()
+    p.terminate()
+
+    wf = wave.open(WAVE_OUTPUT_FILENAME, 'wb')
+    wf.setnchannels(CHANNELS)
+    wf.setsampwidth(p.get_sample_size(FORMAT))
+    wf.setframerate(RATE)
+    wf.writeframes(b''.join(frames))
+    wf.close()
+
+    return HttpResponse('success')
+
+
+def play_song(request):
+    music = Music.objects.last()
+    filepath = os.path.join(settings.MP3_STORAGE, music.file.name).replace('\\', '/')
+    wrapper = FileWrapper(open(filepath), 'rb')
+    response = HttpResponse(wrapper, content_type='audio/mpeg')
+    response['Content-Length'] = os.path.getsize(filepath.replace('/', '\\'))
+    response['Content-Disposition'] = 'attachment; filename=%s' % music.file.name
+    return response
+

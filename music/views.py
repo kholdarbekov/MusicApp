@@ -157,5 +157,6 @@ def play_song(request):
     response = HttpResponse(wrapper, content_type='audio/mpeg')
     response['Content-Length'] = os.path.getsize(filepath.replace('/', '\\'))
     response['Content-Disposition'] = 'attachment; filename=%s' % music.file.name
+
     return response
 

@@ -87,7 +87,9 @@ class PlaylistView(DetailView):
 
 
 def play(request):
-    wf = wave.open("C:/Users/Umar/PycharmProjects/Capstone/music/aromat.wav", 'rb')
+    music = Music.objects.last()
+    filepath = os.path.join(settings.MEDIA_ROOT, music.file.name).replace('\\', '/')
+    wf = wave.open(filepath, 'rb')
 
     p = pyaudio.PyAudio()
 

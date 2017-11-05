@@ -11,7 +11,6 @@ class PlayListCreate(APIView):
     parser_classes = (FormParser, MultiPartParser)
 
     def post(self, request):
-
         serializer = PlaylistSerializers(data=request.data)
         if serializer.is_valid():
             serializer.save(creator=request.user)

@@ -1,4 +1,6 @@
 import json
+import pyaudio
+import wave
 
 from django.shortcuts import render, get_object_or_404
 from django.conf import settings
@@ -9,6 +11,7 @@ from .models import Music, Album, Playlist
 from .forms import PlaylistForm
 
 client = settings.ES_CLIENT
+CHUNK = 1024
 # Create your views here.
 
 
@@ -78,3 +81,26 @@ class PlaylistView(DetailView):
         context = super(PlaylistView, self).get_context_data(**kwargs)
         context['all_playlists'] = self.get_queryset().exclude(pk=self.get_object().pk)
         return context
+
+
+def play(request):
+    wf = wave.open('Shahzoda_-_Aromat_newmp3_uz_.wav', 'rb')
+
+    p = pyaudio.PyAudio()
+
+    stream = p.open(format=p.get_format_from_width(wf.getsampwidth()),
+                    channels=wf.getnchannels(),
+                    rate=wf.getframerate(),
+                    output=True)
+
+    data = wf.readframes(CHUNK)
+
+    while data != '':
+        stream.write(data)
+        data = wf.readframes(CHUNK)
+
+    stream.stop_stream()
+    stream.close()
+
+    p.terminate()
+    return HttpResponse('success')

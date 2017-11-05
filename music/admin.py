@@ -28,6 +28,7 @@ class AlbumAdmin(admin.ModelAdmin):
 @admin.register(Playlist)
 class PlaylistAdmin(admin.ModelAdmin):
     list_display = ['name', 'photo', 'created_date']
+    filter_horizontal = ['creator', ]
 
 
 @admin.register(Vote)

@@ -86,11 +86,32 @@
                                     class="fa fa-star-o text-muted"></i></div>
                             <div class="center text-center m-t-n"><a href="#"><i
                                     class="icon-control-play i-2x"></i></a></div>
-                            <div class="bottom padder m-b-sm"><a href="#" class="pull-right"> <i
-                                    class="fa fa-heart-o"></i> </a> <a href="#"> <i
-                                    class="fa fa-plus-circle"></i> </a></div>
+                            <div class="bottom padder m-b-sm">
+                                <a href="#" class="pull-right">
+                                    <i class="fa fa-heart-o"></i>
+                                </a>
+
+                                <span class="dropdown">
+                                    <a href="#" class="dropdown-toggle clear"
+                                       data-toggle="dropdown">
+                                        <i class="fa fa-plus-circle"></i><i
+                                            class="fa fa-check-circle text-active text-info"></i></a>
+                                    <ul class="dropdown-menu animated fadeInRight">
+                                        <li><a href="#" data-toggle="class">Add to queue</a></li>
+                                        <li class="dropdown-submenu"><a href="#">Add to playlist</a>
+                                            <ul class="dropdown-menu" role="menu">
+                                                <li><a href="#">Number one</a></li>
+                                                <li><a href="#">Top ten</a></li>
+                                            </ul>
+                                        </li>
+
+                                    </ul>
+                                </span>
+                            </div>
                         </div>
-                        <a href="http://flatfull.com/wp/musik/music/country-girl-shake-it-for-me/" title="Country girl shake it for me"><img src="{% static 'images/p3.jpg' %}" alt="" class="r r-2x img-full"></a>
+                        <a href="http://flatfull.com/wp/musik/music/country-girl-shake-it-for-me/"
+                           title="Country girl shake it for me"><img src="{% static 'images/p3.jpg' %}" alt=""
+                                                                     class="r r-2x img-full"></a>
                     </div>
                     <div class="padder-v"><a href="#" class="text-ellipsis">Morbi id neque quam
                         liquam sollicitudin</a> <a href="#"
@@ -324,20 +345,21 @@
                                         </div>
                                     </div>
                                     <a href="#">
-                                    <img src="{{ song.photo|thumbnail_url:'new_songs_index' }}" alt="" class="r r-2x img-full">
-{#                                        {% if song.photo %}#}
-{#                                            <img src="{{ song.photo|thumbnail_url:'new_songs_index' }}" alt="" class="r r-2x img-full">#}
-{#                                        {% else %}#}
-{#                                            <img src="{% static 'images/a2.png' %}" alt="" class="r r-2x img-full">#}
-{#                                        {% endif %}#}
+                                        <img src="{{ song.photo|thumbnail_url:'new_songs_index' }}" alt=""
+                                             class="r r-2x img-full">
+                                        {#                                        {% if song.photo %}#}
+                                        {#                                            <img src="{{ song.photo|thumbnail_url:'new_songs_index' }}" alt="" class="r r-2x img-full">#}
+                                        {#                                        {% else %}#}
+                                        {#                                            <img src="{% static 'images/a2.png' %}" alt="" class="r r-2x img-full">#}
+                                        {#                                        {% endif %}#}
                                     </a>
                                 </div>
                                 <div class="padder-v">
                                     <a href="#" class="text-ellipsis">{{ song.name }}</a>
                                     <a href="#" class="text-ellipsis text-xs text-muted">{{ song.get_singers }}</a>
-{#                                    {% for similarity in song|similarities:5 %}#}
-{#                                        {{ similarity.related_object }}#}
-{#                                    {% endfor %}#}
+                                    {#                                    {% for similarity in song|similarities:5 %}#}
+                                    {#                                        {{ similarity.related_object }}#}
+                                    {#                                    {% endfor %}#}
                                 </div>
                             </div>
                         </div>

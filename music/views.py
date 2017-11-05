@@ -84,7 +84,7 @@ class PlaylistView(DetailView):
 
 
 def play(request):
-    wf = wave.open('Shahzoda_-_Aromat_newmp3_uz_.wav', 'rb')
+    wf = wave.open('aromat.wav', 'rb')
 
     p = pyaudio.PyAudio()
 

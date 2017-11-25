@@ -1,9 +1,10 @@
+from django.http import Http404
 from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from ..models import Playlist, Genre
-from .serializers import PlaylistSerializers, GenreSerializer
+from .serializers import PlaylistSerializers, GenreSerializer, MusicSerializer
 
 
 class PlayListCreate(APIView):
@@ -23,7 +24,7 @@ class TopPlaylists(APIView):
     http_method_names = ['post', ]
 
     def post(self, request):
-        playlists = Playlist.objects.all()[:10]
+        playlists = Playlist.objects.order_by('-get_net_value')[:10]
         serializer = PlaylistSerializers(playlists, many=True)
         return Response(serializer.data)
 
@@ -35,3 +36,26 @@ class TopGenres(APIView):
         genres = Genre.objects.all()[:10]
         serializers = GenreSerializer(genres, many=True)
         return Response(serializers.data)
+
+
+class PlaylistDetail(APIView):
+    """
+    Retrieve, update or delete a snippet instance.
+    """
+    def get_object(self, pk):
+        try:
+            return Playlist.objects.get(pk=pk)
+        except Playlist.DoesNotExist:
+            raise Http404
+
+    def post(self, request):
+        pk = request.data.get('pk', None)
+        if pk:
+            playlist = self.get_object(pk)
+            if playlist:
+                musics = playlist.musics.all()
+                serializer = MusicSerializer(musics, many=True)
+
+                return Response(serializer.data)
+            return Response({'error': 'such playlist does not exist!'})
+        return Response({'error': 'you should send pk field'})

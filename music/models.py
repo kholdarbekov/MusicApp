@@ -38,6 +38,7 @@ class Music(models.Model):
     photo = models.ImageField(upload_to='music_photos/', blank=True, null=True)
     file = models.FileField(upload_to='music/', blank=True, null=True)
     artist = models.ManyToManyField(Performer, related_name='all_songs')
+    number_of_views = models.PositiveIntegerField(default=0)
     release_date = models.DateField()
 
     def es_repr(self):
@@ -140,6 +141,15 @@ class Playlist(models.Model):
 
     def __str__(self):
         return 'Playlist: %s created by %s' % (self.name, self.creator)
+
+    @property
+    def get_net_value(self):
+        counter = 0
+        for music in self.musics.all():
+            counter += music.number_of_views
+
+        return counter/self.musics.count()
+
 
 
 @python_2_unicode_compatible

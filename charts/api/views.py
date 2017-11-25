@@ -3,7 +3,7 @@ from ..models import Chart
 from .serializers import DailyChartSerializer
 
 
-class DailyChartView(generics.ListAPIView):
+class ChartView(generics.ListAPIView):
     queryset = Chart.objects.all()
     serializer_class = DailyChartSerializer
 

@@ -1,21 +1,14 @@
 from django.contrib import admin
-from .models import Daily, Weekly, Monthly
+from .models import Chart, MusicInChart
 # Register your models here.
 
 
-@admin.register(Daily)
-class DailyChartAdmin(admin.ModelAdmin):
-    list_display = ['music', 'position']
-    readonly_fields = ['num_of_views']
+@admin.register(Chart)
+class ChartAdmin(admin.ModelAdmin):
+    filter_horizontal = ['musics']
 
 
-@admin.register(Weekly)
-class WeeklyChartAdmin(admin.ModelAdmin):
-    list_display = ['music', 'position']
-    readonly_fields = ['num_of_views']
+@admin.register(MusicInChart)
+class MusicInChartAdmin(admin.ModelAdmin):
+    pass
 
-
-@admin.register(Monthly)
-class MonthlyChartAdmin(admin.ModelAdmin):
-    list_display = ['music', 'position']
-    readonly_fields = ['num_of_views']

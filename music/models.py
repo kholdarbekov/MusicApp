@@ -14,6 +14,7 @@ options.DEFAULT_NAMES = options.DEFAULT_NAMES + (
 
 class Genre(models.Model):
     genre_name = models.CharField(max_length=128)
+    photo = models.ImageField(upload_to='genres/', blank=True, null=True)
 
     def __str__(self):
         return self.genre_name

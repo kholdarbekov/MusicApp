@@ -2,8 +2,8 @@ from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from ..models import Playlist
-from .serializers import PlaylistSerializers
+from ..models import Playlist, Genre
+from .serializers import PlaylistSerializers, GenreSerializer
 
 
 class PlayListCreate(APIView):
@@ -18,3 +18,20 @@ class PlayListCreate(APIView):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
+class TopPlaylists(APIView):
+    http_method_names = ['post', ]
+
+    def post(self, request):
+        playlists = Playlist.objects.all()[:10]
+        serializer = PlaylistSerializers(playlists, many=True)
+        return Response(serializer.data)
+
+
+class TopGenres(APIView):
+    http_method_names = ['post', ]
+
+    def post(self, request):
+        genres = Genre.objects.all()[:10]
+        serializers = GenreSerializer(genres, many=True)
+        return Response(serializers.data)

@@ -24,7 +24,7 @@ class TopPlaylists(APIView):
     http_method_names = ['post', ]
 
     def post(self, request):
-        playlists = Playlist.objects.order_by('-get_net_value')[:10]
+        playlists = sorted(Playlist.objects.all(), key=lambda playlist: playlist.get_net_value)
         serializer = PlaylistSerializers(playlists, many=True)
         return Response(serializer.data)
 

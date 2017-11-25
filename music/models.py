@@ -147,8 +147,8 @@ class Playlist(models.Model):
         counter = 0
         for music in self.musics.all():
             counter += music.number_of_views
-
-        return counter/self.musics.count()
+            return counter/self.musics.count()
+        return 0
 
 
 

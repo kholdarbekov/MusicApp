@@ -151,7 +151,6 @@ class Playlist(models.Model):
         return 0
 
 
-
 @python_2_unicode_compatible
 class Vote(models.Model):
     user = models.ForeignKey(Profile, related_name='votes')

@@ -1,12 +1,15 @@
 import json
 
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.conf import settings
 from django.http import HttpResponse, JsonResponse
 from django.views.generic import DetailView, TemplateView
 from django.views.generic.edit import FormView
-from .models import Music, Album, Playlist
+from django.db.models import Q
+from .models import Music, Album, Playlist, Performer
 from .forms import PlaylistForm
+from authentication.models import Profile
+from charts.models import Chart
 
 import os, tempfile, zipfile
 from wsgiref.util import FileWrapper
@@ -97,3 +100,36 @@ def add_to_playlist(request, music_id, playlist_id):
         return JsonResponse({'status': 'ok'})
     else:
         return JsonResponse({'status': 'ko', 'error': 'this song already in the playlist'})
+
+
+def search(request):
+    if request.method == 'POST':
+        search_query = request.POST.get('q')
+        if len(search_query) >= 2:
+            music_results = Music.objects.filter(
+                Q(name__icontains=search_query)
+            )
+            album_results = Album.objects.filter(
+                Q(name__icontains=search_query)
+            )
+            playlist_results = Playlist.objects.filter(
+                Q(name__icontains=search_query) | Q(description__icontains=search_query)
+            )
+            user_results = Profile.objects.filter(
+                Q(username__icontains=search_query)
+            )
+            chart_results = Chart.objects.filter(
+                Q(name__icontains=search_query) | Q(description__icontains=search_query)
+            )
+            performer_results = Performer.objects.filter(
+                Q(name__icontains=search_query) | Q(description__icontains=search_query)
+            )
+
+            return render(request, 'search.html', {'music_results': music_results, 'album_results': album_results,
+                                                   'playlist_results': playlist_results, 'query': search_query,
+                                                   'user_results': user_results, 'chart_results': chart_results,
+                                                   'performer_results': performer_results})
+        else:
+            return HttpResponse('Minimum length must be 2 characters')
+    else:
+        return redirect('/')

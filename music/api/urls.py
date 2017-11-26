@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from .views import PlayListCreate, get_music, TopPlaylists, TopGenres, PlaylistDetail
+from .views import PlayListCreate, get_music, TopPlaylists, TopGenres, PlaylistDetail, Search
 
 
 urlpatterns = [

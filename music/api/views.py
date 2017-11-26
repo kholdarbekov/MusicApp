@@ -1,14 +1,17 @@
-from django.http import Http404
-from django.http import JsonResponse
+from django.db.models import Q
+from django.http import Http404, JsonResponse
 from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from ..models import Playlist, Genre
-from .serializers import PlaylistSerializers, GenreSerializer, MusicSerializer
+
+from authentication.models import Profile
+from charts.models import Chart
+from charts.api.serializers import ChartSerializer
+from ..models import Playlist, Genre, Music, Album, Performer
+from .serializers import PlaylistSerializers, GenreSerializer, MusicSerializer, AlbumSerializer, PerformerSerializer
+from authentication.serializers import ProfileSerializer
 from django.shortcuts import get_object_or_404
-from ..models import Music
-from .serializers import PlaylistSerializers
 
 
 class PlayListCreate(APIView):
@@ -73,10 +76,41 @@ class PlaylistDetail(APIView):
         return Response({'error': 'you should send pk field'})
 
 
-def get_music(request):
-    if request.method == 'GET':
-        music_id = request.GET.get('id', None)
-        if music_id:
-            music = get_object_or_404(Music, pk=music_id)
-            return JsonResponse({'title':music.name, 'artist': music.artist.last().name, 'mp3': music.links})
-    return JsonResponse({'error': 'wrong parameters are sent'})
+class Search(APIView):
+    http_method_names = ['post', ]
+
+    def post(self, request):
+        search_query = request.data.get('q', None)
+        if len(search_query) >= 2:
+            music_results = Music.objects.filter(
+                Q(name__icontains=search_query)
+            )
+            album_results = Album.objects.filter(
+                Q(name__icontains=search_query)
+            )
+            playlist_results = Playlist.objects.filter(
+                Q(name__icontains=search_query) | Q(description__icontains=search_query)
+            )
+            user_results = Profile.objects.filter(
+                Q(username__icontains=search_query)
+            )
+            chart_results = Chart.objects.filter(
+                Q(name__icontains=search_query) | Q(description__icontains=search_query)
+            )
+            performer_results = Performer.objects.filter(
+                Q(name__icontains=search_query) | Q(description__icontains=search_query)
+            )
+
+            music_serializer = MusicSerializer(music_results, many=True)
+            playlist_serializer = PlaylistSerializers(playlist_results, many=True)
+            album_serializer = AlbumSerializer(album_results, many=True)
+            user_serializer = ProfileSerializer(user_results, many=True)
+            chart_serializer = ChartSerializer(chart_results, many=True)
+            performer_serializer = PerformerSerializer(performer_results, many=True)
+
+            return Response({'music_results': music_serializer.data, 'album_results': album_serializer.data,
+                             'playlist_results': playlist_serializer.data, 'query': search_query,
+                             'user_results': user_serializer.data, 'chart_results': chart_serializer.data,
+                             'performer_results': performer_serializer.data})
+        else:
+            return Response({'Minimum length must be 2 characters'})

@@ -15,7 +15,8 @@
                                     {% if profile.photo %}
                                         <img style="width: 200px" src="{{ profile.photo.url }}" class="img-circle">
                                     {% else %}
-                                        <img style="width: 200px" src="{% static 'images/b22.jpg' %}" class="img-circle">
+                                        <img style="width: 200px" src="{% static 'images/b22.jpg' %}"
+                                             class="img-circle">
                                     {% endif %}
                                 </a>
                                 <div>
@@ -34,21 +35,28 @@
                                     </a></div>
                                 </div>
                             </div>
-                            <div class="btn-group btn-group-justified m-b">
-                                <a class="btn btn-success btn-rounded" data-toggle="button">
-                                    <span class="text"> <i class="icon-user-follow"></i> Follow </span>
-                                    <span class="text-active"> <i class="icon-user-following"></i> Following </span>
-                                </a>
-                                <a class="btn btn-dark btn-rounded"> <i class="fa fa-eye"></i>Watch </a>
-                            </div>
+                            <form action="#" method="post">
+                                <div class="btn-group btn-group-justified m-b">
+                                    <a class="btn btn-success btn-rounded" data-toggle="button">
+                                        <span class="text"> <i class="icon-user-follow"></i> Follow </span>
+                                        <span class="text-active"> <i class="icon-user-following"></i> Following </span>
+                                    </a>
+                                    <a class="btn btn-dark btn-rounded"> <i class="fa fa-eye"></i>Watch </a>
+                                </div>
+                            </form>
                             <div>
                                 <h4 class="text-muted">About Me</h4>
                                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi id
-                                    neque quam. Aliquam sollicitudin venenatis ipsum ac feugiat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi id
-                                    neque quam. Aliquam sollicitudin venenatis ipsum ac feugiat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi id
-                                    neque quam. Aliquam sollicitudin venenatis ipsum ac feugiat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi id
-                                    neque quam. Aliquam sollicitudin venenatis ipsum ac feugiat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi id
-                                    neque quam. Aliquam sollicitudin venenatis ipsum ac feugiat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi id
+                                    neque quam. Aliquam sollicitudin venenatis ipsum ac feugiat. Lorem ipsum dolor sit
+                                    amet, consectetur adipiscing elit. Morbi id
+                                    neque quam. Aliquam sollicitudin venenatis ipsum ac feugiat. Lorem ipsum dolor sit
+                                    amet, consectetur adipiscing elit. Morbi id
+                                    neque quam. Aliquam sollicitudin venenatis ipsum ac feugiat. Lorem ipsum dolor sit
+                                    amet, consectetur adipiscing elit. Morbi id
+                                    neque quam. Aliquam sollicitudin venenatis ipsum ac feugiat. Lorem ipsum dolor sit
+                                    amet, consectetur adipiscing elit. Morbi id
+                                    neque quam. Aliquam sollicitudin venenatis ipsum ac feugiat. Lorem ipsum dolor sit
+                                    amet, consectetur adipiscing elit. Morbi id
                                     neque quam. Aliquam sollicitudin venenatis ipsum ac feugiat.</p>
 
                                 <div class="line"></div>
@@ -62,38 +70,34 @@
             <aside class="col-lg-4 b-l">
                 <section class="vbox">
                     <section class="scrollable padder-v">
-                        <div class="panel"><h4 class="font-thin padder">Notificatons</h4>
-                            <ul class="list-group">
-                                <li class="list-group-item"><p>Umar Kholdarbekov <a href="#" class="text-info">@Umar.Kholdarbekov
-                                </a> liked your playlist -  <a href="#" class="text-info">Welcome</a></p>
-                                    <small class="block text-muted"><i class="fa fa-clock-o"></i> 2
-                                        minuts ago
-                                    </small>
-                                </li>
-                                <li class="list-group-item"><p>Morbi nec <a href="#" class="text-info">@Jonathan
-                                    George</a> nunc condimentum ipsum dolor sit amet, consectetur</p>
-                                    <small class="block text-muted"><i class="fa fa-clock-o"></i> 1 hour
-                                        ago
-                                    </small>
-                                </li>
-                                <li class="list-group-item"><p><a href="#" class="text-info">@Josh
-                                    Long</a> Vestibulum ullamcorper sodales nisi nec adipiscing elit.
-                                    Morbi id neque quam. Aliquam sollicitudin venenatis</p>
-                                    <small class="block text-muted"><i class="fa fa-clock-o"></i> 2
-                                        hours ago
-                                    </small>
-                                </li>
-                            </ul>
+                        <div class="panel"><h4 class="font-thin padder">Playlists</h4>
+                            <form action="#" method="post">
+                                <ul class="list-group">
+                                    <li class="list-group-item"><p><a href="{% url 'all_albums' %}" class="text-info">Play
+                                        list 1</a></p>
+
+                                        <small class="block text-muted"><i class="fa fa-clock-o"></i> 2
+                                            minuts ago
+                                        </small>
+                                    </li>
+                                    <li class="list-group-item"><p><a href="{% url 'all_albums' %}" class="text-info">Play
+                                        list 2</a></p>
+
+                                        <small class="block text-muted"><i class="fa fa-clock-o"></i> 12
+                                            days ago
+                                        </small>
+                                    </li>
+                                    <li class="list-group-item"><p><a href="{% url 'all_albums' %}" class="text-info">Play
+                                        list 3</a></p>
+
+                                        <small class="block text-muted"><i class="fa fa-clock-o"></i> 40
+                                            days ago
+                                        </small>
+                                    </li>
+                                </ul>
+                            </form>
                         </div>
-                        <div class="panel clearfix">
-                            <div class="panel-body"><a href="#" class="thumb pull-left m-r"> <img
-                                    src="images/b2.jpg" class="img-circle"> </a>
-                                <div class="clear"><a href="#" class="text-info">@Mike Mcalidek <i
-                                        class="fa fa-twitter"></i></a>
-                                    <small class="block text-muted">2,415 followers / 225 tweets</small>
-                                    <a href="#" class="btn btn-xs btn-success m-t-xs">Follow</a></div>
-                            </div>
-                        </div>
+
                     </section>
                 </section>
             </aside>

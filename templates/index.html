@@ -7,7 +7,7 @@
     <section class="scrollable padder-lg w-f-md" id="bjax-target">
         <a href="#" class="pull-right text-muted m-t-lg" data-toggle="class:fa-spin"><i
                 class="icon-refresh i-lg inline" id="refresh"></i></a>
-        <h2 class="font-thin m-b">Discover <span class="musicbar inline m-l-sm"
+        <h2 class="font-thin m-b">New songs <span class="musicbar inline m-l-sm"
                                                  style="width:20px;height:20px"> <span
                 class="bar1 a1 bg-primary lter"></span> <span class="bar2 a2 bg-info lt"></span> <span
                 class="bar3 a3 bg-success"></span> <span
@@ -24,8 +24,11 @@
                                     class="fa fa-star"></i> <i class="fa fa-star"></i> <i
                                     class="fa fa-star"></i> <i class="fa fa-star"></i> <i
                                     class="fa fa-star-o text-muted"></i></div>
-                            <div class="center text-center m-t-n"><a href="#"><i
-                                    class="icon-control-play i-2x"></i></a></div>
+                            <div class="center text-center m-t-n">
+                                <a href="javascript:;" data-id="1" class="play-me"> <i
+                                        class="icon-control-play i-2x text"></i> <i
+                                        class="icon-control-pause i-2x text-active"></i> </a>
+                            </div>
                             <div class="bottom padder m-b-sm">
                                 <a href="#" class="pull-right" data-toggle="class">
                                     <i class="fa fa-heart-o text"></i>
@@ -43,6 +46,10 @@
                             href="#" class="text-ellipsis text-xs text-muted">Miaow</a></div>
                 </div>
             </div>
+{#            <audio controls>#}
+{#                <source src="{% static 'files/Suddenly.mp3' %}" type="audio/mpeg">#}
+{#                Your browser does not support the audio element.#}
+{#            </audio>#}
             <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
                 <div class="item">
                     <div class="pos-rlt">
@@ -52,10 +59,10 @@
                                     class="fa fa-star"></i> <i
                                     class="fa fa-star-o text-muted"></i> <i
                                     class="fa fa-star-o text-muted"></i></div>
-                            <div class="center text-center m-t-n"><a href="#"
-                                                                     data-toggle="class"> <i
-                                    class="icon-control-play i-2x text"></i> <i
-                                    class="icon-control-pause i-2x text-active"></i> </a></div>
+                            <div class="center text-center m-t-n">
+                                <a href="{% static 'files/Suddenly.mp3' %}" data-id="1" class="play-me"> <i
+                                        class="icon-control-play i-2x text"></i> <i
+                                        class="icon-control-pause i-2x text-active"></i> </a></div>
                             <div class="bottom padder m-b-sm">
                                 <a href="#" class="pull-right active" data-toggle="class">
                                     <i class="fa fa-heart-o text"></i>
@@ -67,7 +74,9 @@
                                 </a>
                             </div>
                         </div>
-                        <a href="#"><img src="{% static 'images/p2.jpg' %}" alt="" class="r r-2x img-full"></a>
+                        <a href="http://google.com/music/stirring-of-a-fool/" data-pjax=""
+                           title="Stirring of a fool">
+                            <img src="{% static 'images/p2.jpg' %}" alt="" class="r r-2x img-full"></a>
                     </div>
                     <div class="padder-v"><a href="#" class="text-ellipsis">Vivamus vel
                         tincidunt libero</a> <a href="#"
@@ -109,7 +118,7 @@
                                 </span>
                             </div>
                         </div>
-                        <a href="http://flatfull.com/wp/musik/music/country-girl-shake-it-for-me/"
+                        <a href="http://flatfull.com/wp/musik/music/country-girl-shake-it-for-me/" data-pjax=""
                            title="Country girl shake it for me"><img src="{% static 'images/p3.jpg' %}" alt=""
                                                                      class="r r-2x img-full"></a>
                     </div>
@@ -330,7 +339,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-7"><h3 class="font-thin">New Songs</h3>
+            <div class="col-md-6"><h3 class="font-thin">Top playlists</h3>
                 <div class="row row-sm">
                     {% get_new_songs as list_of_new_songs %}
                     {% for song in list_of_new_songs %}
@@ -366,7 +375,7 @@
                     {% endfor %}
                 </div>
             </div>
-            <div class="col-md-5"><h3 class="font-thin">Top Albums</h3>
+            <div class="col-md-6"><h3 class="font-thin">Top Albums</h3>
                 <div class="list-group bg-white list-group-lg no-bg auto">
                     {% suggested as suggestions limit 5 %}
                     {% for suggested in suggestions %}

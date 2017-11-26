@@ -1,10 +1,14 @@
 from django.http import Http404
+from django.http import JsonResponse
 from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from ..models import Playlist, Genre
 from .serializers import PlaylistSerializers, GenreSerializer, MusicSerializer
+from django.shortcuts import get_object_or_404
+from ..models import Music
+from .serializers import PlaylistSerializers
 
 
 class PlayListCreate(APIView):
@@ -18,6 +22,14 @@ class PlayListCreate(APIView):
             return Response({'status': 'ok'}, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+def get_music(request):
+    if request.method == 'GET':
+        music_id = request.GET.get('id', None)
+        if music_id:
+            music = get_object_or_404(Music, pk=music_id)
+            return JsonResponse({'title':music.name, 'artist': music.artist.last().name, 'mp3': music.links})
+    return JsonResponse({'error': 'wrong parameters are sent'})
 
 
 class TopPlaylists(APIView):
@@ -59,3 +71,12 @@ class PlaylistDetail(APIView):
                 return Response(serializer.data)
             return Response({'error': 'such playlist does not exist!'})
         return Response({'error': 'you should send pk field'})
+
+
+def get_music(request):
+    if request.method == 'GET':
+        music_id = request.GET.get('id', None)
+        if music_id:
+            music = get_object_or_404(Music, pk=music_id)
+            return JsonResponse({'title':music.name, 'artist': music.artist.last().name, 'mp3': music.links})
+    return JsonResponse({'error': 'wrong parameters are sent'})

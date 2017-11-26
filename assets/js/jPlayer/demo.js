@@ -1,58 +1,147 @@
 +function ($) {
     $(document).ready(function () {
+        var storage = $.localStorage,
+            playlist = [],
+            setting = storage.get('setting') || {},
+            bundle = false;
 
-        var myPlaylist = new jPlayerPlaylist({
-            jPlayer: "#jplayer_N",
-            cssSelectorAncestor: "#jp_container_N"
-        }, [
+            var player = new jPlayerPlaylist({
+                jPlayer: "#jplayer_N",
+                cssSelectorAncestor: "#jp_container_N"
+            },
+            playlist,
             {
-                title: "Bubble",
-                artist: "Miaow",
-                mp3: "http://flatfull.com/themes/assets/musics/Miaow-07-Bubble.mp3",
-                poster: "images/m0.jpg"
+                playlistOptions: {
+                    enableRemoveControls: true,
+                    autoPlay: false
+                },
+                swfPath: "js/jPlayer",
+                supplied: "webmv, ogv, m4v, oga, mp3",
+                smoothPlayBar: true,
+                keyEnabled: true,
+                audioFullScreen: true
+            });
+
+        player.setPlaylist([
+            {
+                title: "Cro Magnon Man",
+                artist: "The Stark Palace",
+                mp3: "http://www.jplayer.org/audio/mp3/TSP-01-Cro_magnon_man.mp3",
+                poster: "http://www.jplayer.org/audio/poster/The_Stark_Palace_640x360.png"
             },
             {
-                title: "Lentement",
+                title: "Hidden",
                 artist: "Miaow",
-                mp3: "http://flatfull.com/themes/assets/musics/Miaow-07-Bubble.mp3",
-                poster: "images/m0.jpg"
+                mp3: "http://www.jplayer.org/audio/mp3/Miaow-02-Hidden.mp3",
+                poster: "http://www.jplayer.org/audio/poster/Miaow_640x360.png"
             }
-        ], {
-            playlistOptions: {
-                enableRemoveControls: true,
-                autoPlay: false
-            },
-            swfPath: "js/jPlayer",
-            supplied: "webmv, ogv, m4v, oga, mp3",
-            smoothPlayBar: true,
-            keyEnabled: true,
-            audioFullScreen: true
+        ]);
+
+
+        $('#jplayer').bind($.jPlayer.event.ready, function () {
+            if (playlist.length && setting.currentIndex > -1) {
+                player.select(setting.currentIndex);
+
+                // mobile does not have the autoplay feature
+                $('html').hasClass('touch') && (setting.play = false);
+
+                $(this).jPlayer("playHead", setting.percent);
+                setting.play && $(this).jPlayer("play", setting.currentTime);
+                setting.volume && $(this).jPlayer("volume", setting.volume);
+                setting.shuffle && player.shuffle(true);
+                updateDisplay();
+            }
+            setupListener();
         });
 
-        $(document).on($.jPlayer.event.pause, myPlaylist.cssSelector.jPlayer, function () {
+        $(document).on('click', '#playlist .dropdown-menu', function (e) {
+            e.stopPropagation();
+        });
+
+        // setup Listener
+        function setupListener() {
+            $('#jplayer').bind($.jPlayer.event.timeupdate, function (event) {
+                setting.currentTime = event.jPlayer.status.currentTime;
+                setting.duration = event.jPlayer.status.duration;
+                setting.percent = event.jPlayer.status.currentPercentAbsolute;
+                setting.currentIndex = player.current;
+                setting.shuffle = player.shuffled;
+                updateSetting();
+            })
+                .bind($.jPlayer.event.pause, function (event) {
+                    setting.play = false;
+                    updateSetting();
+                    updateDisplay();
+                    $('body').removeClass('is-seeking');
+                })
+                .bind($.jPlayer.event.play, function () {
+                    setting.play = true;
+                    updateSetting();
+                    updateDisplay();
+                })
+                .bind($.jPlayer.event.repeat, function (event) {
+                    setting.repeat = event.jPlayer.options.loop;
+                    updateSetting();
+                })
+                .bind($.jPlayer.event.volumechange, function (event) {
+                    setting.volume = event.jPlayer.options.volume;
+                    updateSetting();
+                })
+                .bind($.jPlayer.event.playing, function (event) {
+                    $('body').removeClass('is-seeking');
+                })
+                .bind($.jPlayer.event.waiting, function (event) {
+                    $('body').addClass('is-seeking');
+                })
+                .bind($.jPlayer.event.seeking, function (event) {
+                    $('body').addClass('is-seeking');
+                })
+                .bind($.jPlayer.event.seeked, function (event) {
+                    $('body').removeClass('is-seeking');
+                })
+                .bind($.jPlayer.event.setmedia, function () {
+                    var media = $('#jplayer').find('audio, video');
+                    if (playlist[player.current] && media) {
+                        media.attr('title', ( playlist[player.current]['title'].replace(/<(?:.|\n)*?>/gm, '') ));
+                        media.attr('poster', ( playlist[player.current]['poster'] ));
+                    }
+                })
+            ;
+
+            // remove item from player gui
+            $(document).on('click', '.jp-playlist-item-remove', function (e) {
+                window.setTimeout(updatePlaylist, 500);
+            });
+
+        }
+
+        $(document).on($.jPlayer.event.pause, player.cssSelector.jPlayer, function () {
             $('.musicbar').removeClass('animate');
             $('.jp-play-me').removeClass('active');
             $('.jp-play-me').parent('li').removeClass('active');
         });
 
-        $(document).on($.jPlayer.event.play, myPlaylist.cssSelector.jPlayer, function () {
+        $(document).on($.jPlayer.event.play, player.cssSelector.jPlayer, function () {
             $('.musicbar').addClass('animate');
         });
 
         $(document).on('click', '.play-me', function (e) {
             e.stopPropagation();
-            myPlaylist.add({
+            player.add({
                 title: "Your Face",
                 artist: "The Stark Palace",
                 mp3: "http://www.jplayer.org/audio/mp3/TSP-05-Your_face.mp3",
                 oga: "http://www.jplayer.org/audio/ogg/TSP-05-Your_face.ogg",
                 poster: "http://www.jplayer.org/audio/poster/The_Stark_Palace_640x360.png"
             });
+
+            $('.play-me').removeClass('active');
+
             if ($(this).hasClass('active')) {
                 player.pause();
-                updateDisplay();
                 return;
             }
+            player.play(-1);
             var id = $(this).attr("data-id");
             var i = inObj(id, playlist);
             if (i == -1) {
@@ -67,12 +156,11 @@
                             player.add(obj['title']);
                             console.log(obj);
                             player.play(-1);
-
-                            // updatePlaylist();
+                            updatePlaylist();
                         } else if (obj.length > 1) {
                             player.setPlaylist(obj);
                             player.play(0);
-                            // updatePlaylist();
+                            updatePlaylist();
                         }
                     }
                 });
@@ -104,6 +192,10 @@
             updateDisplay();
         });
 
+        // update setting
+        function updateSetting() {
+            storage.set('setting', setting);
+        }
 
         // update playlist
         function updatePlaylist() {

@@ -250,6 +250,7 @@ THUMBNAIL_ALIASES = {
     '': {
         'avatar': {'size': (50, 50), 'crop': True, 'subsampling': 1},
         'search': {'size': (188, 188), 'crop': True, 'subsampling': 1},
+        'profile_avatar_bigger': {'size': (128, 128), 'crop': True, 'subsampling': 1},
         'new_songs_index': {'size': (161, 161), 'crop': True, 'subsampling': 1},
         'top_albums_index': {'size': (40, 40), 'crop': True, 'subsampling': 1},
         'discover_index': {'size': (188, 281), 'crop': True, 'subsampling': 1},

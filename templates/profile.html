@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load staticfiles %}
+{% load staticfiles thumbnail %}
 
 {% block title %}Profile{% endblock %}
 
@@ -13,7 +13,7 @@
                             <div class="text-center m-b m-t">
                                 <a href="#" class="thumb-lg">
                                     {% if profile.photo %}
-                                        <img style="width: 200px" src="{{ profile.photo.url }}" class="img-circle">
+                                        <img style="width: 200px" src="{{ profile.photo|thumbnail_url:'profile_avatar_bigger' }}" class="img-circle">
                                     {% else %}
                                         <img style="width: 200px" src="{% static 'images/b22.jpg' %}"
                                              class="img-circle">
@@ -46,18 +46,7 @@
                             </form>
                             <div>
                                 <h4 class="text-muted">About Me</h4>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi id
-                                    neque quam. Aliquam sollicitudin venenatis ipsum ac feugiat. Lorem ipsum dolor sit
-                                    amet, consectetur adipiscing elit. Morbi id
-                                    neque quam. Aliquam sollicitudin venenatis ipsum ac feugiat. Lorem ipsum dolor sit
-                                    amet, consectetur adipiscing elit. Morbi id
-                                    neque quam. Aliquam sollicitudin venenatis ipsum ac feugiat. Lorem ipsum dolor sit
-                                    amet, consectetur adipiscing elit. Morbi id
-                                    neque quam. Aliquam sollicitudin venenatis ipsum ac feugiat. Lorem ipsum dolor sit
-                                    amet, consectetur adipiscing elit. Morbi id
-                                    neque quam. Aliquam sollicitudin venenatis ipsum ac feugiat. Lorem ipsum dolor sit
-                                    amet, consectetur adipiscing elit. Morbi id
-                                    neque quam. Aliquam sollicitudin venenatis ipsum ac feugiat.</p>
+                                {{ profile.bio|escape }}
 
                                 <div class="line"></div>
                                 <h4><a href="{% url 'edit_profile' %}"><i class="fa fa-edit"></i> Edit Profile</a></h4>

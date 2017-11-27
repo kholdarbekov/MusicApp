@@ -33,7 +33,6 @@ urlpatterns = [
 
     url(r'^$', TemplateView.as_view(template_name='index.html'), name='index'),
     url(r'^genres/$', TemplateView.as_view(template_name='genres.html'), name='genres'),
-    url(r'^edit_profile/$', TemplateView.as_view(template_name='edit_profile.html'), name='edit_profile'),
     url(r'^lock/$', TemplateView.as_view(template_name='lock.html'), name='lock'),
     url(r'^404/$', TemplateView.as_view(template_name='404.html'), name='404'),
     url(r'^searchs/$', TemplateView.as_view(template_name='search.html')),

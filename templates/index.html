@@ -8,7 +8,7 @@
         <a href="#" class="pull-right text-muted m-t-lg" data-toggle="class:fa-spin"><i
                 class="icon-refresh i-lg inline" id="refresh"></i></a>
         <h2 class="font-thin m-b">New songs <span class="musicbar inline m-l-sm"
-                                                 style="width:20px;height:20px"> <span
+                                                  style="width:20px;height:20px"> <span
                 class="bar1 a1 bg-primary lter"></span> <span class="bar2 a2 bg-info lt"></span> <span
                 class="bar3 a3 bg-success"></span> <span
                 class="bar4 a4 bg-warning dk"></span> <span
@@ -25,7 +25,7 @@
                                     class="fa fa-star"></i> <i class="fa fa-star"></i> <i
                                     class="fa fa-star-o text-muted"></i></div>
                             <div class="center text-center m-t-n">
-                                <a href="javascript:;" data-id="1" class="play-me"> <i
+                                <a href="javascript:;" data-id="1" class="play-me" data-toggle="class"> <i
                                         class="icon-control-play i-2x text"></i> <i
                                         class="icon-control-pause i-2x text-active"></i> </a>
                             </div>
@@ -46,10 +46,10 @@
                             href="#" class="text-ellipsis text-xs text-muted">Miaow</a></div>
                 </div>
             </div>
-{#            <audio controls>#}
-{#                <source src="{% static 'files/Suddenly.mp3' %}" type="audio/mpeg">#}
-{#                Your browser does not support the audio element.#}
-{#            </audio>#}
+            {#            <audio controls>#}
+            {#                <source src="{% static 'files/Suddenly.mp3' %}" type="audio/mpeg">#}
+            {#                Your browser does not support the audio element.#}
+            {#            </audio>#}
             <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
                 <div class="item">
                     <div class="pos-rlt">
@@ -160,8 +160,12 @@
                                     class="fa fa-star"></i> <i class="fa fa-star"></i> <i
                                     class="fa fa-star"></i> <i class="fa fa-star"></i> <i
                                     class="fa fa-star-o text-muted"></i></div>
-                            <div class="center text-center m-t-n"><a href="#"><i
-                                    class="icon-control-play i-2x"></i></a></div>
+                            <div class="center text-center m-t-n">
+                                <a href="#" data-toggle="class">
+                                    <i class="icon-control-play i-2x text"></i>
+                                    <i class="icon-control-pause i-2x text-active"></i>
+                                </a>
+                            </div>
                             <div class="bottom padder m-b-sm"><a href="#" class="pull-right"> <i
                                     class="fa fa-heart-o"></i> </a> <a href="#"> <i
                                     class="fa fa-plus-circle"></i> </a></div>

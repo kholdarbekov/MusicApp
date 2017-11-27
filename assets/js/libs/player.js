@@ -9,20 +9,7 @@
             {
                 jPlayer: "#jplayer",
                 cssSelectorAncestor: "#jp_container_N"
-            }, [
-                {
-                    title: "Bubble",
-                    artist: "Miaow",
-                    mp3: "http://flatfull.com/themes/assets/musics/Miaow-07-Bubble.mp3",
-                    poster: "images/m0.jpg"
-                },
-                {
-                    title: "Lentement",
-                    artist: "Miaow",
-                    mp3: "http://flatfull.com/themes/assets/musics/Miaow-07-Bubble.mp3",
-                    poster: "images/m0.jpg"
-                }
-            ],
+            },
             playlist,
             {
                 playlistOptions: {

@@ -1,7 +1,8 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.contrib.gis.geoip2 import GeoIP2
 from django.contrib.auth import authenticate, login
-from django.views.generic.edit import FormView
+from django.views.generic.edit import FormView, UpdateView
 from django.views.generic import TemplateView
 from django.utils.decorators import method_decorator
 from django.views.decorators.debug import sensitive_post_parameters
@@ -12,7 +13,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 from rest_framework import permissions
-from .forms import UserCreationForm
+from .forms import UserCreationForm, UserEditForm
 from .models import Profile
 from .serializers import UserSerializer
 from .signals import user_created
@@ -133,3 +134,17 @@ class ProfileView(LoginRequiredMixin, TemplateView):
         context = super(ProfileView, self).get_context_data(**kwargs)
         context['profile'] = Profile.objects.get(pk=self.request.user.pk)
         return context
+
+
+class UserUpdateView(UpdateView):
+    form_class = UserEditForm
+    model = Profile
+    success_url = '/'
+    template_name = 'edit_profile.html'
+
+    def get_object(self, queryset=None):
+        return self.request.user
+
+    def form_valid(self, form):
+        self.object.save()
+        return HttpResponseRedirect(self.get_success_url())

@@ -57,3 +57,13 @@ class UserChangeForm(forms.ModelForm):
         # This is done here, rather than on the field, because the
         # field does not have access to the initial value
         return self.initial["password"]
+
+
+class UserEditForm(forms.ModelForm):
+    """A form for updating users. Includes all the fields on
+    the user, but replaces the password field with admin's
+    password hash display field.
+    """
+    class Meta:
+        model = Profile
+        fields = ('date_of_birth', 'first_name', 'last_name', 'bio', 'photo')

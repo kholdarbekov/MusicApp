@@ -37,19 +37,20 @@
                                     </a></div>
                                 </div>
                             </div>
-                            <form action="#" method="post">
-                                <div class="btn-group btn-group-justified m-b">
-                                    <a href="#" class="btn btn-success btn-rounded" id="follow" data-toggle="button"
-                                       data-id="{{ user.username }}" data-action="{% if request.user in user.followers.all %}un{% endif %}follow">
-                                        {% if request.user not in user.followers.all %}
-                                            <span class="text"> <i class="icon-user-follow"></i> Follow </span>
-                                        {% else %}
-                                            <span class="text-active"> <i class="icon-user-following"></i> Following </span>
-                                        {% endif %}
-                                    </a>
-                                    <a class="btn btn-dark btn-rounded"> <i class="fa fa-eye"></i>Watch </a>
-                                </div>
-                            </form>
+                        {% if request.user.username != profile.username %}
+                            <div class="btn-group btn-group-justified m-b">
+                                <a href="#" class="btn btn-success btn-rounded" id="follow" data-toggle="button"
+                                   data-id="{{ user.username }}"
+                                   data-action="{% if request.user in user.followers.all %}un{% endif %}follow">
+                                    {% if request.user not in user.followers.all %}
+                                        <span class="text"> <i class="icon-user-follow"></i> Follow </span>
+                                    {% else %}
+                                        <span class="text-active"> <i class="icon-user-following"></i> Following </span>
+                                    {% endif %}
+                                </a>
+                                <a class="btn btn-dark btn-rounded"> <i class="fa fa-eye"></i>Watch </a>
+                            </div>
+                        {% endif %}
                             <div>
                                 <h4 class="text-muted">About Me</h4>
                                 {{ profile.bio|escape }}

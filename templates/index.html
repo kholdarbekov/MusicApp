@@ -109,7 +109,11 @@
                                         <li class="dropdown-submenu"><a href="#">Add to playlist</a>
                                             <ul class="dropdown-menu" role="menu">
                                                 {% for playlist in request.user.playlists.all %}
-                                                    <li><a href="{% url 'add_to_playlist' music_id=1 playlist_id=playlist.pk %}">{{ playlist.name }}</a></li>
+                                                    <li>
+                                                        <a href="#" id="follow-playlist" data-music="1" data-playlist="{{ playlist.pk }}">
+                                                            {{ playlist.name }}
+                                                        </a>
+                                                    </li>
                                                 {% endfor %}
                                             </ul>
                                         </li>
@@ -420,4 +424,21 @@
             </div>
         </div>
     </section>
+{% endblock %}
+
+{% block domready %}
+$(document).on('click', '#follow-playlist', function (e) {
+    e.preventDefault();
+    $.post('{% url 'add_to_playlist' %}',
+        {
+            music_id: $(this).data('music'),
+            playlist_id: $(this).data('playlist')
+        },
+        function (data) {
+            if (data['status'] == 'ok') {
+            console.alert("success");
+            }
+        }
+    );
+});
 {% endblock %}

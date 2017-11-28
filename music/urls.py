@@ -7,7 +7,7 @@ urlpatterns = [
     url(r'^album/(?P<pk>\d+)/$', AlbumView.as_view(), name='album'),
     url(r'^albums/$', AllAlbumsView.as_view(), name='all_albums'),
     url(r'^playlist/(?P<pk>\d+)/$', PlaylistView.as_view(), name='playlist'),
-    url(r'^add-to-playlist/(?P<music_id>\d+)/(?P<playlist_id>\d+)/$', add_to_playlist, name='add_to_playlist'),
+    url(r'^add-to-playlist/$', add_to_playlist, name='add_to_playlist'),
 
     url(r'^search/$', search, name='search'),
 ]

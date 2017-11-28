@@ -1,11 +1,15 @@
 import json
 
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
 from django.conf import settings
 from django.http import HttpResponse, JsonResponse
+from django.views.decorators.http import require_POST
 from django.views.generic import DetailView, TemplateView
 from django.views.generic.edit import FormView
 from django.db.models import Q
+
+from common.decorator import ajax_required
 from .models import Music, Album, Playlist, Performer
 from .forms import PlaylistForm
 from authentication.models import Profile
@@ -86,20 +90,26 @@ class PlaylistView(DetailView):
         context['all_playlists'] = self.get_queryset().exclude(pk=self.get_object().pk)
         return context
 
-
-def add_to_playlist(request, music_id, playlist_id):
-    music = get_object_or_404(Music, pk=music_id)
-    playlist = get_object_or_404(Playlist, pk=playlist_id)
-    contains = False
-    for m in playlist.musics.all():
-        if m == music:
-            contains = True
-            break
-    if not contains:
-        playlist.musics.add(music)
-        return JsonResponse({'status': 'ok'})
-    else:
-        return JsonResponse({'status': 'ko', 'error': 'this song already in the playlist'})
+@ajax_required
+@require_POST
+@login_required
+def add_to_playlist(request):
+    music_id = request.POST.get('music_id')
+    playlist_id = request.POST.get('playlist_id')
+    if music_id and playlist_id:
+        music = get_object_or_404(Music, pk=music_id)
+        playlist = get_object_or_404(Playlist, pk=playlist_id)
+        contains = False
+        for m in playlist.musics.all():
+            if m == music:
+                contains = True
+                break
+        if not contains:
+            playlist.musics.add(music)
+            return JsonResponse({'status': 'ok'})
+        else:
+            return JsonResponse({'status': 'ko', 'error': 'this song already in the playlist'})
+    return JsonResponse({'status': 'ko', 'error': 'music id or playlist id is missing'})
 
 
 def search(request):

@@ -1,15 +1,28 @@
 +function ($) {
     $(document).ready(function () {
-        var storage = $.localStorage,
+        var
             playlist = [],
             setting = storage.get('setting') || {},
             bundle = false;
 
-            var player = new jPlayerPlaylist({
+        var player = new jPlayerPlaylist({
                 jPlayer: "#jplayer_N",
                 cssSelectorAncestor: "#jp_container_N"
             },
-            playlist,
+            [
+                {
+                    title: "Cro Magnon Man",
+                    artist: "The Stark Palace",
+                    mp3: "http://www.jplayer.org/audio/mp3/TSP-01-Cro_magnon_man.mp3",
+                    poster: "http://www.jplayer.org/audio/poster/The_Stark_Palace_640x360.png"
+                },
+                {
+                    title: "Hidden",
+                    artist: "Miaow",
+                    mp3: "http://www.jplayer.org/audio/mp3/Miaow-02-Hidden.mp3",
+                    poster: "http://www.jplayer.org/audio/poster/Miaow_640x360.png"
+                }
+            ],
             {
                 playlistOptions: {
                     enableRemoveControls: true,
@@ -22,20 +35,20 @@
                 audioFullScreen: true
             });
 
-        player.setPlaylist([
-            {
-                title: "Cro Magnon Man",
-                artist: "The Stark Palace",
-                mp3: "http://www.jplayer.org/audio/mp3/TSP-01-Cro_magnon_man.mp3",
-                poster: "http://www.jplayer.org/audio/poster/The_Stark_Palace_640x360.png"
-            },
-            {
-                title: "Hidden",
-                artist: "Miaow",
-                mp3: "http://www.jplayer.org/audio/mp3/Miaow-02-Hidden.mp3",
-                poster: "http://www.jplayer.org/audio/poster/Miaow_640x360.png"
-            }
-        ]);
+        // player.setPlaylist([
+        //     {
+        //         title: "Cro Magnon Man",
+        //         artist: "The Stark Palace",
+        //         mp3: "http://www.jplayer.org/audio/mp3/TSP-01-Cro_magnon_man.mp3",
+        //         poster: "http://www.jplayer.org/audio/poster/The_Stark_Palace_640x360.png"
+        //     },
+        //     {
+        //         title: "Hidden",
+        //         artist: "Miaow",
+        //         mp3: "http://www.jplayer.org/audio/mp3/Miaow-02-Hidden.mp3",
+        //         poster: "http://www.jplayer.org/audio/poster/Miaow_640x360.png"
+        //     }
+        // ]);
 
 
         $('#jplayer').bind($.jPlayer.event.ready, function () {
@@ -127,21 +140,18 @@
 
         $(document).on('click', '.play-me', function (e) {
             e.stopPropagation();
+            if (!$(this).hasClass('active')) {
+                player.pause();
+                updateDisplay();
+                return;
+            }
             player.add({
                 title: "Your Face",
                 artist: "The Stark Palace",
                 mp3: "http://www.jplayer.org/audio/mp3/TSP-05-Your_face.mp3",
-                oga: "http://www.jplayer.org/audio/ogg/TSP-05-Your_face.ogg",
-                poster: "http://www.jplayer.org/audio/poster/The_Stark_Palace_640x360.png"
             });
-
-            $('.play-me').removeClass('active');
-
-            if ($(this).hasClass('active')) {
-                player.pause();
-                return;
-            }
             player.play(-1);
+
             var id = $(this).attr("data-id");
             var i = inObj(id, playlist);
             if (i == -1) {

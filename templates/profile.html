@@ -13,7 +13,9 @@
                             <div class="text-center m-b m-t">
                                 <a href="#" class="thumb-lg">
                                     {% if profile.photo %}
-                                        <img style="width: 200px" src="{{ profile.photo|thumbnail_url:'profile_avatar_bigger' }}" class="img-circle">
+                                        <img style="width: 200px"
+                                             src="{{ profile.photo|thumbnail_url:'profile_avatar_bigger' }}"
+                                             class="img-circle">
                                     {% else %}
                                         <img style="width: 200px" src="{% static 'images/b22.jpg' %}"
                                              class="img-circle">
@@ -85,10 +87,49 @@
             </aside>
         </section>
     </section>
+
+    <div class="modal fade" id="modal-follow">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body wrapper-lg">
+                    <div class="row">
+                        <form role="form" method="post" action="{% url 'create_playlist' %}"
+                              enctype="multipart/form-data">
+                            <div class="col-sm-6 b-r"><h3 class="m-t-none m-b">Create playlist</h3>
+                                <p>Enjoy and share with friends!</p>
+                                {% csrf_token %}
+                                <div class="form-group"><label>Name</label>
+                                    <input type="text" name="name" class="form-control" placeholder="Name of playlist">
+                                </div>
+                                <div class="form-group"><label>Description</label>
+                                    <input type="text" name="description" class="form-control"
+                                           placeholder="Short description">
+                                </div>
+                                <div class="checkbox m-t-lg">
+                                    <button type="submit" class="btn btn-sm btn-success pull-right text-uc m-t-n-xs">
+                                        <strong>Create</strong></button>
+                                </div>
+                            </div>
+                            <div class="col-sm-6"><h4>Upload cover photo</h4>
+                                <p>You can search on internet <a target="_blank" href="https://www.google.com"
+                                                                 class="text-info">here</a></p>
+                                <p>OR</p>
+                                <div class="form-group">
+                                    <input type="file" name="photo" accept=".jpg,.jpeg,.png"
+                                           onchange="my_validateFileType()">
+                                    <span class="help-block m-b-none">If not chosen, default picture will be used</span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block domready %}
-$('#follow').click(function (e) {
+$(document).on('click', '#follow', function (e) {
     e.preventDefault();
     $.post('{% url 'user_follow' %}',
         {

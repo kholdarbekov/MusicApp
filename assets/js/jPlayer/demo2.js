@@ -1,66 +1,230 @@
-$(document).ready(function(){
-    var cssSelector = {
-        jPlayer: "#jplayer_N",
-        cssSelectorAncestor: "#jp_container_N"
-    };
++function ($) {
+    $(document).ready(function () {
+        var storage  = $.localStorage,
+            playlist = [],
+            setting  = storage.get('setting') || {},
+            bundle = true;
 
-    var playlist = [];
+        var player = new jPlayerPlaylist({
+                jPlayer: "#jplayer_N",
+                cssSelectorAncestor: "#jp_container_N"
+            },
+            [
+                {
+                    title: "Cro Magnon Man",
+                    artist: "The Stark Palace",
+                    mp3: "http://www.jplayer.org/audio/mp3/TSP-01-Cro_magnon_man.mp3",
+                    poster: "http://www.jplayer.org/audio/poster/The_Stark_Palace_640x360.png"
+                },
+                {
+                    title: "Hidden",
+                    artist: "Miaow",
+                    mp3: "http://www.jplayer.org/audio/mp3/Miaow-02-Hidden.mp3",
+                    poster: "http://www.jplayer.org/audio/poster/Miaow_640x360.png"
+                }
+            ],
+            {
+                playlistOptions: {
+                    enableRemoveControls: true,
+                    autoPlay: false
+                },
+                swfPath: "js/jPlayer",
+                supplied: "webmv, ogv, m4v, oga, mp3",
+                smoothPlayBar: true,
+                keyEnabled: true,
+                audioFullScreen: true
+            });
 
-    var options = {
-        playlistOptions: {
-            enableRemoveControls: true,
-            autoPlay: true
-        },
-        swfPath: "js/jPlayer",
-        supplied: "webmv, ogv, m4v, oga, mp3",
-        smoothPlayBar: true,
-        keyEnabled: true,
-        audioFullScreen: false
-    };
+        // player.setPlaylist([
+        //     {
+        //         title: "Cro Magnon Man",
+        //         artist: "The Stark Palace",
+        //         mp3: "http://www.jplayer.org/audio/mp3/TSP-01-Cro_magnon_man.mp3",
+        //         poster: "http://www.jplayer.org/audio/poster/The_Stark_Palace_640x360.png"
+        //     },
+        //     {
+        //         title: "Hidden",
+        //         artist: "Miaow",
+        //         mp3: "http://www.jplayer.org/audio/mp3/Miaow-02-Hidden.mp3",
+        //         poster: "http://www.jplayer.org/audio/poster/Miaow_640x360.png"
+        //     }
+        // ]);
 
-    var myPlaylist = null;
 
-    function loadSong(){
-        var song_artist = findArtist();
-        var song_title = findTitle();
-        var song_poster = findPoster();      
+        $('#jplayer').bind($.jPlayer.event.ready, function () {
+            if (playlist.length && setting.currentIndex > -1) {
+                player.select(setting.currentIndex);
 
-        if(myPlaylist == null)
-            myPlaylist = new jPlayerPlaylist(cssSelector, playlist, options);
+                // mobile does not have the autoplay feature
+                $('html').hasClass('touch') && (setting.play = false);
 
-        myPlaylist.add({
-            title: song_title,
-            artist: song_artist,
-            oga: sessionStorage.getItem("file_url"),
-            poster: song_poster
+                $(this).jPlayer("playHead", setting.percent);
+                setting.play && $(this).jPlayer("play", setting.currentTime);
+                setting.volume && $(this).jPlayer("volume", setting.volume);
+                setting.shuffle && player.shuffle(true);
+                updateDisplay();
+            }
+            setupListener();
         });
 
-        $(document).on($.jPlayer.event.pause, myPlaylist.cssSelector.jPlayer,  function(){
+        $(document).on('click', '#playlist .dropdown-menu', function (e) {
+            e.stopPropagation();
+        });
+
+        // setup Listener
+        function setupListener() {
+            $('#jplayer').bind($.jPlayer.event.timeupdate, function (event) {
+                setting.currentTime = event.jPlayer.status.currentTime;
+                setting.duration = event.jPlayer.status.duration;
+                setting.percent = event.jPlayer.status.currentPercentAbsolute;
+                setting.currentIndex = player.current;
+                setting.shuffle = player.shuffled;
+                updateSetting();
+            })
+                .bind($.jPlayer.event.pause, function (event) {
+                    setting.play = false;
+                    updateSetting();
+                    updateDisplay();
+                    $('body').removeClass('is-seeking');
+                })
+                .bind($.jPlayer.event.play, function () {
+                    setting.play = true;
+                    updateSetting();
+                    updateDisplay();
+                })
+                .bind($.jPlayer.event.repeat, function (event) {
+                    setting.repeat = event.jPlayer.options.loop;
+                    updateSetting();
+                })
+                .bind($.jPlayer.event.volumechange, function (event) {
+                    setting.volume = event.jPlayer.options.volume;
+                    updateSetting();
+                })
+                .bind($.jPlayer.event.playing, function (event) {
+                    $('body').removeClass('is-seeking');
+                })
+                .bind($.jPlayer.event.waiting, function (event) {
+                    $('body').addClass('is-seeking');
+                })
+                .bind($.jPlayer.event.seeking, function (event) {
+                    $('body').addClass('is-seeking');
+                })
+                .bind($.jPlayer.event.seeked, function (event) {
+                    $('body').removeClass('is-seeking');
+                })
+                .bind($.jPlayer.event.setmedia, function () {
+                    var media = $('#jplayer').find('audio, video');
+                    if (playlist[player.current] && media) {
+                        media.attr('title', ( playlist[player.current]['title'].replace(/<(?:.|\n)*?>/gm, '') ));
+                        media.attr('poster', ( playlist[player.current]['poster'] ));
+                    }
+                })
+            ;
+
+            // remove item from player gui
+            $(document).on('click', '.jp-playlist-item-remove', function (e) {
+                window.setTimeout(updatePlaylist, 500);
+            });
+
+        }
+
+        $(document).on($.jPlayer.event.pause, player.cssSelector.jPlayer, function () {
             $('.musicbar').removeClass('animate');
             $('.jp-play-me').removeClass('active');
             $('.jp-play-me').parent('li').removeClass('active');
         });
 
-        $(document).on($.jPlayer.event.play, myPlaylist.cssSelector.jPlayer,  function(){
+        $(document).on($.jPlayer.event.play, player.cssSelector.jPlayer, function () {
             $('.musicbar').addClass('animate');
         });
 
-        $(document).on('click', '.jp-play-me', function(e){
-            e && e.preventDefault();
-            var $this = $(e.target);
-            if (!$this.is('a')) $this = $this.closest('a');
+        $(document).on('click', '.play-me', function (e) {
+            e.stopPropagation();
+            if (!$(this).hasClass('active')) {
+                player.pause();
+                updateDisplay();
+                return;
+            }
+            player.add({
+                title: "Your Face",
+                artist: "The Stark Palace",
+                mp3: "http://www.jplayer.org/audio/mp3/TSP-05-Your_face.mp3",
+            });
+            player.play(-1);
 
-            $('.jp-play-me').not($this).removeClass('active');
-            $('.jp-play-me').parent('li').not($this.parent('li')).removeClass('active');
-
-            $this.toggleClass('active');
-            $this.parent('li').toggleClass('active');
-            if( !$this.hasClass('active') ){
-                myPlaylist.pause();
-            }else{
-                var i = Math.floor(Math.random() * (1 + 7 - 1));
-                myPlaylist.play(i);
+            var id = $(this).attr("data-id");
+            var i = inObj(id, playlist);
+            if (i == -1) {
+                $.ajax({
+                    type: "get",
+                    dataType: "json",
+                    url: "/getsong/",
+                    data: {action: "get_media", id: id},
+                    async: false,
+                    success: function (obj) {
+                        if (obj.length == 1) {
+                            player.add(obj['title']);
+                            console.log(obj);
+                            player.play(-1);
+                            updatePlaylist();
+                        } else if (obj.length > 1) {
+                            player.setPlaylist(obj);
+                            player.play(0);
+                            updatePlaylist();
+                        }
+                    }
+                });
+            } else {
+                if (player.current == i) {
+                    setting.play ? player.pause() : player.play();
+                } else {
+                    player.play(i);
+                }
             }
         });
-    }    
-});
+
+        function updateDisplay() {
+            $('.play-me').removeClass('active');
+            $('.play-me').parent().parent().removeClass('active');
+            if (playlist[player.current]) {
+                var current = $('a[data-id=' + playlist[player.current]['id'] + ']' + ', ' + 'a[data-id=' + playlist[player.current]['ids'] + ']');
+                if (setting.play) {
+                    current.addClass('active');
+                    current.parent().parent().addClass('active');
+                } else {
+                    current.removeClass('active');
+                    current.parent().parent().removeClass('active');
+                }
+            }
+        }
+
+        $(document).on("pjaxEnd", function () {
+            updateDisplay();
+        });
+
+        // update setting
+        // function updateSetting() {
+        //     storage.set('setting', setting);
+        // }
+
+        // update playlist
+        function updatePlaylist() {
+            updateDisplay();
+            playlist = player.playlist;
+            // storage.set('playlist', playlist);
+        }
+
+        // check exist
+        function inObj(id, list) {
+            var i;
+            for (i = 0; i < list.length; i++) {
+                if ((list[i]['id'] == id) || (list[i]['ids'] == id)) {
+                    return i;
+                }
+            }
+            return -1;
+        }
+
+
+    });
+}(jQuery);

@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+from django.urls import reverse_lazy
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -259,4 +261,8 @@ THUMBNAIL_ALIASES = {
         'playlist_cover': {'size': (800, 400), 'crop': True, 'subsampling': 1},
         'other_playlists_cover': {'size': (486, 243), 'crop': True, 'subsampling': 1},
     },
+}
+
+ABSOLUTE_URL_OVERRIDES = {
+    'authentication.profile': lambda u: reverse_lazy('profile', args=[u.username])
 }

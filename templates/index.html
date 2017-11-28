@@ -99,7 +99,6 @@
                                 <a href="#" class="pull-right">
                                     <i class="fa fa-heart-o"></i>
                                 </a>
-                                <form action="#" method="post">
                                 <span class="dropdown">
                                     <a href="#" class="dropdown-toggle clear"
                                        data-toggle="dropdown">
@@ -107,16 +106,15 @@
                                             class="fa fa-check-circle text-active text-info"></i></a>
                                     <ul class="dropdown-menu animated fadeInRight">
                                         <li><a href="#" data-toggle="class">Add to queue</a></li>
-
                                         <li class="dropdown-submenu"><a href="#">Add to playlist</a>
                                             <ul class="dropdown-menu" role="menu">
-                                                <li><a href="#">Number one</a></li>
-                                                <li><a href="#">Top ten</a></li>
+                                                {% for playlist in request.user.playlists.all %}
+                                                    <li><a href="{% url 'add_to_playlist' music_id=1 playlist_id=playlist.pk %}">{{ playlist.name }}</a></li>
+                                                {% endfor %}
                                             </ul>
                                         </li>
                                     </ul>
                                 </span>
-                                </form>
                             </div>
                         </div>
                         <a href="http://flatfull.com/wp/musik/music/country-girl-shake-it-for-me/" data-pjax=""

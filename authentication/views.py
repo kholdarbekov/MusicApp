@@ -1,12 +1,17 @@
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.contrib.gis.geoip2 import GeoIP2
 from django.contrib.auth import authenticate, login
 from django.views.generic.edit import FormView, UpdateView
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, DetailView
 from django.utils.decorators import method_decorator
 from django.views.decorators.debug import sensitive_post_parameters
 from django.contrib.auth.mixins import LoginRequiredMixin
+
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
+from common.decorator import ajax_required
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -14,7 +19,7 @@ from rest_framework import status
 from rest_framework.authtoken.models import Token
 from rest_framework import permissions
 from .forms import UserCreationForm, UserEditForm
-from .models import Profile
+from .models import Profile, Follower
 from .serializers import UserSerializer
 from .signals import user_created
 
@@ -127,13 +132,19 @@ class ProfileRegisterView(FormView):
             return redirect(to, *args, **kwargs)
 
 
-class ProfileView(LoginRequiredMixin, TemplateView):
+class ProfileView(LoginRequiredMixin, DetailView):
     template_name = 'profile.html'
+    context_object_name = 'profile'
+    model = Profile
+    slug_field = 'username'
 
-    def get_context_data(self, **kwargs):
-        context = super(ProfileView, self).get_context_data(**kwargs)
-        context['profile'] = Profile.objects.get(pk=self.request.user.pk)
-        return context
+    def get_object(self, queryset=None):
+        return Profile.objects.get(username=self.kwargs[self.slug_field])
+
+    # def get_context_data(self, **kwargs):
+    #     context = super(ProfileView, self).get_context_data(**kwargs)
+    #     # context['profile'] = Profile.objects.get(pk=self.request.user.pk)
+    #     return context
 
 
 class UserUpdateView(UpdateView):
@@ -148,3 +159,22 @@ class UserUpdateView(UpdateView):
     def form_valid(self, form):
         self.object.save()
         return HttpResponseRedirect(self.get_success_url())
+
+
+@ajax_required
+@require_POST
+@login_required
+def user_follow(request):
+    usrname = request.POST.get('id')
+    action = request.POST.get('action')
+    if usrname and action:
+        try:
+            user = Profile.objects.get(username=usrname)
+            if action == 'follow':
+                Follower.objects.get_or_create(user_from=request.user, user_to=user)
+            else:
+                Follower.objects.filter(user_from=request.user, user_to=user).delete()
+            return JsonResponse({'status': 'ok'})
+        except Profile.DoesNotExist:
+            return JsonResponse({'status': 'ko'})
+    return JsonResponse({'status': 'ko'})

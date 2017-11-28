@@ -68,6 +68,8 @@ class Profile(AbstractUser):
 
     bio = models.TextField()
 
+    following = models.ManyToManyField('self', through='Follower', related_name='followers', symmetrical=False)
+
     objects = ProfileManager()
 
     USERNAME_FIELD = 'username'
@@ -100,3 +102,15 @@ class Profile(AbstractUser):
         "Is the user a member of staff?"
         # Simplest possible answer: All admins are staff
         return self.is_admin
+
+
+class Follower(models.Model):
+    user_from = models.ForeignKey(Profile, related_name='rel_from_set')
+    user_to = models.ForeignKey(Profile, related_name='rel_to_set')
+    created = models.DateTimeField(auto_now_add=True, db_index=True)
+
+    class Meta:
+        ordering = ('-created',)
+
+    def __str__(self):
+        return '{} follows {}'.format(self.user_from, self.user_to)

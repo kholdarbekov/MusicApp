@@ -37,9 +37,13 @@
                             </div>
                             <form action="#" method="post">
                                 <div class="btn-group btn-group-justified m-b">
-                                    <a class="btn btn-success btn-rounded" data-toggle="button">
-                                        <span class="text"> <i class="icon-user-follow"></i> Follow </span>
-                                        <span class="text-active"> <i class="icon-user-following"></i> Following </span>
+                                    <a href="#" class="btn btn-success btn-rounded" id="follow" data-toggle="button"
+                                       data-id="{{ user.username }}" data-action="{% if request.user in user.followers.all %}un{% endif %}follow">
+                                        {% if request.user not in user.followers.all %}
+                                            <span class="text"> <i class="icon-user-follow"></i> Follow </span>
+                                        {% else %}
+                                            <span class="text-active"> <i class="icon-user-following"></i> Following </span>
+                                        {% endif %}
                                     </a>
                                     <a class="btn btn-dark btn-rounded"> <i class="fa fa-eye"></i>Watch </a>
                                 </div>
@@ -62,27 +66,16 @@
                         <div class="panel"><h4 class="font-thin padder">Playlists</h4>
                             <form action="#" method="post">
                                 <ul class="list-group">
-                                    <li class="list-group-item"><p><a href="{% url 'all_albums' %}" class="text-info">Play
-                                        list 1</a></p>
+                                    {% for playlist in profile.playlists.all %}
+                                        <li class="list-group-item">
+                                            <p>
+                                                <a href="{% url 'playlist' pk=playlist.pk %}" class="text-info">{{ playlist.name }}</a>
+                                            </p>
 
-                                        <small class="block text-muted"><i class="fa fa-clock-o"></i> 2
-                                            minuts ago
-                                        </small>
-                                    </li>
-                                    <li class="list-group-item"><p><a href="{% url 'all_albums' %}" class="text-info">Play
-                                        list 2</a></p>
-
-                                        <small class="block text-muted"><i class="fa fa-clock-o"></i> 12
-                                            days ago
-                                        </small>
-                                    </li>
-                                    <li class="list-group-item"><p><a href="{% url 'all_albums' %}" class="text-info">Play
-                                        list 3</a></p>
-
-                                        <small class="block text-muted"><i class="fa fa-clock-o"></i> 40
-                                            days ago
-                                        </small>
-                                    </li>
+                                            <small class="block text-muted"><i class="fa fa-clock-o"></i> Created {{ playlist.created_date|date:"d-m-y" }}
+                                            </small>
+                                        </li>
+                                    {% endfor %}
                                 </ul>
                             </form>
                         </div>
@@ -92,4 +85,32 @@
             </aside>
         </section>
     </section>
+{% endblock %}
+
+{% block domready %}
+$('#follow').click(function (e) {
+    e.preventDefault();
+    $.post('{% url 'user_follow' %}',
+        {
+            id: $(this).data('id'),
+            action: $(this).data('action')
+        },
+        function (data) {
+            if (data['status'] == 'ok') {
+                var previous_action = $('#follow').data('action');
+                // toggle data-action
+                $('#follow').data('action',
+                    previous_action == 'follow' ? 'unfollow' : 'follow');
+                // toggle link text
+                $('#follow').text(
+                    previous_action == 'follow' ? 'Unfollow' : 'Follow');
+                // update total followers
+                var previous_followers = parseInt(
+                    $('span.count .total').text());
+                $('span.count .total').text(previous_action == 'follow' ?
+                    previous_followers + 1 : previous_followers - 1);
+            }
+        }
+    );
+});
 {% endblock %}

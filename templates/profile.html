@@ -37,7 +37,7 @@
                                     </a></div>
                                 </div>
                             </div>
-                        {% if request.user.username != profile.username %}
+                        {% if request.user.username == profile.username %}
                             <div class="btn-group btn-group-justified m-b">
                                 <a href="#" class="btn btn-success btn-rounded" id="follow" data-toggle="button"
                                    data-id="{{ user.username }}"

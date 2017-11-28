@@ -10,7 +10,7 @@ from django.views.generic.edit import FormView
 from django.db.models import Q
 
 from common.decorator import ajax_required
-from .models import Music, Album, Playlist, Performer
+from .models import Music, Album, Playlist, Performer, Genre
 from .forms import PlaylistForm
 from authentication.models import Profile
 from charts.models import Chart
@@ -89,6 +89,29 @@ class PlaylistView(DetailView):
         context = super(PlaylistView, self).get_context_data(**kwargs)
         context['all_playlists'] = self.get_queryset().exclude(pk=self.get_object().pk)
         return context
+
+
+class GenreView(DetailView):
+    model = Genre
+    context_object_name = 'genre'
+    template_name = 'genres.html'
+    slug_field = 'genre_name'
+
+    def get_object(self, queryset=None):
+        if self.kwargs[self.slug_field] == 'All':
+            return Genre.objects.last()
+        else:
+            return Genre.objects.get(genre_name=self.kwargs[self.slug_field])
+
+    def get_context_data(self, **kwargs):
+        context = super(GenreView, self).get_context_data(**kwargs)
+        if self.kwargs[self.slug_field] == 'All':
+            context['musics'] = Music.objects.all()
+        else:
+            context['musics'] = self.get_object().all_music_in_genre.all()
+        context['currnet_genre'] = self.kwargs[self.slug_field]
+        return context
+
 
 @ajax_required
 @require_POST

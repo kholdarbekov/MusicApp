@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load staticfiles music_extras %}
+{% load staticfiles music_extras thumbnail %}
 
 {% block title %}Genres{% endblock %}
 
@@ -11,9 +11,9 @@
                     <section class="scrollable hover">
                         <div class="list-group no-radius no-border no-bg m-t-n-xxs m-b-none auto">
                             {% genres as list_of_genres %}
-                            <a href="genres.html" class="list-group-item active"> All </a>
+                            <a href="{% url 'genre' 'All' %}" class="list-group-item {% if currnet_genre == 'All' %}active{% endif %}"> All </a>
                             {% for genre in list_of_genres %}
-                                <a href="" class="list-group-item">{{ genre.genre_name }}</a>
+                                <a href="{% url 'genre' genre.genre_name %}" class="list-group-item {% if currnet_genre == genre.genre_name %}active{% endif %}">{{ genre.genre_name }}</a>
                             {% endfor %}
                         </div>
                     </section>
@@ -21,263 +21,35 @@
             </aside> <!-- / side content -->
             <section>
                 <section class="vbox">
-                    <section class="scrollable padder-lg"><h2 class="font-thin m-b">Acoustic</h2>
+                    <section class="scrollable padder-lg"><h2 class="font-thin m-b">{{ currnet_genre|default:'All' }}</h2>
                         <div class="row row-sm">
-                            <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-                                <div class="item">
-                                    <div class="pos-rlt">
-                                        <div class="item-overlay opacity r r-2x bg-black">
-                                            <div class="center text-center m-t-n"><a href="#"><i
-                                                    class="fa fa-play-circle i-2x"></i></a></div>
+                            {% for music in musics %}
+                                <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+                                    <div class="item">
+                                        <div class="pos-rlt">
+                                            <div class="item-overlay opacity r r-2x bg-black">
+                                                <div class="center text-center m-t-n"><a href="#"><i
+                                                        class="fa fa-play-circle i-2x"></i></a></div>
+                                            </div>
+                                            <a href="track-detail.html">
+                                                {% if music.photo %}
+                                                    <img src="{{ music.photo|thumbnail_url:'genre' }}" alt="" class="r r-2x img-full">
+                                                {% else %}
+                                                    <img src="{% static 'images/m1.jpg' %}" alt="" class="r r-2x img-full">
+                                                {% endif %}
+                                            </a>
                                         </div>
-                                        <a href="track-detail.html"><img src="{% static 'images/m1.jpg' %}" alt=""
-                                                                         class="r r-2x img-full"></a>
-                                    </div>
-                                    <div class="padder-v"><a href="track-detail.html" data-bjax
-                                                             data-target="#bjax-target"
-                                                             data-el="#bjax-el" data-replace="true"
-                                                             class="text-ellipsis">Tempered Song</a> <a
-                                            href="track-detail.html" data-bjax
-                                            data-target="#bjax-target" data-el="#bjax-el"
-                                            data-replace="true"
-                                            class="text-ellipsis text-xs text-muted">Miaow</a></div>
-                                </div>
-                            </div>
-                            <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-                                <div class="item">
-                                    <div class="pos-rlt">
-                                        <div class="item-overlay opacity r r-2x bg-black">
-                                            <div class="center text-center m-t-n"><a href="#"><i
-                                                    class="fa fa-play-circle i-2x"></i></a></div>
-                                        </div>
-                                        <a href="track-detail.html"><img src="{% static 'images/m2.jpg' %}" alt=""
-                                                                         class="r r-2x img-full"></a>
-                                    </div>
-                                    <div class="padder-v"><a href="track-detail.html" data-bjax
-                                                             data-target="#bjax-target"
-                                                             data-el="#bjax-el" data-replace="true"
-                                                             class="text-ellipsis">Morbi id neque
-                                        quam</a> <a href="track-detail.html" data-bjax
-                                                    data-target="#bjax-target" data-el="#bjax-el"
-                                                    data-replace="true"
-                                                    class="text-ellipsis text-xs text-muted">Phasellus</a>
+                                        <div class="padder-v"><a href="track-detail.html" data-bjax
+                                                                 data-target="#bjax-target"
+                                                                 data-el="#bjax-el" data-replace="true"
+                                                                 class="text-ellipsis">{{ music.name }}</a> <a
+                                                href="track-detail.html" data-bjax
+                                                data-target="#bjax-target" data-el="#bjax-el"
+                                                data-replace="true"
+                                                class="text-ellipsis text-xs text-muted">{{ music.get_singers }}</a></div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-                                <div class="item">
-                                    <div class="pos-rlt">
-                                        <div class="item-overlay opacity r r-2x bg-black">
-                                            <div class="center text-center m-t-n"><a href="#"><i
-                                                    class="fa fa-play-circle i-2x"></i></a></div>
-                                        </div>
-                                        <a href="track-detail.html"><img src="{% static 'images/a10.png' %}" alt=""
-                                                                         class="r r-2x img-full"></a>
-                                    </div>
-                                    <div class="padder-v"><a href="track-detail.html" data-bjax
-                                                             data-target="#bjax-target"
-                                                             data-el="#bjax-el" data-replace="true"
-                                                             class="text-ellipsis">Aliquam sollicitudin
-                                        venenatis ipsum</a> <a href="track-detail.html" data-bjax
-                                                               data-target="#bjax-target"
-                                                               data-el="#bjax-el" data-replace="true"
-                                                               class="text-ellipsis text-xs text-muted">Malesuada</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-                                <div class="item">
-                                    <div class="pos-rlt">
-                                        <div class="item-overlay opacity r r-2x bg-black">
-                                            <div class="center text-center m-t-n"><a href="#"><i
-                                                    class="fa fa-play-circle i-2x"></i></a></div>
-                                        </div>
-                                        <a href="track-detail.html"><img src="{% static 'images/m4.jpg' %}" alt=""
-                                                                         class="r r-2x img-full"></a>
-                                    </div>
-                                    <div class="padder-v"><a href="track-detail.html" data-bjax
-                                                             data-target="#bjax-target"
-                                                             data-el="#bjax-el" data-replace="true"
-                                                             class="text-ellipsis">Citudin venenatis
-                                        ipsum ac</a> <a href="track-detail.html" data-bjax
-                                                        data-target="#bjax-target" data-el="#bjax-el"
-                                                        data-replace="true"
-                                                        class="text-ellipsis text-xs text-muted">Volutpat</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-                                <div class="item">
-                                    <div class="pos-rlt">
-                                        <div class="item-overlay opacity r r-2x bg-black">
-                                            <div class="center text-center m-t-n"><a href="#"><i
-                                                    class="fa fa-play-circle i-2x"></i></a></div>
-                                        </div>
-                                        <a href="track-detail.html"><img src="{% static 'images/m5.jpg' %}" alt=""
-                                                                         class="r r-2x img-full"></a>
-                                    </div>
-                                    <div class="padder-v"><a href="track-detail.html" data-bjax
-                                                             data-target="#bjax-target"
-                                                             data-el="#bjax-el" data-replace="true"
-                                                             class="text-ellipsis">Vestibulum
-                                        ullamcorper sodales nisi</a> <a href="track-detail.html"
-                                                                        data-bjax
-                                                                        data-target="#bjax-target"
-                                                                        data-el="#bjax-el"
-                                                                        data-replace="true"
-                                                                        class="text-ellipsis text-xs text-muted">Mauris
-                                        Qiaos</a></div>
-                                </div>
-                            </div>
-                            <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-                                <div class="item">
-                                    <div class="pos-rlt">
-                                        <div class="item-overlay opacity r r-2x bg-black">
-                                            <div class="center text-center m-t-n"><a href="#"><i
-                                                    class="fa fa-play-circle i-2x"></i></a></div>
-                                        </div>
-                                        <a href="track-detail.html"><img src="{% static 'images/m6.jpg' %}" alt=""
-                                                                         class="r r-2x img-full"></a>
-                                    </div>
-                                    <div class="padder-v"><a href="track-detail.html" data-bjax
-                                                             data-target="#bjax-target"
-                                                             data-el="#bjax-el" data-replace="true"
-                                                             class="text-ellipsis">Mauris convallis
-                                        mauris at</a> <a href="track-detail.html" data-bjax
-                                                         data-target="#bjax-target" data-el="#bjax-el"
-                                                         data-replace="true"
-                                                         class="text-ellipsis text-xs text-muted">Neque</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-                                <div class="item">
-                                    <div class="pos-rlt">
-                                        <div class="item-overlay opacity r r-2x bg-black">
-                                            <div class="center text-center m-t-n"><a href="#"><i
-                                                    class="fa fa-play-circle i-2x"></i></a></div>
-                                        </div>
-                                        <a href="track-detail.html"><img src="{% static 'images/m0.jpg' %}" alt=""
-                                                                         class="r r-2x img-full"></a>
-                                    </div>
-                                    <div class="padder-v"><a href="track-detail.html" data-bjax
-                                                             data-target="#bjax-target"
-                                                             data-el="#bjax-el" data-replace="true"
-                                                             class="text-ellipsis">Sodales nisi nec
-                                        condimentum</a> <a href="track-detail.html" data-bjax
-                                                           data-target="#bjax-target" data-el="#bjax-el"
-                                                           data-replace="true"
-                                                           class="text-ellipsis text-xs text-muted">Augue</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-                                <div class="item">
-                                    <div class="pos-rlt">
-                                        <div class="item-overlay opacity r r-2x bg-black">
-                                            <div class="center text-center m-t-n"><a href="#"><i
-                                                    class="fa fa-play-circle i-2x"></i></a></div>
-                                        </div>
-                                        <a href="track-detail.html"><img src="{% static 'images/m8.jpg' %}" alt=""
-                                                                         class="r r-2x img-full"></a>
-                                    </div>
-                                    <div class="padder-v"><a href="track-detail.html" data-bjax
-                                                             data-target="#bjax-target"
-                                                             data-el="#bjax-el" data-replace="true"
-                                                             class="text-ellipsis">Nisi nec
-                                        condimentum</a> <a href="track-detail.html" data-bjax
-                                                           data-target="#bjax-target" data-el="#bjax-el"
-                                                           data-replace="true"
-                                                           class="text-ellipsis text-xs text-muted">Miaow</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-                                <div class="item">
-                                    <div class="pos-rlt">
-                                        <div class="item-overlay opacity r r-2x bg-black">
-                                            <div class="center text-center m-t-n"><a href="#"><i
-                                                    class="fa fa-play-circle i-2x"></i></a></div>
-                                        </div>
-                                        <a href="track-detail.html"><img src="{% static 'images/m9.jpg' %}" alt=""
-                                                                         class="r r-2x img-full"></a>
-                                    </div>
-                                    <div class="padder-v"><a href="track-detail.html" data-bjax
-                                                             data-target="#bjax-target"
-                                                             data-el="#bjax-el" data-replace="true"
-                                                             class="text-ellipsis">Phasellus at
-                                        ultricies nequ</a> <a href="track-detail.html" data-bjax
-                                                              data-target="#bjax-target"
-                                                              data-el="#bjax-el" data-replace="true"
-                                                              class="text-ellipsis text-xs text-muted">Volutpat</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-                                <div class="item">
-                                    <div class="pos-rlt">
-                                        <div class="item-overlay opacity r r-2x bg-black">
-                                            <div class="center text-center m-t-n"><a href="#"><i
-                                                    class="fa fa-play-circle i-2x"></i></a></div>
-                                        </div>
-                                        <a href="track-detail.html"><img src="{% static 'images/m10.jpg' %}" alt=""
-                                                                         class="r r-2x img-full"></a>
-                                    </div>
-                                    <div class="padder-v"><a href="track-detail.html" data-bjax
-                                                             data-target="#bjax-target"
-                                                             data-el="#bjax-el" data-replace="true"
-                                                             class="text-ellipsis">Quis malesuada
-                                        augue</a> <a href="track-detail.html" data-bjax
-                                                     data-target="#bjax-target" data-el="#bjax-el"
-                                                     data-replace="true"
-                                                     class="text-ellipsis text-xs text-muted">Feugiat</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-                                <div class="item">
-                                    <div class="pos-rlt">
-                                        <div class="item-overlay opacity r r-2x bg-black">
-                                            <div class="center text-center m-t-n"><a href="#"><i
-                                                    class="fa fa-play-circle i-2x"></i></a></div>
-                                        </div>
-                                        <a href="track-detail.html"><img src="{% static 'images/m11.jpg' %}" alt=""
-                                                                         class="r r-2x img-full"></a>
-                                    </div>
-                                    <div class="padder-v"><a href="track-detail.html" data-bjax
-                                                             data-target="#bjax-target"
-                                                             data-el="#bjax-el" data-replace="true"
-                                                             class="text-ellipsis">Ipsum ac feugiat</a>
-                                        <a href="track-detail.html" data-bjax data-target="#bjax-target"
-                                           data-el="#bjax-el" data-replace="true"
-                                           class="text-ellipsis text-xs text-muted">Quam AC</a></div>
-                                </div>
-                            </div>
-                            <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-                                <div class="item">
-                                    <div class="pos-rlt">
-                                        <div class="item-overlay opacity r r-2x bg-black">
-                                            <div class="center text-center m-t-n"><a href="#"><i
-                                                    class="fa fa-play-circle i-2x"></i></a></div>
-                                        </div>
-                                        <a href="track-detail.html"><img src="{% static 'images/m12.jpg' %}" alt=""
-                                                                         class="r r-2x img-full"></a>
-                                    </div>
-                                    <div class="padder-v"><a href="track-detail.html" data-bjax
-                                                             data-target="#bjax-target"
-                                                             data-el="#bjax-el" data-replace="true"
-                                                             class="text-ellipsis">Ullamcorper sodales
-                                        nisi nec condimentu</a> <a href="track-detail.html" data-bjax
-                                                                   data-target="#bjax-target"
-                                                                   data-el="#bjax-el"
-                                                                   data-replace="true"
-                                                                   class="text-ellipsis text-xs text-muted">Convallis</a>
-                                    </div>
-                                </div>
-                            </div>
-
-
-
+                            {% endfor %}
                         </div>
                         <ul class="pagination pagination">
                             <li><a href="#"><i class="fa fa-chevron-left"></i></a></li>

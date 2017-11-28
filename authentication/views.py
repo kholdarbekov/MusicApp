@@ -170,11 +170,14 @@ def user_follow(request):
     if usrname and action:
         try:
             user = Profile.objects.get(username=usrname)
-            if action == 'follow':
-                Follower.objects.get_or_create(user_from=request.user, user_to=user)
-            else:
-                Follower.objects.filter(user_from=request.user, user_to=user).delete()
-            return JsonResponse({'status': 'ok'})
+            if user.username != request.user.username:
+                if action == 'follow':
+                    Follower.objects.get_or_create(user_from=request.user, user_to=user)
+                else:
+                    Follower.objects.filter(user_from=request.user, user_to=user).delete()
+
+                return JsonResponse({'status': 'ok'})
+            return JsonResponse({'status': 'ko'})
         except Profile.DoesNotExist:
             return JsonResponse({'status': 'ko'})
     return JsonResponse({'status': 'ko'})

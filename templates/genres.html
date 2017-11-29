@@ -11,9 +11,11 @@
                     <section class="scrollable hover">
                         <div class="list-group no-radius no-border no-bg m-t-n-xxs m-b-none auto">
                             {% genres as list_of_genres %}
-                            <a href="{% url 'genre' 'All' %}" class="list-group-item {% if currnet_genre == 'All' %}active{% endif %}"> All </a>
+                            <a href="{% url 'genre' 'All' %}"
+                               class="list-group-item {% if currnet_genre == 'All' %}active{% endif %}"> All </a>
                             {% for genre in list_of_genres %}
-                                <a href="{% url 'genre' genre.genre_name %}" class="list-group-item {% if currnet_genre == genre.genre_name %}active{% endif %}">{{ genre.genre_name }}</a>
+                                <a href="{% url 'genre' genre.genre_name %}"
+                                   class="list-group-item {% if currnet_genre == genre.genre_name %}active{% endif %}">{{ genre.genre_name }}</a>
                             {% endfor %}
                         </div>
                     </section>
@@ -21,21 +23,55 @@
             </aside> <!-- / side content -->
             <section>
                 <section class="vbox">
-                    <section class="scrollable padder-lg"><h2 class="font-thin m-b">{{ currnet_genre|default:'All' }}</h2>
+                    <section class="scrollable padder-lg"><h2
+                            class="font-thin m-b">{{ currnet_genre|default:'All' }}</h2>
                         <div class="row row-sm">
                             {% for music in musics %}
                                 <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
                                     <div class="item">
                                         <div class="pos-rlt">
                                             <div class="item-overlay opacity r r-2x bg-black">
-                                                <div class="center text-center m-t-n"><a href="#"><i
-                                                        class="fa fa-play-circle i-2x"></i></a></div>
+                                                <div class="center text-center m-t-n">
+                                                    <a href="javascript:;" data-id="1" class="jp-play-me"
+                                                       data-toggle="class"> <i
+                                                            class="icon-control-play i-2x text"></i> <i
+                                                            class="icon-control-pause i-2x text-active"></i> </a>
+                                                </div>
+                                                <div class="bottom padder m-b-sm">
+                                                    <a href="#" class="pull-right" data-toggle="class">
+                                                        <i class="fa fa-heart-o text"></i>
+                                                        <i class="fa fa-heart text-active text-danger"></i>
+                                                    </a>
+                                                    <span class="dropdown">
+                                                        <a href="#" class="dropdown-toggle"
+                                                           data-toggle="dropdown">
+                                                            <i class="fa fa-plus-circle"></i><i
+                                                                class="fa fa-check-circle text-active text-info"></i></a>
+                                                        <ul class="dropdown-menu animated fadeInRight">
+                                                            <li><a href="#" data-toggle="class">Add to queue</a></li>
+                                                            <li class="dropdown-submenu"><a href="#">Add to playlist</a>
+                                                                <ul class="dropdown-menu" role="menu">
+                                                                    {% for playlist in request.user.playlists.all %}
+                                                                        <li>
+                                                                            <a href="#" id="follow-playlist" data-music="1"
+                                                                               data-playlist="{{ playlist.pk }}">
+                                                                                {{ playlist.name }}
+                                                                            </a>
+                                                                        </li>
+                                                                    {% endfor %}
+                                                                </ul>
+                                                            </li>
+                                                        </ul>
+                                                    </span>
+                                                </div>
                                             </div>
-                                            <a href="track-detail.html">
+                                            <a href="#">
                                                 {% if music.photo %}
-                                                    <img src="{{ music.photo|thumbnail_url:'genre' }}" alt="" class="r r-2x img-full">
+                                                    <img src="{{ music.photo|thumbnail_url:'genre' }}" alt=""
+                                                         class="r r-2x img-full">
                                                 {% else %}
-                                                    <img src="{% static 'images/m1.jpg' %}" alt="" class="r r-2x img-full">
+                                                    <img src="{% static 'images/m1.jpg' %}" alt=""
+                                                         class="r r-2x img-full">
                                                 {% endif %}
                                             </a>
                                         </div>
@@ -46,7 +82,8 @@
                                                 href="track-detail.html" data-bjax
                                                 data-target="#bjax-target" data-el="#bjax-el"
                                                 data-replace="true"
-                                                class="text-ellipsis text-xs text-muted">{{ music.get_singers }}</a></div>
+                                                class="text-ellipsis text-xs text-muted">{{ music.get_singers }}</a>
+                                        </div>
                                     </div>
                                 </div>
                             {% endfor %}

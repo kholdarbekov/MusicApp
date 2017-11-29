@@ -51,6 +51,13 @@
                                                                 </a>
                                                             </li>
                                                         {% endfor %}
+                                                        {% if not request.user.playlists.exists %}
+                                                            <li>
+                                                                <a href="#modal-form" data-toggle="modal" style="color: red">
+                                                                    Create new playlist...
+                                                                </a>
+                                                            </li>
+                                                        {% endif %}
                                                     </ul>
                                                 </li>
                                             </ul>

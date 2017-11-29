@@ -7,6 +7,7 @@
     <section class="scrollable padder-lg w-f-md" id="bjax-target">
         <a href="#" class="pull-right text-muted m-t-lg" data-toggle="class:fa-spin"><i
                 class="icon-refresh i-lg inline" id="refresh"></i></a>
+    {% get_new_songs as list_of_new_songs %}
         <h2 class="font-thin m-b">New songs <span class="musicbar inline m-l-sm"
                                                   style="width:20px;height:20px"> <span
                 class="bar1 a1 bg-primary lter"></span> <span class="bar2 a2 bg-info lt"></span> <span
@@ -14,95 +15,7 @@
                 class="bar4 a4 bg-warning dk"></span> <span
                 class="bar5 a5 bg-danger dker"></span> </span></h2>
         <div class="row row-sm">
-            <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-                <div class="item">
-                    <div class="pos-rlt">
-                        <div class="bottom"><span
-                                class="badge bg-info m-l-sm m-b-sm">03:20</span></div>
-                        <div class="item-overlay opacity r r-2x bg-black">
-                            <div class="text-info padder m-t-sm text-sm"><i
-                                    class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-                                    class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-                                    class="fa fa-star-o text-muted"></i></div>
-                            <div class="center text-center m-t-n">
-                                <a href="javascript:;" data-id="1" class="jp-play-me" data-toggle="class"> <i
-                                        class="icon-control-play i-2x text"></i> <i
-                                        class="icon-control-pause i-2x text-active"></i> </a>
-                            </div>
-                            <div class="bottom padder m-b-sm">
-                                <a href="#" class="pull-right" data-toggle="class">
-                                    <i class="fa fa-heart-o text"></i>
-                                    <i class="fa fa-heart text-active text-danger"></i>
-                                </a>
-                                <a href="#" data-toggle="class">
-                                    <i class="fa fa-plus-circle text"></i>
-                                    <i class="fa fa-check-circle text-active text-info"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <a href="#"><img src="{% static 'images/p1.jpg' %}" alt="" class="r r-2x img-full"></a>
-                    </div>
-                    <div class="padder-v"><a href="#" class="text-ellipsis">Tempered Song</a> <a
-                            href="#" class="text-ellipsis text-xs text-muted">Miaow</a></div>
-                </div>
-            </div>
-            {#            <audio controls>#}
-            {#                <source src="{% static 'files/Suddenly.mp3' %}" type="audio/mpeg">#}
-            {#                Your browser does not support the audio element.#}
-            {#            </audio>#}
-            <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-                <div class="item">
-                    <div class="pos-rlt">
-                        <div class="item-overlay opacity r r-2x bg-black active">
-                            <div class="text-info padder m-t-sm text-sm"><i
-                                    class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-                                    class="fa fa-star"></i> <i
-                                    class="fa fa-star-o text-muted"></i> <i
-                                    class="fa fa-star-o text-muted"></i></div>
-                            <div class="center text-center m-t-n">
-                                <a href="{% static 'files/Suddenly.mp3' %}" data-id="1" class="play-me"> <i
-                                        class="icon-control-play i-2x text"></i> <i
-                                        class="icon-control-pause i-2x text-active"></i> </a></div>
-                            <div class="bottom padder m-b-sm">
-                                <span class="dropdown">
-                                    <a href="#" class="pull-right" data-toggle="class">
-                                        <i class="fa fa-heart-o text"></i>
-                                        <i class="fa fa-heart text-active text-danger"></i>
-                                    </a>
-
-                                    <a href="#" class="dropdown-toggle"
-                                       data-toggle="dropdown">
-                                        <i class="fa fa-plus-circle"></i><i
-                                            class="fa fa-check-circle text-active text-info"></i></a>
-                                    <ul class="dropdown-menu animated fadeInRight">
-                                        <li><a href="#" data-toggle="class">Add to queue</a></li>
-                                        <li class="dropdown-submenu"><a href="#">Add to playlist</a>
-                                            <ul class="dropdown-menu" role="menu">
-                                                {% for playlist in request.user.playlists.all %}
-                                                    <li>
-                                                        <a href="#" id="follow-playlist" data-music="1"
-                                                           data-playlist="{{ playlist.pk }}">
-                                                            {{ playlist.name }}
-                                                        </a>
-                                                    </li>
-                                                {% endfor %}
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </span>
-                            </div>
-                        </div>
-                        <a href="http://google.com/music/stirring-of-a-fool/" data-pjax=""
-                           title="Stirring of a fool">
-                            <img src="{% static 'images/p2.jpg' %}" alt="" class="r r-2x img-full"></a>
-                    </div>
-                    <div class="padder-v"><a href="#" class="text-ellipsis">Vivamus vel
-                        tincidunt libero</a> <a href="#"
-                                                class="text-ellipsis text-xs text-muted">Lauren
-                        Taylor</a></div>
-                </div>
-            </div>
-            <div class="clearfix visible-xs"></div>
+        {% for song in list_of_new_songs %}
             <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
                 <div class="item">
                     <div class="pos-rlt">
@@ -139,235 +52,28 @@
                                 </span>
                             </div>
                         </div>
-                        <a href="http://flatfull.com/wp/musik/music/country-girl-shake-it-for-me/" data-pjax=""
-                           title="Country girl shake it for me"><img src="{% static 'images/p3.jpg' %}" alt=""
-                                                                     class="r r-2x img-full"></a>
+                        <a href="#" title="Country girl shake it for me">
+                            {% if song.photo %}
+                                <img src="{{ song.photo|thumbnail_url:'discover_index' }}" alt="" class="r r-2x img-full">
+                            {% else %}
+                                <img src="{% static 'images/p3.jpg' %}" alt="" class="r r-2x img-full">
+                            {% endif %}
+                        </a>
                     </div>
-                    <div class="padder-v"><a href="#" class="text-ellipsis">Morbi id neque quam
-                        liquam sollicitudin</a> <a href="#"
-                                                   class="text-ellipsis text-xs text-muted">Allen
-                        JH</a></div>
+                    <div class="padder-v"><a href="#" class="text-ellipsis">{{ song.name }}</a>
+                        <a href="#" class="text-ellipsis text-xs text-muted">{{ song.get_singers }}</a></div>
                 </div>
             </div>
-            <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-                <div class="item">
-                    <div class="pos-rlt">
-                        <div class="item-overlay opacity r r-2x bg-black">
-                            <div class="text-info padder m-t-sm text-sm"><i
-                                    class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-                                    class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-                                    class="fa fa-star-o text-muted"></i></div>
-                            <div class="center text-center m-t-n"><a href="#"><i
-                                    class="icon-control-play i-2x"></i></a></div>
-                            <div class="bottom padder m-b-sm"><a href="#" class="pull-right"> <i
-                                    class="fa fa-heart-o"></i> </a> <a href="#"> <i
-                                    class="fa fa-plus-circle"></i> </a></div>
-                        </div>
-                        <div class="top"><span class="pull-right m-t-n-xs m-r-sm text-white"> <i
-                                class="fa fa-bookmark i-lg"></i> </span></div>
-                        <a href="#"><img src="{% static 'images/p4.jpg' %}" alt="" class="r r-2x img-full"></a>
-                    </div>
-                    <div class="padder-v"><a href="#" class="text-ellipsis">Tincidunt libero</a>
-                        <a href="#" class="text-ellipsis text-xs text-muted">Amanda Conlan</a>
-                    </div>
-                </div>
-            </div>
+            {% if forloop.counter|divisibleby:2 and not forloop.last %}
             <div class="clearfix visible-xs"></div>
-            <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-                <div class="item">
-                    <div class="pos-rlt">
-                        <div class="item-overlay opacity r r-2x bg-black">
-                            <div class="text-info padder m-t-sm text-sm"><i
-                                    class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-                                    class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-                                    class="fa fa-star-o text-muted"></i></div>
-                            <div class="center text-center m-t-n">
-                                <a href="#" data-toggle="class">
-                                    <i class="icon-control-play i-2x text"></i>
-                                    <i class="icon-control-pause i-2x text-active"></i>
-                                </a>
-                            </div>
-                            <div class="bottom padder m-b-sm"><a href="#" class="pull-right"> <i
-                                    class="fa fa-heart-o"></i> </a> <a href="#"> <i
-                                    class="fa fa-plus-circle"></i> </a></div>
-                        </div>
-                        <a href="#"><img src="{% static 'images/p5.jpg' %}" alt="" class="r r-2x img-full"></a>
-                    </div>
-                    <div class="padder-v"><a href="#" class="text-ellipsis">Fermentum diam</a>
-                        <a href="#" class="text-ellipsis text-xs text-muted">Nisa Colen</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-                <div class="item">
-                    <div class="pos-rlt">
-                        <div class="top"><span
-                                class="pull-right m-t-sm m-r-sm badge bg-info">6</span></div>
-                        <div class="item-overlay opacity r r-2x bg-black">
-                            <div class="text-info padder m-t-sm text-sm"><i
-                                    class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-                                    class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-                                    class="fa fa-star-o text-muted"></i></div>
-                            <div class="center text-center m-t-n"><a href="#"><i
-                                    class="icon-control-play i-2x"></i></a></div>
-                            <div class="bottom padder m-b-sm"><a href="#" class="pull-right"> <i
-                                    class="fa fa-heart-o"></i> </a> <a href="#"> <i
-                                    class="fa fa-plus-circle"></i> </a></div>
-                        </div>
-                        <a href="#"><img src="{% static 'images/p6.jpg' %}" alt="" class="r r-2x img-full"></a>
-                    </div>
-                    <div class="padder-v"><a href="#" class="text-ellipsis">Habitant</a> <a
-                            href="#" class="text-ellipsis text-xs text-muted">Dan Doorack</a>
-                    </div>
-                </div>
-            </div>
-            <div class="clearfix visible-xs"></div>
-            <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-                <div class="item">
-                    <div class="pos-rlt">
-                        <div class="item-overlay opacity r r-2x bg-black">
-                            <div class="text-info padder m-t-sm text-sm"><i
-                                    class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-                                    class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-                                    class="fa fa-star-o text-muted"></i></div>
-                            <div class="center text-center m-t-n"><a href="#"><i
-                                    class="icon-control-play i-2x"></i></a></div>
-                            <div class="bottom padder m-b-sm"><a href="#" class="pull-right"> <i
-                                    class="fa fa-heart-o"></i> </a> <a href="#"> <i
-                                    class="fa fa-plus-circle"></i> </a></div>
-                        </div>
-                        <div class="top"><span class="pull-right m-t-sm m-r-sm badge bg-white">12</span>
-                        </div>
-                        <a href="#"><img src="{% static 'images/p7.jpg' %}" alt="" class="r r-2x img-full"></a>
-                    </div>
-                    <div class="padder-v"><a href="#" class="text-ellipsis">Vivamus vel
-                        tincidunt libero</a> <a href="#"
-                                                class="text-ellipsis text-xs text-muted">Ligula
-                        H</a></div>
-                </div>
-            </div>
-            <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-                <div class="item">
-                    <div class="pos-rlt">
-                        <div class="item-overlay opacity r r-2x bg-black">
-                            <div class="text-info padder m-t-sm text-sm"><i
-                                    class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-                                    class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-                                    class="fa fa-star-o text-muted"></i></div>
-                            <div class="center text-center m-t-n"><a href="#"><i
-                                    class="icon-control-play i-2x"></i></a></div>
-                            <div class="bottom padder m-b-sm"><a href="#" class="pull-right"> <i
-                                    class="fa fa-heart-o"></i> </a> <a href="#"> <i
-                                    class="fa fa-plus-circle"></i> </a></div>
-                        </div>
-                        <a href="#"><img src="{% static 'images/p8.jpg' %}" alt="" class="r r-2x img-full"></a>
-                    </div>
-                    <div class="padder-v"><a href="#" class="text-ellipsis">Aliquam sollicitudin
-                        venenati</a> <a href="#" class="text-ellipsis text-xs text-muted">James
-                        East</a></div>
-                </div>
-            </div>
-            <div class="clearfix visible-xs"></div>
-            <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-                <div class="item">
-                    <div class="pos-rlt">
-                        <div class="item-overlay opacity r r-2x bg-black">
-                            <div class="text-info padder m-t-sm text-sm"><i
-                                    class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-                                    class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-                                    class="fa fa-star-o text-muted"></i></div>
-                            <div class="center text-center m-t-n"><a href="#"><i
-                                    class="icon-control-play i-2x"></i></a></div>
-                            <div class="bottom padder m-b-sm"><a href="#" class="pull-right"> <i
-                                    class="fa fa-heart-o"></i> </a> <a href="#"> <i
-                                    class="fa fa-plus-circle"></i> </a></div>
-                        </div>
-                        <a href="#"><img src="{% static 'images/p9.jpg' %}" alt="" class="r r-2x img-full"></a>
-                    </div>
-                    <div class="padder-v"><a href="#" class="text-ellipsis">Lementum ligula
-                        vitae</a> <a href="#" class="text-ellipsis text-xs text-muted">Lauren
-                        Taylor</a></div>
-                </div>
-            </div>
-            <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-                <div class="item">
-                    <div class="pos-rlt">
-                        <div class="item-overlay r r-2x bg-light dker active">
-                            <div class="text-info padder m-t-sm text-sm"><i
-                                    class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-                                    class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-                                    class="fa fa-star-o text-muted"></i></div>
-                            <div class="center text-center m-t-n"><a href="#"
-                                                                     data-toggle="class"
-                                                                     class="active"> <i
-                                    class="icon-control-play i-2x text"></i> <i
-                                    class="icon-control-pause i-2x text-active"></i> </a></div>
-                            <div class="bottom padder m-b-sm"><a href="#" class="pull-right"
-                                                                 data-toggle="class"> <i
-                                    class="fa fa-heart-o text"></i> <i
-                                    class="fa fa-heart text-active text-danger"></i> </a> <a
-                                    href="#" class="active" data-toggle="class"> <i
-                                    class="fa fa-plus-circle text"></i> <i
-                                    class="fa fa-check-circle text-active text-info"></i> </a>
-                            </div>
-                        </div>
-                        <a href="#"><img src="{% static 'images/p10.jpg' %}" alt=""
-                                         class="r r-2x img-full"></a></div>
-                    <div class="padder-v"><a href="#" class="text-ellipsis">Egestas dui nec
-                        fermentum </a> <a href="#" class="text-ellipsis text-xs text-muted">Chris
-                        Fox</a></div>
-                </div>
-            </div>
-            <div class="clearfix visible-xs"></div>
-            <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-                <div class="item">
-                    <div class="pos-rlt">
-                        <div class="item-overlay opacity r r-2x bg-black">
-                            <div class="text-info padder m-t-sm text-sm"><i
-                                    class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-                                    class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-                                    class="fa fa-star-o text-muted"></i></div>
-                            <div class="center text-center m-t-n"><a href="#"><i
-                                    class="icon-control-play i-2x"></i></a></div>
-                            <div class="bottom padder m-b-sm"><a href="#" class="pull-right"> <i
-                                    class="fa fa-heart-o"></i> </a> <a href="#"> <i
-                                    class="fa fa-plus-circle"></i> </a></div>
-                        </div>
-                        <a href="#"><img src="{% static 'images/p11.jpg' %}" alt=""
-                                         class="r r-2x img-full"></a></div>
-                    <div class="padder-v"><a href="#" class="text-ellipsis">Aliquam sollicitudin
-                        venenatis ipsum</a> <a href="#"
-                                               class="text-ellipsis text-xs text-muted">Jack
-                        Jason</a></div>
-                </div>
-            </div>
-            <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-                <div class="item">
-                    <div class="pos-rlt">
-                        <div class="item-overlay opacity r r-2x bg-black">
-                            <div class="text-info padder m-t-sm text-sm"><i
-                                    class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-                                    class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-                                    class="fa fa-star-o text-muted"></i></div>
-                            <div class="center text-center m-t-n"><a href="#"><i
-                                    class="icon-control-play i-2x"></i></a></div>
-                            <div class="bottom padder m-b-sm"><a href="#" class="pull-right"> <i
-                                    class="fa fa-heart-o"></i> </a> <a href="#"> <i
-                                    class="fa fa-plus-circle"></i> </a></div>
-                        </div>
-                        <a href="#"><img src="{% static 'images/p12.jpg' %}" alt=""
-                                         class="r r-2x img-full"></a></div>
-                    <div class="padder-v"><a href="#" class="text-ellipsis">Vestibulum
-                        ullamcorper</a> <a href="#" class="text-ellipsis text-xs text-muted">MM
-                        &amp; DD</a></div>
-                </div>
-            </div>
+            {% endif %}
+        {% endfor %}
         </div>
         <div class="row">
             <div class="col-md-6"><h3 class="font-thin">Top playlists</h3>
                 <div class="row row-sm">
-                    {% get_new_songs as list_of_new_songs %}
-                    {% for song in list_of_new_songs %}
+                    {% get_top_playlists as top_playlists %}
+                    {% for playlist in top_playlists %}
                         <div class="col-xs-6 col-sm-3">
                             <div class="item">
                                 <div class="pos-rlt">
@@ -379,21 +85,13 @@
                                         </div>
                                     </div>
                                     <a href="#">
-                                        <img src="{{ song.photo|thumbnail_url:'new_songs_index' }}" alt=""
+                                        <img src="{{ playlist.photo|thumbnail_url:'new_songs_index'|default:'static/images/a2.png' }}" alt=""
                                              class="r r-2x img-full">
-                                        {#                                        {% if song.photo %}#}
-                                        {#                                            <img src="{{ song.photo|thumbnail_url:'new_songs_index' }}" alt="" class="r r-2x img-full">#}
-                                        {#                                        {% else %}#}
-                                        {#                                            <img src="{% static 'images/a2.png' %}" alt="" class="r r-2x img-full">#}
-                                        {#                                        {% endif %}#}
                                     </a>
                                 </div>
                                 <div class="padder-v">
-                                    <a href="#" class="text-ellipsis">{{ song.name }}</a>
-                                    <a href="#" class="text-ellipsis text-xs text-muted">{{ song.get_singers }}</a>
-                                    {#                                    {% for similarity in song|similarities:5 %}#}
-                                    {#                                        {{ similarity.related_object }}#}
-                                    {#                                    {% endfor %}#}
+                                    <a href="{% url 'playlist' playlist.pk %}" class="text-ellipsis">{{ playlist.name }}-{{ playlist.get_net_value }}</a>
+                                    <a href="#" class="text-ellipsis text-xs text-muted">{{ playlist.creator }}</a>
                                 </div>
                             </div>
                         </div>

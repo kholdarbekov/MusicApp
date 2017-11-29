@@ -26,6 +26,7 @@ class PlayListCreate(APIView):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 def get_music(request):
     if request.method == 'GET':
         music_id = request.GET.get('id', None)
@@ -39,7 +40,7 @@ class TopPlaylists(APIView):
     http_method_names = ['post', ]
 
     def post(self, request):
-        playlists = sorted(Playlist.objects.all(), key=lambda playlist: playlist.get_net_value)
+        playlists = sorted(Playlist.objects.all(), key=lambda playlist: playlist.get_net_value, reverse=True)
         serializer = PlaylistSerializers(playlists, many=True)
         return Response(serializer.data)
 

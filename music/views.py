@@ -59,7 +59,7 @@ def playListCreateView(request):
 class AlbumView(DetailView):
     model = Album
     context_object_name = 'album'
-    template_name = 'listen.html'
+    template_name = 'album.html'
 
     def get_context_data(self, **kwargs):
         context = super(AlbumView, self).get_context_data(**kwargs)
@@ -68,7 +68,7 @@ class AlbumView(DetailView):
 
 
 class AllAlbumsView(TemplateView):
-    template_name = 'listen.html'
+    template_name = 'album.html'
 
     def get_context_data(self, **kwargs):
         context = super(AllAlbumsView, self).get_context_data(**kwargs)
@@ -81,9 +81,9 @@ class PlaylistView(DetailView):
     context_object_name = 'playlist'
     template_name = 'playlist.html'
 
-    def get_queryset(self):
-        qs = super(PlaylistView, self).get_queryset()
-        return qs.filter(creator__in=[self.request.user])
+    # def get_queryset(self):
+    #     qs = super(PlaylistView, self).get_queryset()
+    #     return qs.filter(creator__in=[self.request.user])
 
     def get_context_data(self, **kwargs):
         context = super(PlaylistView, self).get_context_data(**kwargs)

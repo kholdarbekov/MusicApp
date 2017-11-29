@@ -1,6 +1,6 @@
 import datetime
 
-from ..models import Genre, Music, Album
+from ..models import Genre, Music, Album, Playlist
 from django import template
 from django.utils import timezone
 
@@ -29,3 +29,9 @@ def get_user_playlists(user):
         return user.playlists.all()
     else:
         return None
+
+
+@register.simple_tag
+def get_top_playlists():
+    # reversed
+    return sorted(Playlist.objects.all(), key=lambda playlist: playlist.get_net_value, reverse=True)[:8]

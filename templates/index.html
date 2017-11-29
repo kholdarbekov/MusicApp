@@ -64,14 +64,32 @@
                                         class="icon-control-play i-2x text"></i> <i
                                         class="icon-control-pause i-2x text-active"></i> </a></div>
                             <div class="bottom padder m-b-sm">
-                                <a href="#" class="pull-right active" data-toggle="class">
-                                    <i class="fa fa-heart-o text"></i>
-                                    <i class="fa fa-heart text-active text-danger"></i>
-                                </a>
-                                <a href="#" data-toggle="class">
-                                    <i class="fa fa-plus-circle text"></i>
-                                    <i class="fa fa-check-circle text-active text-info"></i>
-                                </a>
+                                <span class="dropdown">
+                                    <a href="#" class="pull-right" data-toggle="class">
+                                        <i class="fa fa-heart-o text"></i>
+                                        <i class="fa fa-heart text-active text-danger"></i>
+                                    </a>
+
+                                    <a href="#" class="dropdown-toggle"
+                                       data-toggle="dropdown">
+                                        <i class="fa fa-plus-circle"></i><i
+                                            class="fa fa-check-circle text-active text-info"></i></a>
+                                    <ul class="dropdown-menu animated fadeInRight">
+                                        <li><a href="#" data-toggle="class">Add to queue</a></li>
+                                        <li class="dropdown-submenu"><a href="#">Add to playlist</a>
+                                            <ul class="dropdown-menu" role="menu">
+                                                {% for playlist in request.user.playlists.all %}
+                                                    <li>
+                                                        <a href="#" id="follow-playlist" data-music="1"
+                                                           data-playlist="{{ playlist.pk }}">
+                                                            {{ playlist.name }}
+                                                        </a>
+                                                    </li>
+                                                {% endfor %}
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </span>
                             </div>
                         </div>
                         <a href="http://google.com/music/stirring-of-a-fool/" data-pjax=""
@@ -93,14 +111,17 @@
                                     class="fa fa-star"></i> <i class="fa fa-star"></i> <i
                                     class="fa fa-star"></i> <i class="fa fa-star"></i> <i
                                     class="fa fa-star-o text-muted"></i></div>
-                            <div class="center text-center m-t-n"><a href="#"><i
-                                    class="icon-control-play i-2x"></i></a></div>
+                            <div class="center text-center m-t-n">
+                                <a href="javascript:;" data-id="1" class="jp-play-me" data-toggle="class"> <i
+                                        class="icon-control-play i-2x text"></i> <i
+                                        class="icon-control-pause i-2x text-active"></i> </a></div>
                             <div class="bottom padder m-b-sm">
-                                <a href="#" class="pull-right">
-                                    <i class="fa fa-heart-o"></i>
+                                <a href="#" class="pull-right" data-toggle="class">
+                                    <i class="fa fa-heart-o text"></i>
+                                    <i class="fa fa-heart text-active text-danger"></i>
                                 </a>
                                 <span class="dropdown">
-                                    <a href="#" class="dropdown-toggle clear"
+                                    <a href="#" class="dropdown-toggle"
                                        data-toggle="dropdown">
                                         <i class="fa fa-plus-circle"></i><i
                                             class="fa fa-check-circle text-active text-info"></i></a>
@@ -110,7 +131,8 @@
                                             <ul class="dropdown-menu" role="menu">
                                                 {% for playlist in request.user.playlists.all %}
                                                     <li>
-                                                        <a href="#" id="follow-playlist" data-music="1" data-playlist="{{ playlist.pk }}">
+                                                        <a href="#" id="follow-playlist" data-music="1"
+                                                           data-playlist="{{ playlist.pk }}">
                                                             {{ playlist.name }}
                                                         </a>
                                                     </li>
@@ -427,18 +449,18 @@
 {% endblock %}
 
 {% block domready %}
-$(document).on('click', '#follow-playlist', function (e) {
+    $(document).on('click', '#follow-playlist', function (e) {
     e.preventDefault();
     $.post('{% url 'add_to_playlist' %}',
-        {
-            music_id: $(this).data('music'),
-            playlist_id: $(this).data('playlist')
-        },
-        function (data) {
-            if (data['status'] == 'ok') {
-            console.alert("success");
-            }
-        }
+    {
+    music_id: $(this).data('music'),
+    playlist_id: $(this).data('playlist')
+    },
+    function (data) {
+    if (data['status'] == 'ok') {
+    console.alert("success");
+    }
+    }
     );
-});
+    });
 {% endblock %}

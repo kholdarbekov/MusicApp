@@ -46,7 +46,7 @@
                                                         {% for playlist in request.user.playlists.all %}
                                                             <li>
                                                                 <a href="#" id="follow-playlist"
-                                                                   data-music="{{ song.pk }}"
+                                                                   data-music="{{ music.pk }}"
                                                                    data-playlist="{{ playlist.pk }}">
                                                                     {{ playlist.name }}
                                                                 </a>
@@ -101,4 +101,19 @@
         </section>
     </section>
 {% endblock %}
-
+{% block domready %}
+    $(document).on('click', '#follow-playlist', function (e) {
+    e.preventDefault();
+    $.post('{% url 'add_to_playlist' %}',
+    {
+    music_id: $(this).data('music'),
+    playlist_id: $(this).data('playlist')
+    },
+    function (data) {
+    if (data['status'] == 'ok') {
+    console.alert("success");
+    }
+    }
+    );
+    });
+{% endblock %}

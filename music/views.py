@@ -72,7 +72,9 @@ class AllAlbumsView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(AllAlbumsView, self).get_context_data(**kwargs)
-        context['albums'] = Album.objects.all()
+        last = Album.objects.last()
+        context['all_albums'] = Album.objects.all().exclude(pk=last.pk)
+        context['album'] = last
         return context
 
 

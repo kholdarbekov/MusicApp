@@ -116,7 +116,7 @@
                                                 <div class="center text-center m-t-n"><a href="#"><i
                                                         class="fa fa-play-circle i-2x"></i></a></div>
                                             </div>
-                                            <a href="track-detail.html">
+                                            <a href="{{ user.get_absolute_url }}">
                                                 {% if user.photo %}
                                                     <img src="{{ user.photo|thumbnail_url:'search' }}" alt="" class="r r-2x img-full">
                                                 {% else %}
@@ -124,10 +124,7 @@
                                                 {% endif %}
                                             </a>
                                         </div>
-                                        <div class="padder-v"><a href="track-detail.html" data-bjax
-                                                                 data-target="#bjax-target"
-                                                                 data-el="#bjax-el" data-replace="true"
-                                                                 class="text-ellipsis">{{ user.username }}</a>
+                                        <div class="padder-v"><a href="{{ user.get_absolute_url }}" class="text-ellipsis">{{ user.username }}</a>
                                         </div>
                                     </div>
                                 </div>
@@ -137,7 +134,7 @@
 
                         <h3 class="font-thin m-b">Charts</h3>
                         <div class="row row-sm">
-                            {% for chart in chart_results %}\
+                            {% for chart in chart_results %}
                                 <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
                                     <div class="item">
                                         <div class="pos-rlt">

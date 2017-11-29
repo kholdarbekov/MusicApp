@@ -27,22 +27,26 @@
                             </div>
                             <div class="panel wrapper">
                                 <div class="row text-center">
-                                    <div class="col-xs-6"><a href="#modal-follow" data-toggle="modal"> <span
-                                            class="m-b-xs h4 block">245</span>
-                                        <small class="text-muted">Followers</small>
+                                    <div class="col-xs-6"><a href="#modal-follow" data-id="1" data-toggle="modal">
+                                        {% with total_followers=profile.followers.count %}
+                                        <span class="m-b-xs h4 block">{{ total_followers }}</span>
+                                        {% endwith %}
+                                        <small class="text-muted">Follower{{ total_followers|pluralize }}</small>
                                     </a></div>
-                                    <div class="col-xs-6"><a href="#modal-follow" data-toggle="modal"> <span
-                                            class="m-b-xs h4 block">55</span>
-                                        <small class="text-muted">Following</small>
+                                    <div class="col-xs-6"><a href="#modal-follow" data-toggle="modal">
+                                        {% with total_followings=profile.following.count %}
+                                        <span class="m-b-xs h4 block">{{ total_followings }}</span>
+                                        {% endwith %}
+                                        <small class="text-muted">Following{{ total_followings|pluralize }}</small>
                                     </a></div>
                                 </div>
                             </div>
                         {% if request.user.username != profile.username %}
                             <div class="btn-group btn-group-justified m-b">
                                 <a href="#" class="btn btn-success btn-rounded" id="follow" data-toggle="button"
-                                   data-id="{{ user.username }}"
-                                   data-action="{% if request.user in user.followers.all %}un{% endif %}follow">
-                                    {% if request.user not in user.followers.all %}
+                                   data-id="{{ profile.username }}"
+                                   data-action="{% if request.user in profile.followers.all %}un{% endif %}follow">
+                                    {% if request.user not in profile.followers.all %}
                                         <span class="text"> <i class="icon-user-follow"></i> Follow </span>
                                     {% else %}
                                         <span class="text-active"> <i class="icon-user-following"></i> Following </span>

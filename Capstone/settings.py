@@ -258,7 +258,7 @@ THUMBNAIL_ALIASES = {
         'discover_index': {'size': (188, 281), 'crop': True, 'subsampling': 1},
         'genres': {'size': (154, 154), 'crop': True, 'subsampling': 1},
         'album_cover': {'size': (720, 360), 'crop': True, 'subsampling': 1},
-        'playlist_cover': {'size': (800, 400), 'crop': True, 'subsampling': 1},
+        'playlist_cover': {'size': (800, 400), 'crop': 'smart', 'subsampling': 1},
         'other_playlists_cover': {'size': (486, 243), 'crop': True, 'subsampling': 1},
     },
 }

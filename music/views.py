@@ -158,10 +158,14 @@ def search(request):
                 Q(name__icontains=search_query) | Q(description__icontains=search_query)
             )
 
+            if not music_results.exists() and not album_results.exists() and not playlist_results.exists() and not user_results.exists() and not chart_results.exists() and not performer_results.exists():
+                no_result = True
+            else:
+                no_result = False
             return render(request, 'search.html', {'music_results': music_results, 'album_results': album_results,
                                                    'playlist_results': playlist_results, 'query': search_query,
                                                    'user_results': user_results, 'chart_results': chart_results,
-                                                   'performer_results': performer_results})
+                                                   'performer_results': performer_results, 'no_result': no_result})
         else:
             return HttpResponse('Minimum length must be 2 characters')
     else:

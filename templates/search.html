@@ -9,6 +9,10 @@
             <section>
                 <section class="vbox">
                     <section class="scrollable padder-lg"><h2 class="font-thin m-b">Search results for <b>{{ query|escape|escapejs }}</b></h2>
+                        {% if no_result %}
+                            <p>Sorry no matches found :( </p>
+                        {% endif %}
+                        {% if music_results %}
                         <h3 class="font-thin m-b">Songs</h3>
                         <div class="row row-sm">
                             {% for music in music_results %}
@@ -40,7 +44,8 @@
                             {% endfor %}
                         </div>
                         <br>
-
+                        {% endif %}
+                        {% if album_results %}
                         <h3 class="font-thin m-b">Album</h3>
                         <div class="row row-sm">
                             {% for album in album_results %}
@@ -73,7 +78,8 @@
                             {% endfor %}
                         </div>
                         <br>
-
+                        {% endif %}
+                        {% if playlist_results %}
                         <h3 class="font-thin m-b">PLaylists</h3>
                         <div class="row row-sm">
                             {% for playlist in playlist_results %}
@@ -84,7 +90,7 @@
                                                 <div class="center text-center m-t-n"><a href="#"><i
                                                         class="fa fa-play-circle i-2x"></i></a></div>
                                             </div>
-                                            <a href="track-detail.html">
+                                            <a href="{% url 'playlist' playlist.pk %}">
                                                 {% if playlist.photo %}
                                                     <img src="{{ playlist.photo|thumbnail_url:'search' }}" alt="" class="r r-2x img-full">
                                                 {% else %}
@@ -92,20 +98,17 @@
                                                 {% endif %}
                                             </a>
                                         </div>
-                                        <div class="padder-v"><a href="track-detail.html" data-bjax
-                                                                 data-target="#bjax-target"
-                                                                 data-el="#bjax-el" data-replace="true"
-                                                                 class="text-ellipsis">{{ playlist.name }}</a> <a
-                                                href="track-detail.html" data-bjax
-                                                data-target="#bjax-target" data-el="#bjax-el"
-                                                data-replace="true"
+                                        <div class="padder-v"><a href="{% url 'playlist' playlist.pk %}" data-replace="true"
+                                                                 class="text-ellipsis">{{ playlist.name }}</a>
+                                            <a href="{{ playlist.creator.get_absolute_url }}" data-replace="true"
                                                 class="text-ellipsis text-xs text-muted"> Created by: {{ playlist.creator }}</a></div>
                                     </div>
                                 </div>
                             {% endfor %}
                         </div>
                         <br>
-
+                        {% endif %}
+                        {% if user_results %}
                         <h3 class="font-thin m-b">Users</h3>
                         <div class="row row-sm">
                             {% for user in user_results %}
@@ -131,7 +134,8 @@
                             {% endfor %}
                         </div>
                         <br>
-
+                        {% endif %}
+                        {% if chart_results %}
                         <h3 class="font-thin m-b">Charts</h3>
                         <div class="row row-sm">
                             {% for chart in chart_results %}
@@ -163,7 +167,8 @@
                             {% endfor %}
                         </div>
                         <br>
-
+                        {% endif %}
+                        {% if performer_results %}
                         <h3 class="font-thin m-b">Artists</h3>
                         <div class="row row-sm">
                             {% for performer in performer_results %}
@@ -194,7 +199,7 @@
                                 </div>
                             {% endfor %}
                         </div>
-
+                        {% endif %}
                         <ul class="pagination pagination">
                             <li><a href="#"><i class="fa fa-chevron-left"></i></a></li>
                             <li class="active"><a href="#">1</a></li>

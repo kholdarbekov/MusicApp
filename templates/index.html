@@ -40,7 +40,7 @@
                                             <ul class="dropdown-menu" role="menu">
                                                 {% for playlist in request.user.playlists.all %}
                                                     <li>
-                                                        <a href="#" id="follow-playlist" data-music="1"
+                                                        <a href="#" id="follow-playlist" data-music="{{ song.pk }}"
                                                            data-playlist="{{ playlist.pk }}">
                                                             {{ playlist.name }}
                                                         </a>
@@ -91,7 +91,7 @@
                                 </div>
                                 <div class="padder-v">
                                     <a href="{% url 'playlist' playlist.pk %}" class="text-ellipsis">{{ playlist.name }}-{{ playlist.get_net_value }}</a>
-                                    <a href="#" class="text-ellipsis text-xs text-muted">{{ playlist.creator }}</a>
+                                    <a href="{{ playlist.creator.get_absolute_url }}" class="text-ellipsis text-xs text-muted">{{ playlist.creator }}</a>
                                 </div>
                             </div>
                         </div>

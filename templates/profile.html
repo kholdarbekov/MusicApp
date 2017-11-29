@@ -27,13 +27,13 @@
                             </div>
                             <div class="panel wrapper">
                                 <div class="row text-center">
-                                    <div class="col-xs-6"><a href="#modal-follow" data-id="1" data-toggle="modal">
+                                    <div class="col-xs-6"><a href="#modal-follower" data-id="1" data-toggle="modal">
                                         {% with total_followers=profile.followers.count %}
                                         <span class="m-b-xs h4 block">{{ total_followers }}</span>
                                         {% endwith %}
                                         <small class="text-muted">Follower{{ total_followers|pluralize }}</small>
                                     </a></div>
-                                    <div class="col-xs-6"><a href="#modal-follow" data-toggle="modal">
+                                    <div class="col-xs-6"><a href="#modal-following" data-toggle="modal">
                                         {% with total_followings=profile.following.count %}
                                         <span class="m-b-xs h4 block">{{ total_followings }}</span>
                                         {% endwith %}
@@ -93,12 +93,197 @@
         </section>
     </section>
 
-    <div class="modal fade" id="modal-follow">
+    <div class="modal fade" id="modal-follower">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-body wrapper-lg">
                     <div class="row">
                         <section class="scrollable">
+                            <h3 class="m-t-none m-b">Followers</h3>
+                            <ul class="list-group alt">
+                                <li class="list-group-item">
+                                    <div class="media"><span class="pull-left thumb-sm"><img
+                                            src="{% static 'images/a0.png' %}"
+                                            alt="John said"
+                                            class="img-circle"></span>
+                                        <div class="pull-right text-success m-t-sm"><i class="fa fa-circle"></i>
+                                        </div>
+                                        <div class="media-body">
+                                            <div><a href="#">Chris Fox</a></div>
+                                            <small class="text-muted">about 2 minutes ago</small>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="media"><span class="pull-left thumb-sm"><img
+                                            src="{% static 'images/a0.png' %}"
+                                            alt="John said"
+                                            class="img-circle"></span>
+                                        <div class="pull-right text-muted m-t-sm"><i class="fa fa-circle"></i>
+                                        </div>
+                                        <div class="media-body">
+                                            <div><a href="#">Amanda Conlan</a></div>
+                                            <small class="text-muted">about 2 hours ago</small>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="media"><span class="pull-left thumb-sm"><img
+                                            src="{% static 'images/a0.png' %}"
+                                            alt="John said"
+                                            class="img-circle"></span>
+                                        <div class="pull-right text-muted m-t-sm"><i class="fa fa-circle"></i>
+                                        </div>
+                                        <div class="media-body">
+                                            <div><a href="#">Amanda Conlan</a></div>
+                                            <small class="text-muted">about 2 hours ago</small>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="media"><span class="pull-left thumb-sm"><img
+                                            src="{% static 'images/a0.png' %}"
+                                            alt="John said"
+                                            class="img-circle"></span>
+                                        <div class="pull-right text-muted m-t-sm"><i class="fa fa-circle"></i>
+                                        </div>
+                                        <div class="media-body">
+                                            <div><a href="#">Amanda Conlan</a></div>
+                                            <small class="text-muted">about 2 hours ago</small>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="media"><span class="pull-left thumb-sm"><img
+                                            src="{% static 'images/a0.png' %}"
+                                            alt="John said"
+                                            class="img-circle"></span>
+                                        <div class="pull-right text-muted m-t-sm"><i class="fa fa-circle"></i>
+                                        </div>
+                                        <div class="media-body">
+                                            <div><a href="#">Amanda Conlan</a></div>
+                                            <small class="text-muted">about 2 hours ago</small>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="media"><span class="pull-left thumb-sm"><img
+                                            src="{% static 'images/a0.png' %}"
+                                            alt="John said"
+                                            class="img-circle"></span>
+                                        <div class="pull-right text-muted m-t-sm"><i class="fa fa-circle"></i>
+                                        </div>
+                                        <div class="media-body">
+                                            <div><a href="#">Amanda Conlan</a></div>
+                                            <small class="text-muted">about 2 hours ago</small>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="media"><span class="pull-left thumb-sm"><img
+                                            src="{% static 'images/a0.png' %}"
+                                            alt="John said"
+                                            class="img-circle"></span>
+                                        <div class="pull-right text-muted m-t-sm"><i class="fa fa-circle"></i>
+                                        </div>
+                                        <div class="media-body">
+                                            <div><a href="#">Amanda Conlan</a></div>
+                                            <small class="text-muted">about 2 hours ago</small>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="media"><span class="pull-left thumb-sm"><img
+                                            src="{% static 'images/a0.png' %}"
+                                            alt="John said"
+                                            class="img-circle"></span>
+                                        <div class="pull-right text-muted m-t-sm"><i class="fa fa-circle"></i>
+                                        </div>
+                                        <div class="media-body">
+                                            <div><a href="#">Amanda Conlan</a></div>
+                                            <small class="text-muted">about 2 hours ago</small>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="media"><span class="pull-left thumb-sm"><img
+                                            src="{% static 'images/a0.png' %}"
+                                            alt="John said"
+                                            class="img-circle"></span>
+                                        <div class="pull-right text-muted m-t-sm"><i class="fa fa-circle"></i>
+                                        </div>
+                                        <div class="media-body">
+                                            <div><a href="#">Amanda Conlan</a></div>
+                                            <small class="text-muted">about 2 hours ago</small>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="media"><span class="pull-left thumb-sm"><img
+                                            src="{% static 'images/a0.png' %}"
+                                            alt="John said"
+                                            class="img-circle"></span>
+                                        <div class="pull-right text-muted m-t-sm"><i class="fa fa-circle"></i>
+                                        </div>
+                                        <div class="media-body">
+                                            <div><a href="#">Amanda Conlan</a></div>
+                                            <small class="text-muted">about 2 hours ago</small>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="media"><span class="pull-left thumb-sm"><img
+                                            src="{% static 'images/a0.png' %}"
+                                            alt="John said"
+                                            class="img-circle"></span>
+                                        <div class="pull-right text-muted m-t-sm"><i class="fa fa-circle"></i>
+                                        </div>
+                                        <div class="media-body">
+                                            <div><a href="#">Amanda Conlan</a></div>
+                                            <small class="text-muted">about 2 hours ago</small>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="media"><span class="pull-left thumb-sm"><img
+                                            src="{% static 'images/a0.png' %}"
+                                            alt="John said"
+                                            class="img-circle"></span>
+                                        <div class="pull-right text-warning m-t-sm"><i class="fa fa-circle"></i>
+                                        </div>
+                                        <div class="media-body">
+                                            <div><a href="#">Dan Doorack</a></div>
+                                            <small class="text-muted">3 days ago</small>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="media"><span class="pull-left thumb-sm"><img
+                                            src="{% static 'images/a0.png' %}"
+                                            alt="John said"
+                                            class="img-circle"></span>
+                                        <div class="pull-right text-danger m-t-sm"><i class="fa fa-circle"></i>
+                                        </div>
+                                        <div class="media-body">
+                                            <div><a href="#">Lauren Taylor</a></div>
+                                            <small class="text-muted">about 2 minutes ago</small>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modal-following">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body wrapper-lg">
+                    <div class="row">
+                        <section class="scrollable">
+                            <h3 class="m-t-none m-b">Following</h3>
                             <ul class="list-group alt">
                                 <li class="list-group-item">
                                     <div class="media"><span class="pull-left thumb-sm"><img

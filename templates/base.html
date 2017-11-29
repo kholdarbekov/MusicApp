@@ -98,7 +98,7 @@
                             <li><a href="docs.html">Help</a></li>
                             <li class="divider"></li>
                             <li><a href="{% url 'lock' %}">Lock screen</a></li>
-                            <li><a href="{% url 'logout' %}" data-toggle="ajaxModal">Logout</a></li>
+                            <li><a href="{% url 'logout' %}">Logout</a></li>
                         </ul>
                     </li>
                 {% endif %}
@@ -268,7 +268,7 @@
             <div class="modal-body wrapper-lg">
                 <div class="row">
                     <form role="form" method="post" action="{% url 'create_playlist' %}" enctype="multipart/form-data">
-                        <div class="col-sm-6 b-r"><h3 class="m-t-none m-b">Create playlist</h3>
+                            <div class="col-sm-6 b-r"><h3 class="m-t-none m-b">Create playlist</h3>
                             <p>Enjoy and share with friends!</p>
                             {% csrf_token %}
                             <div class="form-group"><label>Name</label>

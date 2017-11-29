@@ -19,6 +19,7 @@
                             <div class="bottom gd bg-info wrapper-lg"><span class="pull-right text-sm">101,400 <br>Followers</span>
                                 <span class="h2 font-thin">{{ album.name }}</span></div>
                         <img class="img-full" src="{{ album.photo|thumbnail_url:'album_cover' }}" alt="...">
+{#                        <img class="img-full" src="{% static 'images/m0.jpg' %}" style="height: 400px !important;" alt="...">#}
 {#                            {% if album.photo %}#}
 {#                                <img class="img-full" src="{{ album.photo|thumbnail_url:'album_cover' }}" alt="...">#}
 {#                            {% else %}#}
@@ -50,7 +51,7 @@
                     </section>
                 </section>
             </aside> <!-- / side content -->
-            <section class="col-sm-4 no-padder bg">
+            <section class="col-sm-3 no-padder bg">
                 <section class="vbox">
                     <section class="scrollable hover">
                         <ul class="list-group list-group-lg no-bg auto m-b-none m-t-n-xxs">

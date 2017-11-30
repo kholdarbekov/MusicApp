@@ -1,0 +1,195 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+    <section class="scrollable wrapper-lg">
+        <div class="row">
+            <div class="col-sm-9">
+                <div class="panel wrapper-md">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <img src="{% static 'images/m20-300x300.jpg' %}" alt="artist"
+                                 class="img-full m-b"/>
+                        </div>
+                        <div class="col-sm-8">
+                            <h1 class="m-t-none m-b text-black h2">Artist name</h1>
+                            <p>Lorem ipsum dolor sit amet, illum tollit essent qui ne, mei cu verterem singulis. Vim
+                                diceret mediocrem signiferumque eu. Accusata maluisset philosophia vis an, ad quis
+                                persequeris pri. Aperiri periculis hendrerit et usu, at justo porro his, ius novum
+                                iisque prodesset id? Ea justo mentitum mea, mel ut etiam labitur officiis. Cu malis
+                                aeque vel, sit ea quod dicat indoctum.</p>
+                            <p><b>BIO</b></p>
+                            <p>Facilisi suavitate intellegat sit id, singulis mediocrem duo an. Ne duis audire vel.
+                                Prompta neglegentur ne his. Cum in nominati mnesarchum philosophia, et mea solum iudico
+                                causae, commune ancillae copiosae an his. Cu eos quis iriure expetendis.</p>
+                            <p>Pertinacia democritum quo ad. Ea nec etiam debet disputationi, vide vidisse contentiones
+                                te cum! Et cum porro elaboraret mediocritatem, cu habemus fierent vulputate vim. Ne
+                                doming admodum similique mea, ex semper dicunt mel!</p>
+                            <p><b>Profile</b></p>
+                            <p>Paulo soluta cotidieque nam ei, at usu elit causae fabellas, duo an vidisse voluptatibus.
+                                His at natum praesent, interesset necessitatibus his no, sea iracundia argumentum
+                                accommodare cu! Pri simul affert ignota ut, vim augue eloquentiam an. Usu ubique labore
+                                at! Eu sumo aliquando reformidans his. Eu mel alienum facilisis, vel ex tantas primis
+                                pertinacia, quem errem eirmod qui ad! Quodsi ornatus has et.</p>
+                            <p>Eu pro nusquam delicata, ex adipisci reprehendunt eos! Eum iudico bonorum ei, ius illum
+                                labores eligendi in. No quas prima delenit sea. Per virtute delicatissimi an. No aeque
+                                sanctus atomorum eam, impedit accumsan honestatis te sed. Ius suavitate assentior
+                                no.</p>
+                            <p>http://www.youtube.com/watch?v=jV67jvvurCg</p>
+                        </div>
+                    </div>
+                </div>
+                <h3 class="m-t-none">Music</h3>
+                <div class="list-group list-group-lg">
+                    <div class="list-group-item">
+                        <article id="post-1"
+                                 class="item hover m-b-none clearfix post-632 download type-download status-publish has-post-thumbnail hentry download_category-blues download_tag-soundcloud download_artist-bossr odd edd-download edd-download-cat-blues edd-download-tag-soundcloud">
+                            <div class="pos-rlt pull-left m-r">
+                                <div class="item-overlay opacity r bg-black">
+                                    <div class="center text-center m-t-n-sm">
+                                        <a href="javascript:;" data-id="632" class="play-me i-lg">
+                                            <i class="icon-control-play text"></i>
+                                            <i class="icon-control-pause text-active"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <a href="#" data-pjax title="Soundcloud"
+                                   class="thumb-md">
+                                    <img width="150" height="150" src="{% static 'images/m20.jpg' %}"
+                                         class="r img-full wp-post-image" alt=""
+                                         sizes="(max-width: 150px) 100vw, 150px"/> </a>
+                            </div>
+
+                            <div class="clear">
+                                <a href="#" data-pjax title="Soundcloud"
+                                   class="text-ellipsis font-bold">Soundcloud</a>
+                                <div class="text-muted text-sm text-ellipsis">by <a href="#"
+                                                                                    rel="tag">Someone</a></div>
+                            </div>
+                        </article>
+                    </div>
+                    <div class="list-group-item">
+                        <article id="post-3"
+                                 class="item hover m-b-none clearfix post-632 download type-download status-publish has-post-thumbnail hentry download_category-blues download_tag-soundcloud download_artist-bossr odd edd-download edd-download-cat-blues edd-download-tag-soundcloud">
+                            <div class="pos-rlt pull-left m-r">
+                                <div class="item-overlay opacity r bg-black">
+                                    <div class="center text-center m-t-n-sm">
+                                        <a href="javascript:;" data-id="632" class="play-me i-lg">
+                                            <i class="icon-control-play text"></i>
+                                            <i class="icon-control-pause text-active"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <a href="#" data-pjax title="Rockstar"
+                                   class="thumb-md">
+                                    <img width="150" height="150" src="{% static 'images/m21.jpg' %}"
+                                         class="r img-full wp-post-image" alt=""
+                                         sizes="(max-width: 150px) 100vw, 150px"/> </a>
+                            </div>
+
+                            <div class="clear">
+                                <a href="#" data-pjax title="Rockstar"
+                                   class="text-ellipsis font-bold">Rockstar</a>
+                                <div class="text-muted text-sm text-ellipsis">by <a href="#"
+                                                                                    rel="tag">Someone</a></div>
+                            </div>
+                        </article>
+                    </div><div class="list-group-item">
+                        <article id="post-2"
+                                 class="item hover m-b-none clearfix post-632 download type-download status-publish has-post-thumbnail hentry download_category-blues download_tag-soundcloud download_artist-bossr odd edd-download edd-download-cat-blues edd-download-tag-soundcloud">
+                            <div class="pos-rlt pull-left m-r">
+                                <div class="item-overlay opacity r bg-black">
+                                    <div class="center text-center m-t-n-sm">
+                                        <a href="javascript:;" data-id="632" class="play-me i-lg">
+                                            <i class="icon-control-play text"></i>
+                                            <i class="icon-control-pause text-active"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <a href="#" data-pjax title="Gavana"
+                                   class="thumb-md">
+                                    <img width="150" height="150" src="{% static 'images/m22.jpg' %}"
+                                         class="r img-full wp-post-image" alt=""
+                                         sizes="(max-width: 150px) 100vw, 150px"/> </a>
+                            </div>
+
+                            <div class="clear">
+                                <a href="#" data-pjax title="Gavana"
+                                   class="text-ellipsis font-bold">Gavana</a>
+                                <div class="text-muted text-sm text-ellipsis">by <a href="#"
+                                                                                    rel="tag">Someone</a></div>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+                <div style="padding-bottom: 80px"></div>
+
+
+            </div>
+            <div class="col-sm-3">
+                <div id="music_term_widget-4" class="widget-1 widget-odd widget_music_term_widget widget"><h4
+                        class="widget-title">Top 5 artist</h4>
+                    <div class="list-group list-group-lg ">
+                        <div class="list-group-item clearfix">
+                            <div class="pos-rlt pull-left m-r">
+                                <a href="#" class="thumb-sm">
+                                    <img src="{% static 'images/m18.jpg' %}" alt="Miaow"
+                                         class="img-full rounded"/>
+                                </a>
+                            </div>
+                            <div class="">
+                                <a href="#" class="m-t-sm m-b-sm text-ellipsis">Miaow</a>
+                            </div>
+                        </div>
+                        <div class="list-group-item clearfix">
+                            <div class="pos-rlt pull-left m-r">
+                                <a href="#" class="thumb-sm">
+                                    <img src="{% static 'images/m19.jpg' %}" alt="Alisher"
+                                         class="img-full rounded"/>
+                                </a>
+                            </div>
+                            <div class="">
+                                <a href="#" class="m-t-sm m-b-sm text-ellipsis">Alisher</a>
+                            </div>
+                        </div>
+                        <div class="list-group-item clearfix">
+                            <div class="pos-rlt pull-left m-r">
+                                <a href="#" class="thumb-sm">
+                                    <img src="{% static 'images/m22.jpg' %}" alt="Muhammad"
+                                         class="img-full rounded"/>
+                                </a>
+                            </div>
+                            <div class="">
+                                <a href="#" class="m-t-sm m-b-sm text-ellipsis">Muhammad</a>
+                            </div>
+                        </div>
+                        <div class="list-group-item clearfix">
+                            <div class="pos-rlt pull-left m-r">
+                                <a href="#" class="thumb-sm">
+                                    <img src="{% static 'images/m20.jpg' %}" alt="Umar"
+                                         class="img-full rounded"/>
+                                </a>
+                            </div>
+                            <div class="">
+                                <a href="#" class="m-t-sm m-b-sm text-ellipsis">Umar</a>
+                            </div>
+                        </div>
+                        <div class="list-group-item clearfix">
+                            <div class="pos-rlt pull-left m-r">
+                                <a href="#" class="thumb-sm">
+                                    <img src="{% static 'images/m21.jpg' %}" alt="Selena"
+                                         class="img-full rounded"/>
+                                </a>
+                            </div>
+                            <div class="">
+                                <a href="#" class="m-t-sm m-b-sm text-ellipsis">Selena</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

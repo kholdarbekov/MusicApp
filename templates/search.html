@@ -17,7 +17,7 @@
                         <div class="row row-sm">
                             {% for music in music_results %}
                                 <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-                                    <div class="item">
+                                    <div class="">
                                         <div class="pos-rlt">
                                             <div class="item-overlay opacity r r-2x bg-black">
                                                 <div class="center text-center m-t-n"><a href="#">
@@ -51,7 +51,7 @@
                         <div class="row row-sm">
                             {% for album in album_results %}
                                 <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-                                    <div class="item">
+                                    <div class="">
                                         <div class="pos-rlt">
                                             <div class="item-overlay opacity r r-2x bg-black">
                                                 <div class="center text-center m-t-n"><a href="#"><i
@@ -85,7 +85,7 @@
                         <div class="row row-sm">
                             {% for playlist in playlist_results %}
                                 <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-                                    <div class="item">
+                                    <div class="">
                                         <div class="pos-rlt">
                                             <div class="item-overlay opacity r r-2x bg-black">
                                                 <div class="center text-center m-t-n"><a href="#"><i
@@ -115,17 +115,17 @@
                         <div class="row row-sm">
                             {% for user in user_results %}
                                 <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-                                    <div class="item">
-                                        <div class="pos-rlt">
+                                    <div class="">
+                                        <div class="">
                                             <div class="item-overlay opacity r r-2x bg-black">
                                                 <div class="center text-center m-t-n"><a href="#"><i
                                                         class="fa fa-play-circle i-2x"></i></a></div>
                                             </div>
                                             <a href="{{ user.get_absolute_url }}">
                                                 {% if user.photo %}
-                                                    <img src="{{ user.photo|thumbnail_url:'search' }}" alt="" class="r r-2x img-full">
+                                                    <img src="{{ user.photo|thumbnail_url:'search' }}" alt="" class="img-full">
                                                 {% else %}
-                                                    <img src="{% static 'images/m1.jpg' %}" alt="" class="r r-2x img-full">
+                                                    <img src="{% static 'images/m1.jpg' %}" alt="" class="img-full">
                                                 {% endif %}
                                             </a>
                                         </div>
@@ -142,7 +142,7 @@
                         <div class="row row-sm">
                             {% for chart in chart_results %}
                                 <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-                                    <div class="item">
+                                    <div class="">
                                         <div class="pos-rlt">
                                             <div class="item-overlay opacity r r-2x bg-black">
                                                 <div class="center text-center m-t-n"><a href="#"><i
@@ -175,13 +175,13 @@
                         <div class="row row-sm">
                             {% for performer in performer_results %}
                                 <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-                                    <div class="item">
+                                    <div class="">
                                         <div class="pos-rlt">
                                             <div class="item-overlay opacity r r-2x bg-black">
                                                 <div class="center text-center m-t-n"><a href="#"><i
                                                         class="fa fa-play-circle i-2x"></i></a></div>
                                             </div>
-                                            <a href="track-detail.html">
+                                            <a href="{% url 'artist_profile' %}">
                                                 {% if performer.photo %}
                                                     <img src="{{ performer.photo|thumbnail_url:'search' }}" alt="" class="r r-2x img-full">
                                                 {% else %}
@@ -189,13 +189,9 @@
                                                 {% endif %}
                                             </a>
                                         </div>
-                                        <div class="padder-v"><a href="track-detail.html" data-bjax
-                                                                 data-target="#bjax-target"
-                                                                 data-el="#bjax-el" data-replace="true"
-                                                                 class="text-ellipsis">{{ performer.name }}</a> <a
-                                                href="track-detail.html" data-bjax
-                                                data-target="#bjax-target" data-el="#bjax-el"
-                                                data-replace="true"
+                                        <div class="padder-v"><a href="{% url 'artist_profile' %}"
+                                                                 class="text-ellipsis">{{ performer.name }}</a>
+                                            <a href="{% url 'artist_profile' %}"
                                                 class="text-ellipsis text-xs text-muted">{{ performer.description|truncatewords:5 }}</a></div>
                                     </div>
                                 </div>

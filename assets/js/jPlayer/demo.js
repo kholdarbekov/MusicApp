@@ -41,6 +41,8 @@ $(document).ready(function () {
         var $this = $(e.target);
         if (!$this.is('a')) $this = $this.closest('a');
 
+
+
         $('.jp-play-me').not($this).removeClass('active');
         $('.jp-play-me').parent('li').not($this.parent('li')).removeClass('active');
 

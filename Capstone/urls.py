@@ -33,6 +33,7 @@ urlpatterns = [
 
     url(r'^$', TemplateView.as_view(template_name='index.html'), name='index'),
     url(r'^404/$', TemplateView.as_view(template_name='404.html'), name='404'),
+    url(r'^artist_profile/$', TemplateView.as_view(template_name='artist_profile.html'), name='artist_profile'),
     url(r'^not-available/$', TemplateView.as_view(template_name='genres.html'), name='disallowed_country'),
 
     url(r'^admin/', admin.site.urls),

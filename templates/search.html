@@ -8,195 +8,262 @@
         <section class="hbox stretch">
             <section>
                 <section class="vbox">
-                    <section class="scrollable padder-lg"><h2 class="font-thin m-b">Search results for <b>{{ query|escape|escapejs }}</b></h2>
+                    <section class="scrollable padder-lg"><h2 class="font-thin m-b">Search results for
+                        <b>{{ query|escape|escapejs }}</b></h2>
                         {% if no_result %}
                             <p>Sorry no matches found :( </p>
                         {% endif %}
                         {% if music_results %}
-                        <h3 class="font-thin m-b">Songs</h3>
-                        <div class="row row-sm">
-                            {% for music in music_results %}
-                                <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-                                    <div class="">
-                                        <div class="pos-rlt">
-                                            <div class="item-overlay opacity r r-2x bg-black">
-                                                <div class="center text-center m-t-n"><a href="#">
-                                                    <i class="fa fa-play-circle i-2x"></i></a>
+                            <h3 class="font-thin m-b">Songs</h3>
+                            <div class="row row-sm">
+                                {% for music in music_results %}
+                                    <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+                                        <div class="item">
+                                            <div class="pos-rlt">
+                                                <div class="item-overlay opacity r r-2x bg-black">
+                                                    <div class="center text-center m-t-n">
+                                                        <a href="javascript:;" data-id="{{ music.id }}"
+                                                           class="jp-play-me" data-toggle="class"> <i
+                                                                class="icon-control-play i-2x text"></i> <i
+                                                                class="icon-control-pause i-2x text-active"></i> </a>
+                                                    </div>
+                                                    <div class="bottom padder m-b-sm">
+                                                        <a href="#" data-id="{{ music.id }}"
+                                                           data-action="{% if request.user in users_like %}un{% endif %}like"
+                                                           class="pull-right {% if request.user in users_like %}active{% endif %}"
+                                                           data-toggle="class" id="music_like">
+                                                            <i class="fa fa-heart-o text"></i>
+                                                            <i class="fa fa-heart text-active text-danger"></i>
+                                                        </a>
+                                                        <span class="dropdown">
+                                                            <a href="#" class="dropdown-toggle"
+                                                               data-toggle="dropdown">
+                                                                <i class="fa fa-plus-circle"></i><i
+                                                                    class="fa fa-check-circle text-active text-info"></i></a>
+                                                            <ul class="dropdown-menu animated fadeInRight">
+                                                                <li><a href="#" data-toggle="class">Add to queue</a>
+                                                                </li>
+                                                                <li class="dropdown-submenu"><a href="#">Add to
+                                                                    playlist</a>
+                                                                    {% if request.user.playlists.exists %}
+                                                                        <ul class="dropdown-menu" role="menu">
+                                                                            {% for playlist in request.user.playlists.all %}
+                                                                                <li>
+                                                                                    <a href="#" id="follow-playlist"
+                                                                                       data-music="{{ music.pk }}"
+                                                                                       data-playlist="{{ playlist.pk }}">
+                                                                                        {{ playlist.name }}
+                                                                                    </a>
+                                                                                </li>
+                                                                            {% endfor %}
+                                                                        </ul>
+                                                                    {% else %}
+                                                                        <ul class="dropdown-menu" role="menu">
+                                                                            <li>
+                                                                                <a href="#modal-form"
+                                                                                   data-toggle="modal"
+                                                                                   style="color: red">
+                                                                                    Create new playlist...
+                                                                                </a>
+                                                                            </li>
+                                                                        </ul>
+                                                                    {% endif %}
+                                                                </li>
+                                                            </ul>
+                                                        </span>
+                                                    </div>
                                                 </div>
+                                                <a href="track-detail.html">
+                                                    {% if music.photo %}
+                                                        <img src="{{ music.photo|thumbnail_url:'search' }}" alt=""
+                                                             class="r r-2x img-full">
+                                                    {% else %}
+                                                        <img src="{% static 'images/m1.jpg' %}" alt=""
+                                                             class="r r-2x img-full">
+                                                    {% endif %}
+                                                </a>
                                             </div>
-                                            <a href="track-detail.html">
-                                                {% if music.photo %}
-                                                    <img src="{{ music.photo|thumbnail_url:'search' }}" alt="" class="r r-2x img-full">
-                                                {% else %}
-                                                    <img src="{% static 'images/m1.jpg' %}" alt="" class="r r-2x img-full">
-                                                {% endif %}
-                                            </a>
+                                            <div class="padder-v"><a href="track-detail.html" data-bjax
+                                                                     data-target="#bjax-target"
+                                                                     data-el="#bjax-el" data-replace="true"
+                                                                     class="text-ellipsis">{{ music.name }}</a> <a
+                                                    href="track-detail.html" data-bjax
+                                                    data-target="#bjax-target" data-el="#bjax-el"
+                                                    data-replace="true"
+                                                    class="text-ellipsis text-xs text-muted">{{ music.get_singers }}</a>
+                                            </div>
                                         </div>
-                                        <div class="padder-v"><a href="track-detail.html" data-bjax
-                                                                 data-target="#bjax-target"
-                                                                 data-el="#bjax-el" data-replace="true"
-                                                                 class="text-ellipsis">{{ music.name }}</a> <a
-                                                href="track-detail.html" data-bjax
-                                                data-target="#bjax-target" data-el="#bjax-el"
-                                                data-replace="true"
-                                                class="text-ellipsis text-xs text-muted">{{ music.get_singers }}</a></div>
                                     </div>
-                                </div>
-                            {% endfor %}
-                        </div>
-                        <br>
+                                {% endfor %}
+                            </div>
+                            <br>
                         {% endif %}
                         {% if album_results %}
-                        <h3 class="font-thin m-b">Album</h3>
-                        <div class="row row-sm">
-                            {% for album in album_results %}
-                                <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-                                    <div class="">
-                                        <div class="pos-rlt">
-                                            <div class="item-overlay opacity r r-2x bg-black">
-                                                <div class="center text-center m-t-n"><a href="#"><i
-                                                        class="fa fa-play-circle i-2x"></i></a></div>
-                                            </div>
-                                            <a href="track-detail.html">
-                                                {% if album.photo %}
-                                                    <img src="{{ album.photo|thumbnail_url:'search' }}" alt="" class="r r-2x img-full">
-                                                {% else %}
-                                                    <img src="{% static 'images/m1.jpg' %}" alt="" class="r r-2x img-full">
-                                                {% endif %}
+                            <h3 class="font-thin m-b">Album</h3>
+                            <div class="row row-sm">
+                                {% for album in album_results %}
+                                    <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+                                        <div class="">
+                                            <div class="pos-rlt">
+                                                <div class="item-overlay opacity r r-2x bg-black">
+                                                    <div class="center text-center m-t-n"><a href="#"><i
+                                                            class="fa fa-play-circle i-2x"></i></a></div>
+                                                </div>
+                                                <a href="track-detail.html">
+                                                    {% if album.photo %}
+                                                        <img src="{{ album.photo|thumbnail_url:'search' }}" alt=""
+                                                             class="r r-2x img-full">
+                                                    {% else %}
+                                                        <img src="{% static 'images/m1.jpg' %}" alt=""
+                                                             class="r r-2x img-full">
+                                                    {% endif %}
 
-                                            </a>
+                                                </a>
+                                            </div>
+                                            <div class="padder-v"><a href="track-detail.html" data-bjax
+                                                                     data-target="#bjax-target"
+                                                                     data-el="#bjax-el" data-replace="true"
+                                                                     class="text-ellipsis">{{ album.name }}</a> <a
+                                                    href="track-detail.html" data-bjax
+                                                    data-target="#bjax-target" data-el="#bjax-el"
+                                                    data-replace="true"
+                                                    class="text-ellipsis text-xs text-muted">{{ album.artist }}</a>
+                                            </div>
                                         </div>
-                                        <div class="padder-v"><a href="track-detail.html" data-bjax
-                                                                 data-target="#bjax-target"
-                                                                 data-el="#bjax-el" data-replace="true"
-                                                                 class="text-ellipsis">{{ album.name }}</a> <a
-                                                href="track-detail.html" data-bjax
-                                                data-target="#bjax-target" data-el="#bjax-el"
-                                                data-replace="true"
-                                                class="text-ellipsis text-xs text-muted">{{ album.artist }}</a></div>
                                     </div>
-                                </div>
-                            {% endfor %}
-                        </div>
-                        <br>
+                                {% endfor %}
+                            </div>
+                            <br>
                         {% endif %}
                         {% if playlist_results %}
-                        <h3 class="font-thin m-b">PLaylists</h3>
-                        <div class="row row-sm">
-                            {% for playlist in playlist_results %}
-                                <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-                                    <div class="">
-                                        <div class="pos-rlt">
-                                            <div class="item-overlay opacity r r-2x bg-black">
-                                                <div class="center text-center m-t-n"><a href="#"><i
-                                                        class="fa fa-play-circle i-2x"></i></a></div>
+                            <h3 class="font-thin m-b">PLaylists</h3>
+                            <div class="row row-sm">
+                                {% for playlist in playlist_results %}
+                                    <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+                                        <div class="">
+                                            <div class="pos-rlt">
+                                                <div class="item-overlay opacity r r-2x bg-black">
+                                                    <div class="center text-center m-t-n"><a href="#"><i
+                                                            class="fa fa-play-circle i-2x"></i></a></div>
+                                                </div>
+                                                <a href="{% url 'playlist' playlist.pk %}">
+                                                    {% if playlist.photo %}
+                                                        <img src="{{ playlist.photo|thumbnail_url:'search' }}" alt=""
+                                                             class="r r-2x img-full">
+                                                    {% else %}
+                                                        <img src="{% static 'images/m1.jpg' %}" alt=""
+                                                             class="r r-2x img-full">
+                                                    {% endif %}
+                                                </a>
                                             </div>
-                                            <a href="{% url 'playlist' playlist.pk %}">
-                                                {% if playlist.photo %}
-                                                    <img src="{{ playlist.photo|thumbnail_url:'search' }}" alt="" class="r r-2x img-full">
-                                                {% else %}
-                                                    <img src="{% static 'images/m1.jpg' %}" alt="" class="r r-2x img-full">
-                                                {% endif %}
-                                            </a>
-                                        </div>
-                                        <div class="padder-v"><a href="{% url 'playlist' playlist.pk %}" data-replace="true"
-                                                                 class="text-ellipsis">{{ playlist.name }}</a>
-                                             <a href="{{ playlist.creator.get_absolute_url }}" data-replace="true"
-                                                                 class="text-ellipsis text-xs text-muted">Created by: <span class="text-info">
+                                            <div class="padder-v"><a href="{% url 'playlist' playlist.pk %}"
+                                                                     data-replace="true"
+                                                                     class="text-ellipsis">{{ playlist.name }}</a>
+                                                <a href="{{ playlist.creator.get_absolute_url }}" data-replace="true"
+                                                   class="text-ellipsis text-xs text-muted">Created by: <span
+                                                        class="text-info">
                                                  {{ playlist.creator }}</span></a></div>
+                                        </div>
                                     </div>
-                                </div>
-                            {% endfor %}
-                        </div>
-                        <br>
+                                {% endfor %}
+                            </div>
+                            <br>
                         {% endif %}
                         {% if user_results %}
-                        <h3 class="font-thin m-b">Users</h3>
-                        <div class="row row-sm">
-                            {% for user in user_results %}
-                                <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-                                    <div class="">
+                            <h3 class="font-thin m-b">Users</h3>
+                            <div class="row row-sm">
+                                {% for user in user_results %}
+                                    <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
                                         <div class="">
-                                            <div class="item-overlay opacity r r-2x bg-black">
-                                                <div class="center text-center m-t-n"><a href="#"><i
-                                                        class="fa fa-play-circle i-2x"></i></a></div>
+                                            <div class="">
+                                                <div class="item-overlay opacity r r-2x bg-black">
+                                                    <div class="center text-center m-t-n"><a href="#"><i
+                                                            class="fa fa-play-circle i-2x"></i></a></div>
+                                                </div>
+                                                <a href="{{ user.get_absolute_url }}">
+                                                    {% if user.photo %}
+                                                        <img src="{{ user.photo|thumbnail_url:'search' }}" alt=""
+                                                             class="img-full">
+                                                    {% else %}
+                                                        <img src="{% static 'images/m1.jpg' %}" alt="" class="img-full">
+                                                    {% endif %}
+                                                </a>
                                             </div>
-                                            <a href="{{ user.get_absolute_url }}">
-                                                {% if user.photo %}
-                                                    <img src="{{ user.photo|thumbnail_url:'search' }}" alt="" class="img-full">
-                                                {% else %}
-                                                    <img src="{% static 'images/m1.jpg' %}" alt="" class="img-full">
-                                                {% endif %}
-                                            </a>
-                                        </div>
-                                        <div class="padder-v"><a href="{{ user.get_absolute_url }}" class="text-ellipsis">{{ user.username }}</a>
+                                            <div class="padder-v"><a href="{{ user.get_absolute_url }}"
+                                                                     class="text-ellipsis">{{ user.username }}</a>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            {% endfor %}
-                        </div>
-                        <br>
+                                {% endfor %}
+                            </div>
+                            <br>
                         {% endif %}
                         {% if chart_results %}
-                        <h3 class="font-thin m-b">Charts</h3>
-                        <div class="row row-sm">
-                            {% for chart in chart_results %}
-                                <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-                                    <div class="">
-                                        <div class="pos-rlt">
-                                            <div class="item-overlay opacity r r-2x bg-black">
-                                                <div class="center text-center m-t-n"><a href="#"><i
-                                                        class="fa fa-play-circle i-2x"></i></a></div>
+                            <h3 class="font-thin m-b">Charts</h3>
+                            <div class="row row-sm">
+                                {% for chart in chart_results %}
+                                    <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+                                        <div class="">
+                                            <div class="pos-rlt">
+                                                <div class="item-overlay opacity r r-2x bg-black">
+                                                    <div class="center text-center m-t-n"><a href="#"><i
+                                                            class="fa fa-play-circle i-2x"></i></a></div>
+                                                </div>
+                                                <a href="track-detail.html">
+                                                    {% if chart.photo %}
+                                                        <img src="{{ chart.photo|thumbnail_url:'search' }}" alt=""
+                                                             class="r r-2x img-full">
+                                                    {% else %}
+                                                        <img src="{% static 'images/m1.jpg' %}" alt=""
+                                                             class="r r-2x img-full">
+                                                    {% endif %}
+                                                </a>
                                             </div>
-                                            <a href="track-detail.html">
-                                                {% if chart.photo %}
-                                                    <img src="{{ chart.photo|thumbnail_url:'search' }}" alt="" class="r r-2x img-full">
-                                                {% else %}
-                                                    <img src="{% static 'images/m1.jpg' %}" alt="" class="r r-2x img-full">
-                                                {% endif %}
-                                            </a>
+                                            <div class="padder-v"><a href="track-detail.html" data-bjax
+                                                                     data-target="#bjax-target"
+                                                                     data-el="#bjax-el" data-replace="true"
+                                                                     class="text-ellipsis">{{ chart.name }}</a> <a
+                                                    href="track-detail.html" data-bjax
+                                                    data-target="#bjax-target" data-el="#bjax-el"
+                                                    data-replace="true"
+                                                    class="text-ellipsis text-xs text-muted">{{ chart.description|truncatewords:5 }}</a>
+                                            </div>
                                         </div>
-                                        <div class="padder-v"><a href="track-detail.html" data-bjax
-                                                                 data-target="#bjax-target"
-                                                                 data-el="#bjax-el" data-replace="true"
-                                                                 class="text-ellipsis">{{ chart.name }}</a> <a
-                                                href="track-detail.html" data-bjax
-                                                data-target="#bjax-target" data-el="#bjax-el"
-                                                data-replace="true"
-                                                class="text-ellipsis text-xs text-muted">{{ chart.description|truncatewords:5 }}</a></div>
                                     </div>
-                                </div>
-                            {% endfor %}
-                        </div>
-                        <br>
+                                {% endfor %}
+                            </div>
+                            <br>
                         {% endif %}
                         {% if performer_results %}
-                        <h3 class="font-thin m-b">Artists</h3>
-                        <div class="row row-sm">
-                            {% for performer in performer_results %}
-                                <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-                                    <div class="">
-                                        <div class="pos-rlt">
-                                            <div class="item-overlay opacity r r-2x bg-black">
-                                                <div class="center text-center m-t-n"><a href="#"><i
-                                                        class="fa fa-play-circle i-2x"></i></a></div>
+                            <h3 class="font-thin m-b">Artists</h3>
+                            <div class="row row-sm">
+                                {% for performer in performer_results %}
+                                    <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+                                        <div class="">
+                                            <div class="pos-rlt">
+                                                <div class="item-overlay opacity r r-2x bg-black">
+                                                    <div class="center text-center m-t-n"><a href="#"><i
+                                                            class="fa fa-play-circle i-2x"></i></a></div>
+                                                </div>
+                                                <a href="{% url 'artist_profile' %}">
+                                                    {% if performer.photo %}
+                                                        <img src="{{ performer.photo|thumbnail_url:'search' }}" alt=""
+                                                             class="r r-2x img-full">
+                                                    {% else %}
+                                                        <img src="{% static 'images/m1.jpg' %}" alt=""
+                                                             class="r r-2x img-full">
+                                                    {% endif %}
+                                                </a>
                                             </div>
-                                            <a href="{% url 'artist_profile' %}">
-                                                {% if performer.photo %}
-                                                    <img src="{{ performer.photo|thumbnail_url:'search' }}" alt="" class="r r-2x img-full">
-                                                {% else %}
-                                                    <img src="{% static 'images/m1.jpg' %}" alt="" class="r r-2x img-full">
-                                                {% endif %}
-                                            </a>
+                                            <div class="padder-v"><a href="{% url 'artist_profile' %}"
+                                                                     class="text-ellipsis">{{ performer.name }}</a>
+                                                <a href="{% url 'artist_profile' %}"
+                                                   class="text-ellipsis text-xs text-muted">{{ performer.description|truncatewords:5 }}</a>
+                                            </div>
                                         </div>
-                                        <div class="padder-v"><a href="{% url 'artist_profile' %}"
-                                                                 class="text-ellipsis">{{ performer.name }}</a>
-                                            <a href="{% url 'artist_profile' %}"
-                                                class="text-ellipsis text-xs text-muted">{{ performer.description|truncatewords:5 }}</a></div>
                                     </div>
-                                </div>
-                            {% endfor %}
-                        </div>
+                                {% endfor %}
+                            </div>
                         {% endif %}
                         {% if not no_result %}
                             <ul class="pagination pagination">

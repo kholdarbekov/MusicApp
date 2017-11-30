@@ -1,30 +1,35 @@
 $(document).ready(function () {
-
+    var playlist = [];
     var myPlaylist = new jPlayerPlaylist({
-        jPlayer: "#jplayer_N",
-        cssSelectorAncestor: "#jp_container_N"
-    }, [
-        {
-            title: "Cro Magnon Man",
-            artist: "The Stark Palace",
-            mp3: "http://www.jplayer.org/audio/mp3/TSP-01-Cro_magnon_man.mp3",
+            jPlayer: "#jplayer_N",
+            cssSelectorAncestor: "#jp_container_N"
         },
+        playlist
+        ,
         {
-            title: "Hidden",
-            artist: "Miaow",
-            mp3: "http://www.jplayer.org/audio/mp3/Miaow-02-Hidden.mp3",
-        }
-    ], {
-        playlistOptions: {
-            enableRemoveControls: true,
-            autoPlay: false
-        },
-        swfPath: "js/jPlayer",
-        supplied: "webmv, ogv, m4v, oga, mp3",
-        smoothPlayBar: true,
-        keyEnabled: true,
-        audioFullScreen: false
-    });
+            playlistOptions: {
+                enableRemoveControls: true,
+                autoPlay: false
+            },
+            swfPath: "js/jPlayer",
+            supplied: "webmv, ogv, m4v, oga, mp3",
+            smoothPlayBar: true,
+            keyEnabled: true,
+            audioFullScreen: false
+        });
+
+    // playlist.setPlaylist([
+    //     {
+    //         title: "Cro Magnon Man",
+    //         artist: "The Stark Palace",
+    //         mp3: "http://www.jplayer.org/audio/mp3/TSP-01-Cro_magnon_man.mp3",
+    //     },
+    //     {
+    //         title: "Hidden",
+    //         artist: "Miaow",
+    //         mp3: "http://www.jplayer.org/audio/mp3/Miaow-02-Hidden.mp3",
+    //     }
+    // ]);
 
     $(document).on($.jPlayer.event.pause, myPlaylist.cssSelector.jPlayer, function () {
         $('.musicbar').removeClass('animate');
@@ -38,54 +43,64 @@ $(document).ready(function () {
 
     $(document).on('click', '.jp-play-me', function (e) {
         e.stopPropagation();
-        var $this = $(e.target);
-        if (!$this.is('a')) $this = $this.closest('a');
 
 
-
-        $('.jp-play-me').not($this).removeClass('active');
-        $('.jp-play-me').parent('li').not($this.parent('li')).removeClass('active');
-
-        $this.toggleClass('active');
-        $this.parent('li').toggleClass('active');
-        if (!$this.hasClass('active')) {
+        if (!$(this).hasClass('active')) {
             myPlaylist.pause();
-
+            return;
         }
 
-        myPlaylist.add({
-                title: "Your Face",
-                artist: "The Stark Palace",
-                mp3: "http://www.jplayer.org/audio/mp3/TSP-05-Your_face.mp3"
+        var id = $(this).data('id');
+        var i = inObj(id, playlist);
+        if (i == -1) {
+            $.ajax({
+                type: "get",
+                dataType: "json",
+                url: "/getsong/",
+                data: {action: "get_media", id: id},
+                success: function (obj) {
+                    myPlaylist.add(obj);
+                    myPlaylist.play(-1);
+                    updatePlaylist();
+                    // alert(playlist.length);
+                }
             });
-        myPlaylist.play(-1);
+        }
+        else {
+            if (myPlaylist.current == i) {
+                myPlaylist.play();
+                // updateDisplay()
+            } else {
+                myPlaylist.play(i);
+                // updateDisplay()
+            }
+        }
 
     });
 
 
-    // video
+    // function updateDisplay() {
+    //     $('.jp-play-me').removeClass('active');
+    //     $('.jp-play-me').parent().parent().removeClass('active');
+    //     myPlaylist.current.addClass('active');
+    //     myPlaylist.current.parent().parent().addClass('active');
+    // }
 
-    $("#jplayer_1").jPlayer({
-        ready: function () {
-            $(this).jPlayer("setMedia", {
-                title: "Big Buck Bunny",
-                m4v: "http://flatfull.com/themes/assets/video/big_buck_bunny_trailer.m4v",
-                ogv: "http://flatfull.com/themes/assets/video/big_buck_bunny_trailer.ogv",
-                webmv: "http://flatfull.com/themes/assets/video/big_buck_bunny_trailer.webm",
-                poster: "images/m41.jpg"
-            });
-        },
-        swfPath: "js",
-        supplied: "webmv, ogv, m4v",
-        size: {
-            width: "100%",
-            height: "auto",
-            cssClass: "jp-video-360p"
-        },
-        globalVolume: true,
-        smoothPlayBar: true,
-        keyEnabled: true
-    });
+    function updatePlaylist() {
+        // updateDisplay();
+        playlist = myPlaylist.playlist;
+    }
+
+    function inObj(id, list) {
+        var i;
+        for (i = 0; i < list.length; i++) {
+            if ((list[i]['id'] == id) || (list[i]['ids'] == id)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
 
 });
 

@@ -23,7 +23,8 @@
                                         {% endif %}
                                     </a>
                                     <div style="margin-top: 20px;" class="">
-                                        <div title="{{ profile.get_username }}" class="h4 m-t-xs m-b-xs">{{ profile.get_username|truncatechars:20 }}</div>
+                                        <div title="{{ profile.get_username }}"
+                                             class="h4 m-t-xs m-b-xs">{{ profile.get_username|truncatechars:20 }}</div>
                                     </div>
                                 </div>
                                 <div class="col-md-8 col-md-offset-1">
@@ -180,29 +181,29 @@
 {% endblock %}
 
 {% block domready %}
-    $(document).on('click', '#follow', function (e) {
-    e.preventDefault();
-    $.post('{% url 'user_follow' %}',
-    {
-    username: $(this).data('id'),
-    action: $(this).data('action')
-    },
-    function (data) {
-    if (data['status'] == 'ok') {
-    var previous_action = $('#follow').data('action');
-    // toggle data-action
-    $('#follow').data('action',
-    previous_action == 'follow' ? 'unfollow' : 'follow');
-    // toggle link text
-    $('#follow').text(
-    previous_action == 'follow' ? 'Unfollow' : 'Follow');
-    // update total followers
-    var previous_followers = parseInt(
-    $('span.count .total').text());
-    $('span.count .total').text(previous_action == 'follow' ?
-    previous_followers + 1 : previous_followers - 1);
-    }
-    }
-    );
-    });
+        $(document).on('click', '#follow', function (e) {
+            e.preventDefault();
+            $.post('{% url 'user_follow' %}',
+                {
+                    username: $(this).data('id'),
+                    action: $(this).data('action')
+                },
+                function (data) {
+                    if (data['status'] == 'ok') {
+                        var previous_action = $('#follow').data('action');
+                        // toggle data-action
+                        $('#follow').data('action',
+                            previous_action == 'follow' ? 'unfollow' : 'follow');
+                        // toggle link text
+                        $('#follow').text(
+                            previous_action == 'follow' ? 'Unfollow' : 'Follow');
+                        // update total followers
+                        var previous_followers = parseInt(
+                            $('span.count .total').text());
+                        $('span.count .total').text(previous_action == 'follow' ?
+                        previous_followers + 1 : previous_followers - 1);
+                    }
+                }
+            );
+        });
 {% endblock %}

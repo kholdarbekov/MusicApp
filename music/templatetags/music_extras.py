@@ -35,3 +35,10 @@ def get_user_playlists(user):
 def get_top_playlists():
     # reversed
     return sorted(Playlist.objects.all(), key=lambda playlist: playlist.get_net_value, reverse=True)[:8]
+
+
+@register.simple_tag
+def get_last_playlist():
+    # reversed
+    playlists = sorted(Playlist.objects.all(), key=lambda playlist: playlist.get_net_value, reverse=True)
+    return playlists.__getitem__(0)

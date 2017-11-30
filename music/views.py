@@ -5,6 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, get_object_or_404, redirect
 from django.conf import settings
 from django.http import HttpResponse, JsonResponse
+from django.urls import reverse
 from django.views.decorators.http import require_POST
 from django.views.generic import DetailView, TemplateView
 from django.views.generic.edit import FormView
@@ -15,13 +16,6 @@ from .models import Music, Album, Playlist, Performer, Genre
 from .forms import PlaylistForm
 from authentication.models import Profile
 from charts.models import Chart
-
-import os, tempfile, zipfile
-from wsgiref.util import FileWrapper
-
-client = settings.ES_CLIENT
-CHUNK = 1024
-# Create your views here.
 
 
 def autocomplete_view(request):
@@ -66,7 +60,7 @@ def playListCreateView(request):
         return JsonResponse({'error': 'This view takes only POST requests'})
 
 
-class AlbumView(DetailView, LoginRequiredMixin):
+class AlbumView(LoginRequiredMixin, DetailView):
     model = Album
     context_object_name = 'album'
     template_name = 'album.html'
@@ -77,7 +71,7 @@ class AlbumView(DetailView, LoginRequiredMixin):
         return context
 
 
-class AllAlbumsView(TemplateView, LoginRequiredMixin):
+class AllAlbumsView(LoginRequiredMixin, TemplateView):
     template_name = 'album.html'
 
     def get_context_data(self, **kwargs):
@@ -88,7 +82,7 @@ class AllAlbumsView(TemplateView, LoginRequiredMixin):
         return context
 
 
-class PlaylistView(DetailView, LoginRequiredMixin):
+class PlaylistView(LoginRequiredMixin, DetailView):
     model = Playlist
     context_object_name = 'playlist'
     template_name = 'playlist.html'
@@ -103,7 +97,7 @@ class PlaylistView(DetailView, LoginRequiredMixin):
         return context
 
 
-class GenreView(DetailView, LoginRequiredMixin):
+class GenreView(LoginRequiredMixin, DetailView):
     model = Genre
     context_object_name = 'genre'
     template_name = 'genres.html'
@@ -174,6 +168,7 @@ def search(request):
                 no_result = True
             else:
                 no_result = False
+
             return render(request, 'search.html', {'music_results': music_results, 'album_results': album_results,
                                                    'playlist_results': playlist_results, 'query': search_query,
                                                    'user_results': user_results, 'chart_results': chart_results,
@@ -204,13 +199,13 @@ def music_like(request):
 
 
 class PerformerView(LoginRequiredMixin, DetailView):
-    template_name = 'profile.html'
-    context_object_name = 'profile'
+    template_name = 'artist_profile.html'
+    context_object_name = 'performer'
     model = Performer
     slug_field = 'pk'
 
-    def get_object(self, queryset=None):
-        return Profile.objects.get(pk=self.kwargs[self.slug_field])
+    # def get_object(self, queryset=None):
+    #     return Performer.objects.get(pk=self.kwargs[self.slug_field])
 
     # def get_context_data(self, **kwargs):
     #     context = super(ProfileView, self).get_context_data(**kwargs)

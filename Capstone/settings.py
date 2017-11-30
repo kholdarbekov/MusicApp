@@ -251,6 +251,8 @@ THUMBNAIL_QUALITY = 95
 THUMBNAIL_ALIASES = {
     '': {
         'avatar': {'size': (50, 50), 'crop': True, 'subsampling': 1},
+        'performer_photo': {'size': (270, 270), 'crop': True, 'subsampling': 1},
+        'performer_albums': {'size': (64, 64), 'crop': True, 'subsampling': 1},
         'search': {'size': (188, 188), 'crop': True, 'subsampling': 1},
         'profile_avatar_bigger': {'size': (128, 128), 'crop': True, 'subsampling': 1},
         'new_songs_index': {'size': (161, 161), 'crop': True, 'subsampling': 1},

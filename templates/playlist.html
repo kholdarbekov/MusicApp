@@ -29,10 +29,15 @@
                             {% for music in playlist.musics.all %}
                                 <li class="list-group-item">
                                     <div class="pull-right m-l">
-                                        <a href="#" class="m-r-sm" data-toggle="class">
-                                            <i class="fa fa-heart-o text"></i>
-                                            <i class="fa fa-heart text-active text-danger"></i>
+                                    {% with music.users_like.all as users_like %}
+                                        <a href="#" data-id="{{ music.id }}"
+                                           data-action="{% if request.user in users_like %}un{% endif %}like"
+                                           class="m-r-sm {% if request.user in users_like %}active{% endif %}"
+                                           data-toggle="class" id="music_like">
+                                           <i class="fa fa-heart-o text"></i>
+                                           <i class="fa fa-heart text-active text-danger"></i>
                                         </a>
+                                    {% endwith %}
                                         <span class="dropdown">
                                             <a href="#" class="dropdown-toggle"
                                                data-toggle="dropdown">
@@ -122,5 +127,30 @@
     }
     }
     );
+    });
+
+    $(document).on('click', '#music_like', function (e) {
+        e.preventDefault();
+        $.post('{% url 'music_like' %}',
+            {
+                id: $(this).data('id'),
+                action: $(this).data('action')
+            },
+            function (data) {
+                if (data['status'] == 'ok') {
+                    var previous_action = $('a.like').data('action');
+                    // toggle data-action
+                    $('a.like').data('action', previous_action == 'like' ?
+                        'unlike' : 'like');
+                    // toggle link text
+                    $('a.like').text(previous_action == 'like' ? 'Unlike' :
+                        'Like');
+                    // update total likes
+                    var previous_likes = parseInt($('span.count .total').text());
+                    $('span.count .total').text(previous_action == 'like' ?
+                    previous_likes + 1 : previous_likes - 1);
+                }
+            }
+        );
     });
 {% endblock %}

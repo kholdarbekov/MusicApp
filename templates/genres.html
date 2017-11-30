@@ -38,10 +38,15 @@
                                                             class="icon-control-pause i-2x text-active"></i> </a>
                                                 </div>
                                                 <div class="bottom padder m-b-sm">
-                                                    <a href="#" class="pull-right" data-toggle="class">
+                                                {% with music.users_like.all as users_like %}
+                                                    <a href="#" data-id="{{ music.id }}"
+                                                       data-action="{% if request.user in users_like %}un{% endif %}like"
+                                                       class="pull-right {% if request.user in users_like %}active{% endif %}"
+                                                       data-toggle="class" id="music_like">
                                                         <i class="fa fa-heart-o text"></i>
                                                         <i class="fa fa-heart text-active text-danger"></i>
                                                     </a>
+                                                {% endwith %}
                                                     <span class="dropdown">
                                                         <a href="#" class="dropdown-toggle"
                                                            data-toggle="dropdown">
@@ -54,7 +59,7 @@
                                                                 <ul class="dropdown-menu" role="menu">
                                                                     {% for playlist in request.user.playlists.all %}
                                                                         <li>
-                                                                            <a href="#" id="follow-playlist" data-music="1"
+                                                                            <a href="#" id="follow-playlist" data-music="{{ music.pk }}"
                                                                                data-playlist="{{ playlist.pk }}">
                                                                                 {{ playlist.name }}
                                                                             </a>
@@ -114,3 +119,44 @@
     </section>
 {% endblock %}
 
+{% block domready %}
+    $(document).on('click', '#follow-playlist', function (e) {
+        e.preventDefault();
+        $.post('{% url 'add_to_playlist' %}',
+            {
+                music_id: $(this).data('music'),
+                playlist_id: $(this).data('playlist')
+            },
+            function (data) {
+                if (data['status'] == 'ok') {
+                    console.alert("success");
+                }
+            }
+        );
+    });
+
+    $(document).on('click', '#music_like', function (e) {
+        e.preventDefault();
+        $.post('{% url 'music_like' %}',
+            {
+                id: $(this).data('id'),
+                action: $(this).data('action')
+            },
+            function (data) {
+                if (data['status'] == 'ok') {
+                    var previous_action = $('a.like').data('action');
+                    // toggle data-action
+                    $('a.like').data('action', previous_action == 'like' ?
+                        'unlike' : 'like');
+                    // toggle link text
+                    $('a.like').text(previous_action == 'like' ? 'Unlike' :
+                        'Like');
+                    // update total likes
+                    var previous_likes = parseInt($('span.count .total').text());
+                    $('span.count .total').text(previous_action == 'like' ?
+                    previous_likes + 1 : previous_likes - 1);
+                }
+            }
+        );
+    });
+{% endblock %}

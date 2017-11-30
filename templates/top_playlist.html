@@ -1,9 +1,11 @@
 {% extends 'base.html' %}
-{% load staticfiles thumbnail %}
+{% load staticfiles thumbnail music_extras %}
 
 {% block title %}Top Paylists{% endblock %}
 
 {% block content %}
+    {% get_top_playlists as top_playlists %}
+    {% get_last_playlist as last_playlist %}
     <section class="w-f-md">
         <section class="hbox stretch bg-black dker">
             <aside class="col-sm-5 no-padder" id="sidebar">
@@ -17,8 +19,8 @@
                                     class="bar3 a1 bg"></span> <span class="bar4 a4 dk"></span> <span
                                     class="bar5 a2 dker"></span> </span></div>
                             <div class="bottom gd bg-info wrapper-lg"><span class="pull-right text-sm">101,400 <br>Followers</span>
-                                <span class="h2 font-thin">{{ album.name }}</span></div>
-                        <img class="img-full" src="{{ album.photo|thumbnail_url:'album_cover' }}" alt="...">
+                                <span class="h2 font-thin">{{ last_playlist.name }}</span></div>
+                        <img class="img-full" src="{{ last_playlist.photo|thumbnail_url:'album_cover' }}" alt="...">
 {#                        <img class="img-full" src="{% static 'images/m0.jpg' %}" style="height: 400px !important;" alt="...">#}
 {#                            {% if album.photo %}#}
 {#                                <img class="img-full" src="{{ album.photo|thumbnail_url:'album_cover' }}" alt="...">#}
@@ -27,13 +29,18 @@
 {#                            {% endif %}#}
                         </div>
                         <ul class="list-group list-group-lg no-radius no-border no-bg m-t-n-xxs m-b-none auto">
-                            {% for music in album.musics.all %}
+                            {% for music in last_playlist.musics.all %}
                                 <li class="list-group-item">
                                     <div class="pull-right m-l">
-                                        <a href="#" class="m-r-sm" data-toggle="class">
-                                            <i class="fa fa-heart-o text"></i>
-                                            <i class="fa fa-heart text-active text-danger"></i>
-                                        </a>
+                                        {% with music.users_like.all as users_like %}
+                                            <a href="#" data-id="{{ music.id }}"
+                                               data-action="{% if request.user in users_like %}un{% endif %}like"
+                                               class="m-r-sm {% if request.user in users_like %}active{% endif %}"
+                                               data-toggle="class" id="music_like">
+                                               <i class="fa fa-heart-o text"></i>
+                                               <i class="fa fa-heart text-active text-danger"></i>
+                                            </a>
+                                        {% endwith %}
                                         <span class="dropdown">
                                             <a href="#" class="dropdown-toggle"
                                                data-toggle="dropdown">
@@ -85,22 +92,31 @@
                 <section class="vbox">
                     <section class="scrollable hover">
                         <ul class="list-group list-group-lg no-bg auto m-b-none m-t-n-xxs">
-                            {% for a in all_albums %}
+                            {% for playlist in top_playlists %}
                                 <li class="list-group-item clearfix">
+                                    {% with music.users_like.all as users_like %}
+                                        <a href="#" data-id="{{ music.id }}"
+                                           data-action="{% if request.user in users_like %}un{% endif %}like"
+                                           class="pull-right {% if request.user in users_like %}active{% endif %}"
+                                           data-toggle="class" id="music_like">
+                                            <i class="fa fa-heart-o text"></i>
+                                            <i class="fa fa-heart text-active text-danger"></i>
+                                        </a>
+                                    {% endwith %}
                                     <a href="#" class="jp-play-me pull-right m-t-sm m-l text-md">
                                         <i class="icon-control-play text"></i>
                                         <i class="icon-control-pause text-active"></i>
                                     </a>
-                                    <a href="#" class="pull-left thumb-sm m-r">
-                                        {% if a.photo %}
-                                            <img src="{{ a.photo.url }}" alt="...">
+                                    <a href="{% url 'playlist' playlist.pk %}" class="pull-left thumb-sm m-r">
+                                        {% if playlist.photo %}
+                                            <img src="{{ playlist.photo|thumbnail_url:'other_playlists_cover' }}" alt="...">
                                         {% else %}
                                             <img src="{% static 'images/m0.jpg' %}" alt="...">
                                         {% endif %}
                                     </a>
-                                    <a class="clear" href="#">
-                                        <span class="block text-ellipsis">{{ a.name }}</span>
-                                        <small class="text-muted">by {{ a.artist }}</small>
+                                    <a class="clear" href="{% url 'playlist' playlist.pk %}">
+                                        <span class="block text-ellipsis">{{ playlist.name }}</span>
+                                        <small class="text-muted">by {{ playlist.creator }}</small>
                                     </a>
                                 </li>
                             {% endfor %}
@@ -112,3 +128,44 @@
     </section>
 {% endblock %}
 
+{% block domready %}
+    $(document).on('click', '#follow-playlist', function (e) {
+        e.preventDefault();
+        $.post('{% url 'add_to_playlist' %}',
+            {
+                music_id: $(this).data('music'),
+                playlist_id: $(this).data('playlist')
+            },
+            function (data) {
+                if (data['status'] == 'ok') {
+                    console.alert("success");
+                }
+            }
+        );
+    });
+
+    $(document).on('click', '#music_like', function (e) {
+        e.preventDefault();
+        $.post('{% url 'music_like' %}',
+            {
+                id: $(this).data('id'),
+                action: $(this).data('action')
+            },
+            function (data) {
+                if (data['status'] == 'ok') {
+                    var previous_action = $('a.like').data('action');
+                    // toggle data-action
+                    $('a.like').data('action', previous_action == 'like' ?
+                        'unlike' : 'like');
+                    // toggle link text
+                    $('a.like').text(previous_action == 'like' ? 'Unlike' :
+                        'Like');
+                    // update total likes
+                    var previous_likes = parseInt($('span.count .total').text());
+                    $('span.count .total').text(previous_action == 'like' ?
+                    previous_likes + 1 : previous_likes - 1);
+                }
+            }
+        );
+    });
+{% endblock %}

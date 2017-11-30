@@ -28,6 +28,7 @@
                                                                 class="icon-control-pause i-2x text-active"></i> </a>
                                                     </div>
                                                     <div class="bottom padder m-b-sm">
+                                                    {% with music.users_like.all as users_like %}
                                                         <a href="#" data-id="{{ music.id }}"
                                                            data-action="{% if request.user in users_like %}un{% endif %}like"
                                                            class="pull-right {% if request.user in users_like %}active{% endif %}"
@@ -35,6 +36,7 @@
                                                             <i class="fa fa-heart-o text"></i>
                                                             <i class="fa fa-heart text-active text-danger"></i>
                                                         </a>
+                                                    {% endwith %}
                                                         <span class="dropdown">
                                                             <a href="#" class="dropdown-toggle"
                                                                data-toggle="dropdown">
@@ -245,7 +247,7 @@
                                                     <div class="center text-center m-t-n"><a href="#"><i
                                                             class="fa fa-play-circle i-2x"></i></a></div>
                                                 </div>
-                                                <a href="{% url 'artist_profile' %}">
+                                                <a href="{% url 'performer' performer.pk %}">
                                                     {% if performer.photo %}
                                                         <img src="{{ performer.photo|thumbnail_url:'search' }}" alt=""
                                                              class="r r-2x img-full">
@@ -255,9 +257,9 @@
                                                     {% endif %}
                                                 </a>
                                             </div>
-                                            <div class="padder-v"><a href="{% url 'artist_profile' %}"
+                                            <div class="padder-v"><a href="{% url 'performer' performer.pk %}"
                                                                      class="text-ellipsis">{{ performer.name }}</a>
-                                                <a href="{% url 'artist_profile' %}"
+                                                <a href="{% url 'performer' performer.pk %}"
                                                    class="text-ellipsis text-xs text-muted">{{ performer.description|truncatewords:5 }}</a>
                                             </div>
                                         </div>
@@ -283,3 +285,44 @@
     </section>
 {% endblock %}
 
+{% block domready %}
+    $(document).on('click', '#follow-playlist', function (e) {
+        e.preventDefault();
+        $.post('{% url 'add_to_playlist' %}',
+            {
+                music_id: $(this).data('music'),
+                playlist_id: $(this).data('playlist')
+            },
+            function (data) {
+                if (data['status'] == 'ok') {
+                    console.alert("success");
+                }
+            }
+        );
+    });
+
+    $(document).on('click', '#music_like', function (e) {
+        e.preventDefault();
+        $.post('{% url 'music_like' %}',
+            {
+                id: $(this).data('id'),
+                action: $(this).data('action')
+            },
+            function (data) {
+                if (data['status'] == 'ok') {
+                    var previous_action = $('a.like').data('action');
+                    // toggle data-action
+                    $('a.like').data('action', previous_action == 'like' ?
+                        'unlike' : 'like');
+                    // toggle link text
+                    $('a.like').text(previous_action == 'like' ? 'Unlike' :
+                        'Like');
+                    // update total likes
+                    var previous_likes = parseInt($('span.count .total').text());
+                    $('span.count .total').text(previous_action == 'like' ?
+                    previous_likes + 1 : previous_likes - 1);
+                }
+            }
+        );
+    });
+{% endblock %}

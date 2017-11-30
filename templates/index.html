@@ -107,7 +107,7 @@
                                     </a>
                                 </div>
                                 <div class="padder-v">
-                                    <a href="{% url 'playlist' playlist.pk %}" class="text-ellipsis">{{ playlist.name }}-{{ playlist.get_net_value }}</a>
+                                    <a href="{% url 'playlist' playlist.pk %}" class="text-ellipsis">{{ playlist.name }}</a>
                                     <a href="{{ playlist.creator.get_absolute_url }}"
                                        class="text-ellipsis text-xs text-muted">{{ playlist.creator }}</a>
                                 </div>

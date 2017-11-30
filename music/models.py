@@ -41,28 +41,7 @@ class Music(models.Model):
     number_of_views = models.PositiveIntegerField(default=0)
     release_date = models.DateField()
 
-    def es_repr(self):
-        data = {}
-        mapping = self._meta.es_mapping
-        data['_id'] = self.pk
-        for field_name in mapping['properties'].keys():
-            data[field_name] = self.field_es_repr(field_name)
-        return data
-
-    def field_es_repr(self, field_name):
-        config = self._meta.es_mapping['properties'][field_name]
-        if hasattr(self, 'get_es_%s' % field_name):
-            field_es_value = getattr(self, 'get_es_%s' % field_name)()
-        else:
-            if config['type'] == 'object':
-                related_object = getattr(self, field_name)
-                field_es_value = {}
-                field_es_value['_id'] = related_object.pk
-                for prop in config['properties'].keys():
-                    field_es_value[prop] = getattr(related_object, prop)
-            else:
-                field_es_value = getattr(self, field_name)
-        return field_es_value
+    users_like = models.ManyToManyField(Profile, related_name='images_liked', blank=True)
 
     def get_singers(self):
         singers = ''
@@ -83,24 +62,6 @@ class Music(models.Model):
             return [i for i in self.links.split(' ')]
         else:
             return None
-
-    class Meta:
-        es_index_name = 'moozee'
-        es_type_name = 'music'
-        es_mapping = {
-            'properties': {
-                'genre': {
-                    'type': 'object',
-                    'properties': {
-                        'genre_name': {'type': 'string', 'index': 'not_analyzed'},
-                    }
-                },
-                'name': {'type': 'string', 'index': 'not_analyzed'},
-                'links': {'type': 'string', 'index': 'not_analyzed'},
-                'artist': {'type': 'string', 'index': 'not_analyzed'},
-                'release_date': {'type': 'date'},
-            }
-        }
 
     def save(self, *args, **kwargs):
         is_new = self.pk

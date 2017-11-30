@@ -172,3 +172,22 @@ def search(request):
             return HttpResponse('Minimum length must be 2 characters')
     else:
         return redirect('/')
+
+
+@ajax_required
+@login_required
+@require_POST
+def music_like(request):
+    music_id = request.POST.get('id')
+    action = request.POST.get('action')
+    if music_id and action:
+        try:
+            music = Music.objects.get(id=music_id)
+            if action == 'like':
+                music.users_like.add(request.user)
+            else:
+                music.users_like.remove(request.user)
+                return JsonResponse({'status': 'ok'})
+        except:
+            pass
+    return JsonResponse({'status': 'ko'})

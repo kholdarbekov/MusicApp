@@ -16,6 +16,7 @@
                 class="bar5 a5 bg-danger dker"></span> </span></h2>
         <div class="row row-sm">
         {% for song in list_of_new_songs %}
+            {% with image.users_like.all as users_like %}
             <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
                 <div class="item">
                     <div class="pos-rlt">
@@ -25,9 +26,13 @@
                                         class="icon-control-play i-2x text"></i> <i
                                         class="icon-control-pause i-2x text-active"></i> </a></div>
                             <div class="bottom padder m-b-sm">
-                                <a href="#" class="pull-right" data-toggle="class">
-                                    <i class="fa fa-heart-o text"></i>
-                                    <i class="fa fa-heart text-active text-danger"></i>
+                                <a href="#" data-id="{{ song.id }}" data-action="{% if request.user in users_like %}un{% endif %}like"
+                                   class="pull-right" data-toggle="class" id="music_like">
+                                    {% if request.user not in users_like %}
+                                        <i class="fa fa-heart-o text"></i>
+                                    {% else %}
+                                        <i class="fa fa-heart text-active text-danger"></i>
+                                    {% endif %}
                                 </a>
                                 <span class="dropdown">
                                     <a href="#" class="dropdown-toggle"
@@ -37,6 +42,7 @@
                                     <ul class="dropdown-menu animated fadeInRight">
                                         <li><a href="#" data-toggle="class">Add to queue</a></li>
                                         <li class="dropdown-submenu"><a href="#">Add to playlist</a>
+                                            {% if request.user.playlists.exists %}
                                             <ul class="dropdown-menu" role="menu">
                                                 {% for playlist in request.user.playlists.all %}
                                                     <li>
@@ -47,13 +53,14 @@
                                                     </li>
                                                 {% endfor %}
                                             </ul>
-
-                                            {% if not request.user.playlists.exists %}
-                                                <li>
-                                                    <a href="#modal-form" data-toggle="modal" style="color: red">
-                                                        Create new playlist...
-                                                    </a>
-                                                </li>
+                                            {% else %}
+                                                <ul class="dropdown-menu" role="menu">
+                                                    <li>
+                                                        <a href="#modal-form" data-toggle="modal" style="color: red">
+                                                            Create new playlist...
+                                                        </a>
+                                                    </li>
+                                                </ul>
                                             {% endif %}
                                         </li>
                                     </ul>
@@ -75,6 +82,7 @@
             {% if forloop.counter|divisibleby:2 and not forloop.last %}
             <div class="clearfix visible-xs"></div>
             {% endif %}
+            {% endwith %}
         {% endfor %}
         </div>
         <div class="row">
@@ -165,4 +173,22 @@
     }
     );
     });
+
+    $(document).on('click', '#music_like', function (e) {
+    e.preventDefault();
+    $.post('{% url 'music_like' %}',
+    {
+    id: $(this).data('id'),
+    action: $(this).data('action')
+    },
+    function(data){
+    if (data['status'] == 'ok')
+    {
+    var previous_action = $('a.like').data('action');
+    // toggle data-action
+    $('a.like').data('action', previous_action == 'like' ?
+    'unlike' : 'like');
+    // toggle link text
+    $('a.like').text(previous_action == 'like' ? 'Unlike' :
+    'Like');
 {% endblock %}

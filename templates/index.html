@@ -16,7 +16,7 @@
                 class="bar5 a5 bg-danger dker"></span> </span></h2>
         <div class="row row-sm">
         {% for song in list_of_new_songs %}
-            {% with image.users_like.all as users_like %}
+            {% with song.users_like.all as users_like %}
             <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
                 <div class="item">
                     <div class="pos-rlt">

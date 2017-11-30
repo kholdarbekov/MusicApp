@@ -6,7 +6,7 @@ from .models import Music, Genre, Performer, Album, Playlist, Vote
 @admin.register(Music)
 class MusicAdmin(admin.ModelAdmin):
     list_display = ['name', 'release_date', 'links']
-    filter_horizontal = ['artist', ]
+    filter_horizontal = ['artist', 'users_like']
 
 
 @admin.register(Genre)

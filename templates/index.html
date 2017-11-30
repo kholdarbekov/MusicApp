@@ -91,16 +91,10 @@
                     {% get_top_playlists as top_playlists %}
                     {% for playlist in top_playlists %}
                         <div class="col-xs-6 col-sm-3">
-                            <div class="item">
+                            <div class="">
                                 <div class="pos-rlt">
-                                    <div class="item-overlay opacity r r-2x bg-black">
-                                        <div class="center text-center m-t-n">
-                                            <a href="#">
-                                                <i class="fa fa-play-circle i-2x"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <a href="#">
+
+                                    <a href="{% url 'playlist' playlist.pk %}">
                                         <img src="{{ playlist.photo|thumbnail_url:'new_songs_index'|default:'static/images/a2.png' }}"
                                              alt=""
                                              class="r r-2x img-full">

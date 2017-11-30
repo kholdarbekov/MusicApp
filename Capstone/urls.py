@@ -32,7 +32,6 @@ urlpatterns = [
     url(r'^', include('music.api.urls')),
 
     url(r'^$', TemplateView.as_view(template_name='index.html'), name='index'),
-    url(r'^lock/$', TemplateView.as_view(template_name='lock.html'), name='lock'),
     url(r'^404/$', TemplateView.as_view(template_name='404.html'), name='404'),
     url(r'^not-available/$', TemplateView.as_view(template_name='genres.html'), name='disallowed_country'),
 

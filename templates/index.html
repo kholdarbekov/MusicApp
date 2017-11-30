@@ -27,12 +27,9 @@
                                         class="icon-control-pause i-2x text-active"></i> </a></div>
                             <div class="bottom padder m-b-sm">
                                 <a href="#" data-id="{{ song.id }}" data-action="{% if request.user in users_like %}un{% endif %}like"
-                                   class="pull-right" data-toggle="class" id="music_like">
-                                    {% if request.user not in users_like %}
-                                        <i class="fa fa-heart-o text"></i>
-                                    {% else %}
-                                        <i class="fa fa-heart text-active text-danger"></i>
-                                    {% endif %}
+                                   class="pull-right {% if request.user in users_like %}active{% endif %}" data-toggle="class" id="music_like">
+                                    <i class="fa fa-heart-o text"></i>
+                                    <i class="fa fa-heart text-active text-danger"></i>
                                 </a>
                                 <span class="dropdown">
                                     <a href="#" class="dropdown-toggle"
@@ -191,4 +188,13 @@
     // toggle link text
     $('a.like').text(previous_action == 'like' ? 'Unlike' :
     'Like');
+    // update total likes
+    var previous_likes = parseInt($('span.count .total').
+    text());
+    $('span.count .total').text(previous_action == 'like' ?
+    previous_likes + 1 : previous_likes - 1);
+    }
+    }
+    );
+    });
 {% endblock %}

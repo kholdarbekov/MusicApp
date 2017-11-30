@@ -87,9 +87,9 @@ class PlaylistView(LoginRequiredMixin, DetailView):
     context_object_name = 'playlist'
     template_name = 'playlist.html'
 
-    # def get_queryset(self):
-    #     qs = super(PlaylistView, self).get_queryset()
-    #     return qs.filter(creator__in=[self.request.user])
+    def get_queryset(self):
+        qs = super(PlaylistView, self).get_queryset()
+        return qs.filter(creator__in=[self.request.user])
 
     def get_context_data(self, **kwargs):
         context = super(PlaylistView, self).get_context_data(**kwargs)

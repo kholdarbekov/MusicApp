@@ -30,10 +30,15 @@
                             {% for music in album.musics.all %}
                                 <li class="list-group-item">
                                     <div class="pull-right m-l">
-                                        <a href="#" class="m-r-sm" data-toggle="class">
-                                            <i class="fa fa-heart-o text"></i>
-                                            <i class="fa fa-heart text-active text-danger"></i>
-                                        </a>
+                                        {% with music.users_like.all as users_like %}
+                                            <a href="#" data-id="{{ music.id }}"
+                                               data-action="{% if request.user in users_like %}un{% endif %}like"
+                                               class="m-r-sm {% if request.user in users_like %}active{% endif %}"
+                                               data-toggle="class" id="music_like">
+                                               <i class="fa fa-heart-o text"></i>
+                                               <i class="fa fa-heart text-active text-danger"></i>
+                                            </a>
+                                        {% endwith %}
                                         <span class="dropdown">
                                             <a href="#" class="dropdown-toggle"
                                                data-toggle="dropdown">
@@ -73,7 +78,6 @@
                                     </a>
                                     <div class="clear text-ellipsis">
                                         <span>{{ music.name }}</span>
-                                        <span class="text-muted"> -- 04:15</span>
                                     </div>
                                 </li>
                             {% endfor %}
@@ -87,7 +91,7 @@
                         <ul class="list-group list-group-lg no-bg auto m-b-none m-t-n-xxs">
                             {% for a in all_albums %}
                                 <li class="list-group-item clearfix">
-                                    <a href="#" class="jp-play-me pull-right m-t-sm m-l text-md">
+                                    <a href="{% url 'album' a.pk %}" class="jp-play-me pull-right m-t-sm m-l text-md">
                                         <i class="icon-control-play text"></i>
                                         <i class="icon-control-pause text-active"></i>
                                     </a>
@@ -101,7 +105,7 @@
                                     <a class="clear" href="{% url 'album' a.pk %}">
                                         <span class="block text-ellipsis">{{ a.name }}</span>
                                     </a>
-                                    <a class="clear" href="#">
+                                    <a class="" href="{% url 'performer' a.artist.pk %}">
                                         <small class="text-muted">by {{ a.artist }}</small>
                                     </a>
                                 </li>
@@ -127,5 +131,30 @@
     }
     }
     );
+    });
+
+    $(document).on('click', '#music_like', function (e) {
+        e.preventDefault();
+        $.post('{% url 'music_like' %}',
+            {
+                id: $(this).data('id'),
+                action: $(this).data('action')
+            },
+            function (data) {
+                if (data['status'] == 'ok') {
+                    var previous_action = $('a.like').data('action');
+                    // toggle data-action
+                    $('a.like').data('action', previous_action == 'like' ?
+                        'unlike' : 'like');
+                    // toggle link text
+                    $('a.like').text(previous_action == 'like' ? 'Unlike' :
+                        'Like');
+                    // update total likes
+                    var previous_likes = parseInt($('span.count .total').text());
+                    $('span.count .total').text(previous_action == 'like' ?
+                    previous_likes + 1 : previous_likes - 1);
+                }
+            }
+        );
     });
 {% endblock %}

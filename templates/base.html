@@ -59,7 +59,7 @@
 {#                                <img src="" alt="..." class="img-circle">#}
 {#                            {% endif %}#}
                         </span>
-                        {{ user.username }} <b class="caret"></b> </a>
+                        {{ user.username|truncatechars:20 }} <b class="caret"></b> </a>
                         <ul class="dropdown-menu animated fadeInRight">
                             <li><a href="{% url 'profile' username=request.user.username %}">Profile</a></li>
                             <li><a href="docs.html">Help</a></li>
@@ -123,7 +123,7 @@
 {#                                        {% endif %}#}
                                     </span>
                                     <span class="hidden-nav-xs clear"> <span class="block m-l"> <strong
-                                            class="font-bold text-lt">{{ user.username }}</strong> <b
+                                            class="font-bold text-lt">{{ user.username|truncatechars:15 }}</strong> <b
                                             class="caret"></b> </span> <span class="text-muted text-xs block m-l">Art Director</span> </span>
                                 </a>
                                     <ul class="dropdown-menu animated fadeInRight aside text-left">

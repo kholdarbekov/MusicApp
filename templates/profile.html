@@ -10,59 +10,64 @@
                 <section class="vbox">
                     <section class="scrollable">
                         <div class="wrapper">
-                            <div class="text-center m-b m-t">
-                                <a href="#" class="thumb-lg">
-                                    {% if profile.photo %}
-                                        <img style="width: 200px"
-                                             src="{{ profile.photo|thumbnail_url:'profile_avatar_bigger' }}"
-                                             class="img-circle">
-                                    {% else %}
-                                        <img style="width: 200px" src="{% static 'images/b22.jpg' %}"
-                                             class="img-circle">
-                                    {% endif %}
-                                </a>
-                                <div>
-                                    <div class="h3 m-t-xs m-b-xs">{{ profile.get_username }}</div>
+                            <div class="row">
+                                <div class="col-md-3 text-center m-b m-t">
+                                    <a href="#" class="thumb-lg">
+                                        {% if profile.photo %}
+                                            <img style="width: 200px"
+                                                 src="{{ profile.photo|thumbnail_url:'profile_avatar_bigger' }}"
+                                                 class="img-circle">
+                                        {% else %}
+                                            <img style="width: 200px" src="{% static 'images/b22.jpg' %}"
+                                                 class="img-circle">
+                                        {% endif %}
+                                    </a>
+                                    <div style="margin-top: 20px;" class="">
+                                        <div title="{{ profile.get_username }}" class="h4 m-t-xs m-b-xs">{{ profile.get_username|truncatechars:20 }}</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-8 col-md-offset-1">
+                                    <h4 class="text-muted">About Me</h4>
+                                    {{ profile.bio|escape }}
+
+                                    <div class="line"></div>
+                                    <h4><a href="{% url 'edit_profile' %}"><i class="fa fa-edit"></i> Edit Profile</a>
+                                    </h4>
+                                    <div style="padding-bottom: 50px"></div>
                                 </div>
                             </div>
                             <div class="panel wrapper">
                                 <div class="row text-center">
                                     <div class="col-xs-6"><a href="#modal-follower" data-toggle="modal">
                                         {% with total_followers=profile.followers.count %}
-                                        <span class="m-b-xs h4 block">{{ total_followers }}</span>
+                                            <span class="m-b-xs h4 block">{{ total_followers }}</span>
                                         {% endwith %}
                                         <small class="text-muted">Follower{{ total_followers|pluralize }}</small>
                                     </a></div>
                                     <div class="col-xs-6"><a href="#modal-following" data-toggle="modal">
                                         {% with total_followings=profile.following.count %}
-                                        <span class="m-b-xs h4 block">{{ total_followings }}</span>
+                                            <span class="m-b-xs h4 block">{{ total_followings }}</span>
                                         {% endwith %}
                                         <small class="text-muted">Following{{ total_followings|pluralize }}</small>
                                     </a></div>
                                 </div>
                             </div>
-                        {% if request.user.username != profile.username %}
-                            <div class="btn-group btn-group-justified m-b">
-                                <a href="#" class="btn btn-success btn-rounded" id="follow" data-toggle="button"
-                                   data-id="{{ profile.username }}"
-                                   data-action="{% if request.user in profile.followers.all %}un{% endif %}follow">
-                                    {% if request.user not in profile.followers.all %}
-                                        <span class="text"> <i class="icon-user-follow"></i> Follow </span>
-                                    {% else %}
-                                        <span class="text-active"> <i class="icon-user-following"></i> Following </span>
-                                    {% endif %}
-                                </a>
-                                <a class="btn btn-dark btn-rounded"> <i class="fa fa-eye"></i>Watch </a>
-                            </div>
-                        {% endif %}
-                            <div>
-                                <h4 class="text-muted">About Me</h4>
-                                {{ profile.bio|escape }}
-
-                                <div class="line"></div>
-                                <h4><a href="{% url 'edit_profile' %}"><i class="fa fa-edit"></i> Edit Profile</a></h4>
-                                <div style="padding-bottom: 100px"></div>
-                            </div>
+                            {% if request.user.username != profile.username %}
+                                <div class="btn-group btn-group-justified m-b">
+                                    <a href="#" class="btn btn-success btn-rounded" id="follow" data-toggle="button"
+                                       data-id="{{ profile.username }}"
+                                       data-action="{% if request.user in profile.followers.all %}un{% endif %}follow">
+                                        {% if request.user not in profile.followers.all %}
+                                            <span class="text"> <i class="icon-user-follow"></i> Follow </span>
+                                        {% else %}
+                                            <span class="text-active"> <i
+                                                    class="icon-user-following"></i> Following </span>
+                                        {% endif %}
+                                    </a>
+                                    <a class="btn btn-dark btn-rounded"> <i class="fa fa-eye"></i>Watch </a>
+                                </div>
+                            {% endif %}
+                            <div style="padding-bottom: 100px"></div>
                         </div>
                     </section>
                 </section>
@@ -76,10 +81,12 @@
                                     {% for playlist in profile.playlists.all %}
                                         <li class="list-group-item">
                                             <p>
-                                                <a href="{% url 'playlist' pk=playlist.pk %}" class="text-info">{{ playlist.name }}</a>
+                                                <a href="{% url 'playlist' pk=playlist.pk %}"
+                                                   class="text-info">{{ playlist.name }}</a>
                                             </p>
 
-                                            <small class="block text-muted"><i class="fa fa-clock-o"></i> Created {{ playlist.created_date|date:"d-m-y" }}
+                                            <small class="block text-muted"><i class="fa fa-clock-o"></i>
+                                                Created {{ playlist.created_date|date:"d-m-y" }}
                                             </small>
                                         </li>
                                     {% endfor %}
@@ -106,16 +113,20 @@
                                         <div class="media">
                                             <span class="pull-left thumb-sm">
                                                 {% if follower.photo %}
-                                                    <img src="{{ follower.photo|thumbnail_url:'top_albums_index' }}" alt="John said" class="img-circle">
+                                                    <img src="{{ follower.photo|thumbnail_url:'top_albums_index' }}"
+                                                         alt="John said" class="img-circle">
                                                 {% else %}
-                                                    <img src="{% static 'images/a0.png' %}" alt="John said" class="img-circle">
+                                                    <img src="{% static 'images/a0.png' %}" alt="John said"
+                                                         class="img-circle">
                                                 {% endif %}
 
                                             </span>
                                             <div class="pull-right text-success m-t-sm"><i class="fa fa-circle"></i>
                                             </div>
                                             <div class="media-body">
-                                                <div><a href="{{ follower.get_absolute_url }}">{{ follower.username }}</a></div>
+                                                <div>
+                                                    <a href="{{ follower.get_absolute_url }}">{{ follower.username }}</a>
+                                                </div>
                                                 <small class="text-muted">{{ follower.last_login|timesince }}</small>
                                             </div>
                                         </div>
@@ -141,15 +152,19 @@
                                         <div class="media">
                                             <span class="pull-left thumb-sm">
                                                 {% if following.photo %}
-                                                    <img src="{{ following.photo|thumbnail_url:'top_albums_index' }}" alt="John said" class="img-circle">
+                                                    <img src="{{ following.photo|thumbnail_url:'top_albums_index' }}"
+                                                         alt="John said" class="img-circle">
                                                 {% else %}
-                                                    <img src="{% static 'images/a0.png' %}" alt="John said" class="img-circle">
+                                                    <img src="{% static 'images/a0.png' %}" alt="John said"
+                                                         class="img-circle">
                                                 {% endif %}
                                             </span>
                                             <div class="pull-right text-success m-t-sm"><i class="fa fa-circle"></i>
                                             </div>
                                             <div class="media-body">
-                                                <div><a href="{{ following.get_absolute_url }}">{{ following.username }}</a></div>
+                                                <div>
+                                                    <a href="{{ following.get_absolute_url }}">{{ following.username }}</a>
+                                                </div>
                                                 <small class="text-muted">{{ following.last_login|timesince }}</small>
                                             </div>
                                         </div>
@@ -165,29 +180,29 @@
 {% endblock %}
 
 {% block domready %}
-$(document).on('click', '#follow', function (e) {
+    $(document).on('click', '#follow', function (e) {
     e.preventDefault();
     $.post('{% url 'user_follow' %}',
-        {
-            id: $(this).data('id'),
-            action: $(this).data('action')
-        },
-        function (data) {
-            if (data['status'] == 'ok') {
-                var previous_action = $('#follow').data('action');
-                // toggle data-action
-                $('#follow').data('action',
-                    previous_action == 'follow' ? 'unfollow' : 'follow');
-                // toggle link text
-                $('#follow').text(
-                    previous_action == 'follow' ? 'Unfollow' : 'Follow');
-                // update total followers
-                var previous_followers = parseInt(
-                    $('span.count .total').text());
-                $('span.count .total').text(previous_action == 'follow' ?
-                    previous_followers + 1 : previous_followers - 1);
-            }
-        }
+    {
+    id: $(this).data('id'),
+    action: $(this).data('action')
+    },
+    function (data) {
+    if (data['status'] == 'ok') {
+    var previous_action = $('#follow').data('action');
+    // toggle data-action
+    $('#follow').data('action',
+    previous_action == 'follow' ? 'unfollow' : 'follow');
+    // toggle link text
+    $('#follow').text(
+    previous_action == 'follow' ? 'Unfollow' : 'Follow');
+    // update total followers
+    var previous_followers = parseInt(
+    $('span.count .total').text());
+    $('span.count .total').text(previous_action == 'follow' ?
+    previous_followers + 1 : previous_followers - 1);
+    }
+    }
     );
-});
+    });
 {% endblock %}

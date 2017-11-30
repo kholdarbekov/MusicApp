@@ -184,7 +184,7 @@
     e.preventDefault();
     $.post('{% url 'user_follow' %}',
     {
-    id: $(this).data('id'),
+    username: $(this).data('id'),
     action: $(this).data('action')
     },
     function (data) {

@@ -85,46 +85,22 @@
                     <section class="scrollable hover">
                         <div class="m-t-n-xxs">
                             <h4> Other playlists</h4>
-                            <div class="item pos-rlt"><a href="#"
-                                                         class="item-overlay active opacity wrapper-md font-xs">
-                                <span class="block h3 font-bold text-info">Hip-Hop</span> <span
-                                    class="text-muted">Search the music you like</span> <span
-                                    class="bottom wrapper-md block">- <i
-                                    class="icon-arrow-right i-lg pull-right"></i></span> </a> <a
-                                    href="#"> <img class="img-full" src="{% static 'images/m40.jpg' %}" alt="..."> </a>
-                            </div>
-                            <div class="item pos-rlt"><a href="#"
-                                                         class="item-overlay active opacity wrapper-md font-xs text-right">
-                                <span class="block h3 font-bold text-warning">Jazz</span>
-                                <span class="text-muted">Find the peace in your heart</span> <span
-                                    class="bottom wrapper-md block"><i
-                                    class="icon-arrow-right i-lg pull-left"></i> -</span> </a> <a
-                                    href="#"> <img class="img-full" src="{% static 'images/m41.jpg' %}" alt="..."> </a>
-                            </div>
-                            <div class="item pos-rlt"><a href="#"
-                                                         class="item-overlay active opacity wrapper-md font-xs">
-                                <span class="block h3 font-bold text-success text-u-c">Share</span>
-                                <span class="text-muted">Share the good songs with your loves</span>
-                                <span class="bottom wrapper-md block">- <i
-                                        class="icon-arrow-right i-lg pull-right"></i></span> </a> <a
-                                    href="#"> <img class="img-full" src="{% static 'images/m42.jpg' %}" alt="..."> </a>
-                            </div>
-                            <div class="item pos-rlt"><a href="#"
-                                                         class="item-overlay active opacity wrapper-md font-xs text-right">
-                                <span class="block h3 font-bold text-white text-u-c">2014</span> <span
-                                    class="text-muted">Find, Listen & Share</span> <span
-                                    class="bottom wrapper-md block"><i
-                                    class="icon-arrow-right i-lg pull-left"></i> -</span> </a> <a
-                                    href="#"> <img class="img-full" src="{% static 'images/m44.jpg' %}" alt="..."> </a>
-                            </div>
-                            <div class="item pos-rlt"><a href="#"
-                                                         class="item-overlay active opacity wrapper-md font-xs">
-                                <span class="block h3 font-bold text-danger-lter text-u-c">Top10</span>
-                                <span class="text-muted">Selected songs</span> <span
-                                    class="bottom wrapper-md block">- <i
-                                    class="icon-arrow-right i-lg pull-right"></i></span> </a> <a
-                                    href="#"> <img class="img-full" src="{% static 'images/m45.jpg' %}" alt="..."> </a>
-                            </div>
+                            {% for playlist in all_playlists %}
+                                <div class="item pos-rlt">
+                                    <a href="{% url 'playlist' playlist.pk %}" class="item-overlay active opacity wrapper-md font-xs {% if forloop.counter|divisibleby:2 %}text-right{% endif %}">
+                                        <span class="block h3 font-bold {% if forloop.counter|divisibleby:2 %}text-warning{% else %}text-success text-u-c{% endif %}">{{ playlist.name }}</span>
+                                        <span class="text-muted">{{ playlist.description|escape|truncatewords:5 }}</span>
+                                        <span class="bottom wrapper-md block">{% if forloop.counter|divisibleby:2 %}<i class="icon-music-tone i-lg pull-left">  {{ playlist.musics.count }}</i>{% else %}<i class="icon-music-tone i-lg pull-right">  {{ playlist.musics.count }}</i>{% endif %}</span>
+                                    </a>
+                                    <a href="{% url 'playlist' playlist.pk %}">
+                                        {% if playlist.photo %}
+                                            <img class="img-full" src="{{ playlist.photo|thumbnail_url:'other_playlists_cover' }}" alt="...">
+                                        {% else %}
+                                            <img class="img-full" src="{% static 'images/m41.jpg' %}" alt="...">
+                                        {% endif %}
+                                    </a>
+                                </div>
+                            {% endfor %}
                         </div>
                     </section>
                 </section>

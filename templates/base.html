@@ -233,6 +233,7 @@
                             <div class="col-sm-6 b-r"><h3 class="m-t-none m-b">Create playlist</h3>
                             <p>Enjoy and share with friends!</p>
                             {% csrf_token %}
+                                <input type="hidden" name="cp" value="{{ request.get_full_path }}">
                             <div class="form-group"><label>Name</label>
                                 <input type="text" name="name" class="form-control" placeholder="Name of playlist">
                             </div>

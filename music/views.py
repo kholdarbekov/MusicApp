@@ -1,6 +1,7 @@
 import json
 
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, get_object_or_404, redirect
 from django.conf import settings
 from django.http import HttpResponse, JsonResponse
@@ -44,19 +45,28 @@ def autocomplete_view(request):
     return HttpResponse(data, mimetype)
 
 
+@login_required
 def playListCreateView(request):
     if request.method == 'POST':
+        cp = request.POST.get('cp')
         playlist = PlaylistForm(request.POST, request.FILES)
         if playlist.is_valid():
             playlist = playlist.save(commit=False)
             playlist.creator = request.user
             playlist.save()
-            return JsonResponse({'status': 'ok'})
+
+        if cp:
+            try:
+                return redirect(cp)
+            except:
+                return redirect('/')
         else:
-            return JsonResponse({'status': 'ko'})
+            return redirect('/')
+    else:
+        return JsonResponse({'error': 'This view takes only POST requests'})
 
 
-class AlbumView(DetailView):
+class AlbumView(DetailView, LoginRequiredMixin):
     model = Album
     context_object_name = 'album'
     template_name = 'album.html'
@@ -67,7 +77,7 @@ class AlbumView(DetailView):
         return context
 
 
-class AllAlbumsView(TemplateView):
+class AllAlbumsView(TemplateView, LoginRequiredMixin):
     template_name = 'album.html'
 
     def get_context_data(self, **kwargs):
@@ -78,7 +88,7 @@ class AllAlbumsView(TemplateView):
         return context
 
 
-class PlaylistView(DetailView):
+class PlaylistView(DetailView, LoginRequiredMixin):
     model = Playlist
     context_object_name = 'playlist'
     template_name = 'playlist.html'
@@ -93,7 +103,7 @@ class PlaylistView(DetailView):
         return context
 
 
-class GenreView(DetailView):
+class GenreView(DetailView, LoginRequiredMixin):
     model = Genre
     context_object_name = 'genre'
     template_name = 'genres.html'
@@ -191,3 +201,18 @@ def music_like(request):
         except:
             pass
     return JsonResponse({'status': 'ko'})
+
+
+class PerformerView(LoginRequiredMixin, DetailView):
+    template_name = 'profile.html'
+    context_object_name = 'profile'
+    model = Performer
+    slug_field = 'pk'
+
+    def get_object(self, queryset=None):
+        return Profile.objects.get(pk=self.kwargs[self.slug_field])
+
+    # def get_context_data(self, **kwargs):
+    #     context = super(ProfileView, self).get_context_data(**kwargs)
+    #     # context['profile'] = Profile.objects.get(pk=self.request.user.pk)
+    #     return context

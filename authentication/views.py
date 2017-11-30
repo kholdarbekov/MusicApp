@@ -165,7 +165,7 @@ class UserUpdateView(UpdateView):
 @require_POST
 @login_required
 def user_follow(request):
-    usrname = request.POST.get('id')
+    usrname = request.POST.get('username')
     action = request.POST.get('action')
     if usrname and action:
         try:

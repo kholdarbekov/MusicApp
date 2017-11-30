@@ -16,7 +16,7 @@
                                     class="bar1 a3 lter"></span> <span class="bar2 a5 lt"></span> <span
                                     class="bar3 a1 bg"></span> <span class="bar4 a4 dk"></span> <span
                                     class="bar5 a2 dker"></span> </span></div>
-                            <div class="bottom gd bg-info wrapper-lg"><span class="pull-right text-sm">101,400 <br>Followers</span>
+                            <div class="bottom gd bg-info wrapper-lg"><span class="pull-right text-sm">{{ album.number_of_views }} <br>view{{ album.number_of_views|pluralize }}</span>
                                 <span class="h2 font-thin">{{ album.name }}</span></div>
                         <img class="img-full" src="{{ album.photo|thumbnail_url:'album_cover' }}" alt="...">
 {#                        <img class="img-full" src="{% static 'images/m0.jpg' %}" style="height: 400px !important;" alt="...">#}
@@ -91,15 +91,17 @@
                                         <i class="icon-control-play text"></i>
                                         <i class="icon-control-pause text-active"></i>
                                     </a>
-                                    <a href="#" class="pull-left thumb-sm m-r">
+                                    <a href="{% url 'album' a.pk %}" class="pull-left thumb-sm m-r">
                                         {% if a.photo %}
-                                            <img src="{{ a.photo.url }}" alt="...">
+                                            <img src="{{ a.photo|thumbnail_url:'top_albums_index' }}" alt="...">
                                         {% else %}
                                             <img src="{% static 'images/m0.jpg' %}" alt="...">
                                         {% endif %}
                                     </a>
-                                    <a class="clear" href="#">
+                                    <a class="clear" href="{% url 'album' a.pk %}">
                                         <span class="block text-ellipsis">{{ a.name }}</span>
+                                    </a>
+                                    <a class="clear" href="#">
                                         <small class="text-muted">by {{ a.artist }}</small>
                                     </a>
                                 </li>

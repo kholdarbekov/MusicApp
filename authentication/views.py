@@ -181,3 +181,17 @@ def user_follow(request):
         except Profile.DoesNotExist:
             return JsonResponse({'status': 'ko'})
     return JsonResponse({'status': 'ko'})
+
+
+class GetFollowUsers(APIView):
+    http_method_names = ['get', 'post']
+
+    def get(self, request):
+        followings = request.user.following.all()
+        serializer = UserSerializer(followings, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        followers = request.user.followers.all()
+        serializer = UserSerializer(followers, many=True)
+        return Response(serializer.data)

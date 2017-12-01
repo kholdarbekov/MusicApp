@@ -41,7 +41,7 @@ class Music(models.Model):
     number_of_views = models.PositiveIntegerField(default=0)
     release_date = models.DateField()
 
-    users_like = models.ManyToManyField(Profile, related_name='images_liked', blank=True)
+    users_like = models.ManyToManyField(Profile, related_name='musics_liked', blank=True)
 
     def get_singers(self):
         singers = ''

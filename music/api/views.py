@@ -36,6 +36,14 @@ def get_music(request):
     return JsonResponse({'error': 'wrong parameters are sent'})
 
 
+def get_liked_musics(request):
+    if request.method == 'GET':
+        musics = request.user.musics_liked.all()
+        musics_serializers = MusicSerializer(musics, many=True)
+        return JsonResponse(musics_serializers.data)
+    return JsonResponse({'error': 'This view takes only GET request'})
+
+
 class TopPlaylists(APIView):
     http_method_names = ['post', ]
 

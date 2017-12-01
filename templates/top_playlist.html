@@ -93,16 +93,8 @@
                         <ul class="list-group list-group-lg no-bg auto m-b-none m-t-n-xxs">
                             {% for playlist in top_playlists %}
                                 <li class="list-group-item clearfix">
-                                    {% with music.users_like.all as users_like %}
-                                        <a href="#" data-id="{{ music.id }}"
-                                           data-action="{% if request.user in users_like %}un{% endif %}like"
-                                           class="pull-right {% if request.user in users_like %}active{% endif %}"
-                                           data-toggle="class" id="music_like">
-                                            <i class="fa fa-heart-o text"></i>
-                                            <i class="fa fa-heart text-active text-danger"></i>
-                                        </a>
-                                    {% endwith %}
-                                    <a href="#" class="jp-play-me pull-right m-t-sm m-l text-md">
+
+                                    <a href="{% url 'playlist' playlist.pk %}" class="jp-play-me pull-right m-t-sm m-l text-md">
                                         <i class="icon-control-play text"></i>
                                         <i class="icon-control-pause text-active"></i>
                                     </a>

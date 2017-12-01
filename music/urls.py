@@ -12,7 +12,7 @@ urlpatterns = [
     url(r'^playlist/(?P<pk>\d+)/$', PlaylistView.as_view(), name='playlist'),
     url(r'^topplaylists/$', TemplateView.as_view(template_name='top_playlist.html'), name='top_playlists'),
     url(r'^add-to-playlist/$', add_to_playlist, name='add_to_playlist'),
-    url(r'^genre/(?P<genre_name>\w+)/$', GenreView.as_view(), name='genre'),
+    url(r'^genre/(?P<genre_name>.+)/$', GenreView.as_view(), name='genre'),
     url(r'^like/$', music_like, name='music_like'),
 
     url(r'^artist/(?P<pk>\d+)/$', PerformerView.as_view(), name='performer'),

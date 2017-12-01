@@ -20,7 +20,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework import permissions
 from .forms import UserCreationForm, UserEditForm
 from .models import Profile, Follower
-from .serializers import UserSerializer
+from .serializers import UserSerializer, ProfileSerializer
 from .signals import user_created
 
 
@@ -188,10 +188,10 @@ class GetFollowUsers(APIView):
 
     def get(self, request):
         followings = request.user.following.all()
-        serializer = UserSerializer(followings, many=True)
+        serializer = ProfileSerializer(followings, many=True)
         return Response(serializer.data)
 
     def post(self, request):
         followers = request.user.followers.all()
-        serializer = UserSerializer(followers, many=True)
+        serializer = ProfileSerializer(followers, many=True)
         return Response(serializer.data)

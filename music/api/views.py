@@ -165,3 +165,12 @@ class FollowPlaylist(APIView):
             except Playlist.DoesNotExist:
                 return Response({'status': 'ko'})
         return Response({'status': 'ko'})
+
+
+class FollowedPlaylists(APIView):
+    http_method_names = ['get', ]
+
+    def get(self, request):
+        playlists = request.user.followed_playlists.all()
+        serializer = PlaylistSerializers(playlists, many=True)
+        return Response(serializer.data)

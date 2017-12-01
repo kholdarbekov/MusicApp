@@ -82,11 +82,9 @@
                                             </div>
                                             <a href="#">
                                                 {% if music.photo %}
-                                                    <img src="{{ music.photo|thumbnail_url:'genre' }}" alt=""
-                                                         class="r r-2x img-full">
+                                                    <img src="{{ music.photo|thumbnail_url:'genres' }}" alt="" class="r r-2x img-full">
                                                 {% else %}
-                                                    <img src="{% static 'images/m1.jpg' %}" alt=""
-                                                         class="r r-2x img-full">
+                                                    <img src="{% static 'images/m1.jpg' %}" alt="" class="r r-2x img-full">
                                                 {% endif %}
                                             </a>
                                         </div>

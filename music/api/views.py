@@ -145,3 +145,23 @@ class UserPlaylists(APIView):
         playlists = request.user.playlists.all()
         serializer = PlaylistSerializers(playlists, many=True)
         return Response(serializer.data)
+
+
+class FollowPlaylist(APIView):
+    http_method_names = ['post', ]
+
+    def post(self, request):
+        playlist_pk = request.data.get('playlist_pk')
+        action = request.data.get('action')
+        if playlist_pk and action:
+            try:
+                playlist = Playlist.objects.get(pk=playlist_pk)
+
+                if action == 'follow':
+                    playlist.followers.add(request.user)
+                else:
+                    playlist.followers.remove(request.user)
+                return Response({'status': 'ok'})
+            except Playlist.DoesNotExist:
+                return Response({'status': 'ko'})
+        return Response({'status': 'ko'})

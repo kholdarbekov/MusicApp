@@ -20,7 +20,7 @@ def get_new_songs():
 
 @register.simple_tag
 def get_top_albums():
-    return Album.objects.order_by('-number_of_views')[:5]
+    return sorted(Album.objects.all(), key=lambda album: album.get_net_value, reverse=True)[:5]
 
 
 @register.filter(name='playlists')

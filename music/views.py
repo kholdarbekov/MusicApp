@@ -192,7 +192,7 @@ def music_like(request):
                 music.users_like.add(request.user)
             else:
                 music.users_like.remove(request.user)
-                return JsonResponse({'status': 'ok'})
+            return JsonResponse({'status': 'ok'})
         except:
             pass
     return JsonResponse({'status': 'ko'})
@@ -211,3 +211,23 @@ class PerformerView(LoginRequiredMixin, DetailView):
     #     context = super(ProfileView, self).get_context_data(**kwargs)
     #     # context['profile'] = Profile.objects.get(pk=self.request.user.pk)
     #     return context
+
+
+@ajax_required
+@require_POST
+@login_required
+def playlist_follow(request):
+    playlist_pk = request.POST.get('playlist_pk')
+    action = request.POST.get('action')
+    if playlist_pk and action:
+        try:
+            playlist = Playlist.objects.get(pk=playlist_pk)
+
+            if action == 'follow':
+                playlist.followers.add(request.user)
+            else:
+                playlist.followers.remove(request.user)
+            return JsonResponse({'status': 'ok'})
+        except Playlist.DoesNotExist:
+            return JsonResponse({'status': 'ko'})
+    return JsonResponse({'status': 'ko'})

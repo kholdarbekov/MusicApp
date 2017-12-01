@@ -110,6 +110,8 @@ class Playlist(models.Model):
     creator = models.ForeignKey(Profile, related_name='playlists')
     created_date = models.DateField(auto_now_add=True)
 
+    followers = models.ManyToManyField(Profile, related_name='followed_playlists', null=True, blank=True)
+
     def __str__(self):
         return 'Playlist: %s created by %s' % (self.name, self.creator)
 

@@ -2,7 +2,7 @@ from django.conf.urls import url
 from django.views.generic import TemplateView
 
 from .views import autocomplete_view, playListCreateView, AlbumView, PlaylistView, AllAlbumsView, add_to_playlist, search, \
-    GenreView, music_like, PerformerView
+    GenreView, music_like, PerformerView, playlist_follow
 
 urlpatterns = [
     url(r'^autocomplete/', autocomplete_view, name='autocomplete-view'),
@@ -14,6 +14,7 @@ urlpatterns = [
     url(r'^add-to-playlist/$', add_to_playlist, name='add_to_playlist'),
     url(r'^genre/(?P<genre_name>.+)/$', GenreView.as_view(), name='genre'),
     url(r'^like/$', music_like, name='music_like'),
+    url(r'^follow-playlist/$', playlist_follow, name='follow_playlist'),
 
     url(r'^artist/(?P<pk>\d+)/$', PerformerView.as_view(), name='performer'),
 

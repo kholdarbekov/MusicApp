@@ -33,6 +33,8 @@ def get_music(request):
         music_id = request.GET.get('id', None)
         if music_id:
             music = get_object_or_404(Music, pk=music_id)
+            music.number_of_views += 1
+            music.save()
             return JsonResponse({'title':music.name, 'artist': music.artist.last().name, 'mp3': music.links, 'id': music.pk})
     return JsonResponse({'error': 'wrong parameters are sent'})
 

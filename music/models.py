@@ -91,6 +91,16 @@ class Album(models.Model):
     def __str__(self):
         return '%s by %s' % (self.name, self.artist)
 
+    @property
+    def get_net_value(self):
+        counter = 0
+        for music in self.musics.all():
+            counter += music.number_of_views
+        if self.musics.count():
+            return counter / self.musics.count()
+        else:
+            return 0
+
 
 class Playlist(models.Model):
     name = models.CharField(max_length=255)

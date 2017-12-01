@@ -125,3 +125,12 @@ class Search(APIView):
                              'performer_results': performer_serializer.data})
         else:
             return Response({'Minimum length must be 2 characters'})
+
+
+class TopAlbums(APIView):
+    http_method_names = ['get', ]
+
+    def get(self, request):
+        albums = sorted(Album.objects.all(), key=lambda album: album.get_net_value, reverse=True)
+        serializer = AlbumSerializer(albums, many=True)
+        return Response(serializer.data)

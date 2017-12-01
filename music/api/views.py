@@ -134,3 +134,12 @@ class TopAlbums(APIView):
         albums = sorted(Album.objects.all(), key=lambda album: album.get_net_value, reverse=True)
         serializer = AlbumSerializer(albums, many=True)
         return Response(serializer.data)
+
+
+class UserPlaylists(APIView):
+    http_method_names = ['get', ]
+
+    def get(self, request):
+        playlists = request.user.playlists.all()
+        serializer = PlaylistSerializers(playlists, many=True)
+        return Response(serializer.data)

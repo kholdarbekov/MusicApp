@@ -30,7 +30,7 @@
                                 <div class="col-md-8 col-md-offset-1">
                                     <h4 class="text-muted">About Me</h4>
                                     {{ profile.bio|escape }}
-                                    {% if request.user.username != profile.username %}
+                                    {% if request.user.username == profile.username %}
                                     <div class="line"></div>
                                     <h4><a href="{% url 'edit_profile' %}"><i class="fa fa-edit"></i> Edit Profile</a>
                                     </h4>

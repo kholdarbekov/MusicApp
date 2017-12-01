@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.gis.geoip2 import GeoIP2
 from django.contrib.auth import authenticate, login
 from django.views.generic.edit import FormView, UpdateView
@@ -145,6 +145,18 @@ class ProfileView(LoginRequiredMixin, DetailView):
     #     context = super(ProfileView, self).get_context_data(**kwargs)
     #     # context['profile'] = Profile.objects.get(pk=self.request.user.pk)
     #     return context
+
+
+class APIProfileView(APIView):
+    http_method_names = ['get', ]
+
+    def get(self, request):
+        username = request.data.get('username')
+        if username:
+            user = get_object_or_404(Profile, username=username)
+            serializer = ProfileSerializer(user)
+            return Response(serializer.data)
+        return Response({'error': 'User is not found'})
 
 
 class UserUpdateView(UpdateView):

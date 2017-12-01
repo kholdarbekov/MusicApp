@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.http import Http404, JsonResponse
 from rest_framework.parsers import FormParser, MultiPartParser
@@ -36,12 +37,13 @@ def get_music(request):
     return JsonResponse({'error': 'wrong parameters are sent'})
 
 
-def get_liked_musics(request):
-    if request.method == 'GET':
+class GetUserLikedMusics(APIView):
+    http_method_names = ['get', ]
+
+    def get(self, request):
         musics = request.user.musics_liked.all()
         musics_serializers = MusicSerializer(musics, many=True)
-        return JsonResponse(musics_serializers.data)
-    return JsonResponse({'error': 'This view takes only GET request'})
+        return Response(musics_serializers.data)
 
 
 class TopPlaylists(APIView):

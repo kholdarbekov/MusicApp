@@ -43,14 +43,14 @@
                                     <div class="col-xs-6"><a href="#modal-follower" data-toggle="modal">
                                         {% with total_followers=profile.followers.count %}
                                             <span class="m-b-xs h4 block">{{ total_followers }}</span>
+                                            <small class="text-muted">Follower{{ total_followers|pluralize }}</small>
                                         {% endwith %}
-                                        <small class="text-muted">Follower{{ total_followers|pluralize }}</small>
                                     </a></div>
                                     <div class="col-xs-6"><a href="#modal-following" data-toggle="modal">
                                         {% with total_followings=profile.following.count %}
                                             <span class="m-b-xs h4 block">{{ total_followings }}</span>
+                                            <small class="text-muted">Following{{ total_followings|pluralize }}</small>
                                         {% endwith %}
-                                        <small class="text-muted">Following{{ total_followings|pluralize }}</small>
                                     </a></div>
                                 </div>
                             </div>

@@ -195,6 +195,27 @@ def user_follow(request):
     return JsonResponse({'status': 'ko'})
 
 
+class APIFollowUser(APIView):
+    http_method_names = ['post', ]
+
+    def post(self, request):
+        usrname = request.data.get('username')
+        action = request.data.get('action')
+        if usrname and action:
+            try:
+                user = Profile.objects.get(username=usrname)
+                if user.username != request.user.username:
+                    if action == 'follow':
+                        Follower.objects.get_or_create(user_from=request.user, user_to=user)
+                    else:
+                        Follower.objects.filter(user_from=request.user, user_to=user).delete()
+
+                    return Response({'status': 'ok'})
+            except Profile.DoesNotExist:
+                return Response({'status': 'ko'})
+        return Response({'status': 'ko'})
+
+
 class GetFollowUsers(APIView):
     http_method_names = ['get', 'post']
 

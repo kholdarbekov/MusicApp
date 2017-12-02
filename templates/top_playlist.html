@@ -18,7 +18,10 @@
                                     class="bar1 a3 lter"></span> <span class="bar2 a5 lt"></span> <span
                                     class="bar3 a1 bg"></span> <span class="bar4 a4 dk"></span> <span
                                     class="bar5 a2 dker"></span> </span></div>
-                            <div class="bottom gd bg-info wrapper-lg"><span class="pull-right text-sm">101,400 <br>Followers</span>
+                            <div class="bottom gd bg-info wrapper-lg">
+                                {% with playlist.followers.count as total_followers %}
+                                <span class="pull-right text-sm">{{ total_followers }} <br>Follower{{ total_followers|pluralize }}</span>
+                                {% endwith %}
                                 <span class="h2 font-thin">{{ last_playlist.name }}</span></div>
                         <img class="img-full" src="{{ last_playlist.photo|thumbnail_url:'album_cover' }}" alt="...">
 {#                        <img class="img-full" src="{% static 'images/m0.jpg' %}" style="height: 400px !important;" alt="...">#}

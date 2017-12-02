@@ -148,9 +148,9 @@ class ProfileView(LoginRequiredMixin, DetailView):
 
 
 class APIProfileView(APIView):
-    http_method_names = ['get', ]
+    http_method_names = ['post', ]
 
-    def get(self, request):
+    def post(self, request):
         username = request.data.get('username')
         if username:
             user = get_object_or_404(Profile, username=username)

@@ -219,11 +219,6 @@ class APIFollowUser(APIView):
 class GetUserFollowers(APIView):
     http_method_names = ['post', ]
 
-    def get(self, request):
-        followings = request.user.following.all()
-        serializer = ProfileSerializer(followings, many=True)
-        return Response(serializer.data)
-
     def post(self, request):
         username = request.data.get('username')
         if username:

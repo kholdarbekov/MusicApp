@@ -174,3 +174,36 @@ class FollowedPlaylists(APIView):
         playlists = request.user.followed_playlists.all()
         serializer = PlaylistSerializers(playlists, many=True)
         return Response(serializer.data)
+
+
+class AddToPlaylist(APIView):
+    http_method_names = ['post', ]
+
+    def post(self, request):
+        music_id = request.data.get('music_id')
+        playlist_id = request.data.get('playlist_id')
+        if music_id and playlist_id:
+            music = get_object_or_404(Music, pk=music_id)
+            playlist = get_object_or_404(Playlist, pk=playlist_id)
+            playlist.musics.add(music)
+            return Response({'status': 'ok'})
+        return Response({'status': 'ko', 'error': 'music id or playlist id is missing'})
+
+
+class MusicLike(APIView):
+    http_method_names = ['post', ]
+
+    def post(self, request):
+        music_id = request.data.get('id')
+        action = request.data.get('action')
+        if music_id and action:
+            try:
+                music = Music.objects.get(id=music_id)
+                if action == 'like':
+                    music.users_like.add(request.user)
+                else:
+                    music.users_like.remove(request.user)
+                return Response({'status': 'ok'})
+            except:
+                pass
+        return Response({'status': 'ko'})

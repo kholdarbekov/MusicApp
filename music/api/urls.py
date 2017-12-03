@@ -1,6 +1,6 @@
 from django.conf.urls import url
 from .views import PlayListCreate, get_music, TopPlaylists, TopGenres, PlaylistDetail, Search, GetUserLikedMusics, \
-    TopAlbums, UserPlaylists, FollowPlaylist, FollowedPlaylists
+    TopAlbums, UserPlaylists, FollowPlaylist, FollowedPlaylists, AddToPlaylist, MusicLike
 
 
 urlpatterns = [
@@ -15,4 +15,6 @@ urlpatterns = [
     url(r'^api/user-playlists/$', UserPlaylists.as_view()),
     url(r'^follow-playlist/$', FollowPlaylist.as_view()),
     url(r'^followed-playlist/$', FollowedPlaylists.as_view()),
+    url(r'^api/add-to-playlist/$', AddToPlaylist.as_view()),
+    url(r'^api/music-like/$', MusicLike.as_view()),
 ]

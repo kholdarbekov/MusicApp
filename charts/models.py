@@ -13,7 +13,7 @@ class Chart(models.Model):
     photo = models.ImageField(upload_to='charts/', blank=True, null=True)
     number_of_songs = models.PositiveSmallIntegerField()
     musics = models.ManyToManyField('MusicInChart', related_name='charts')
-    followers = models.ManyToManyField(Profile, related_name='followed_charts', blank=True, null=True)
+    followers = models.ManyToManyField(Profile, related_name='followed_charts', blank=True)
     created_date = models.DateField(auto_now_add=True)
     last_edited_date = models.DateTimeField(auto_now=True)
 

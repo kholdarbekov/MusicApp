@@ -1,7 +1,7 @@
 from django.contrib.auth import views
 from django.conf.urls import url
 from .views import ProfileRegisterView, APIUserCreate, APIUserLogin, ProfileView, UserUpdateView, user_follow, \
-    GetFollowUsers, APIProfileView, APIFollowUser
+    GetUserFollowers, GetUserFollowings, APIProfileView, APIFollowUser
 
 urlpatterns = [
     url(r'^api/register', APIUserCreate.as_view(), name='api-account-create'),
@@ -33,5 +33,7 @@ urlpatterns = [
 
     url(r'^api/users/follow/$', APIFollowUser.as_view()),
 
-    url(r'^following-follower/$', GetFollowUsers.as_view()),
+    url(r'^user-followings/$', GetUserFollowings.as_view()),
+
+    url(r'^user-followers/$', GetUserFollowers.as_view()),
 ]

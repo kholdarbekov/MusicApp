@@ -216,8 +216,8 @@ class APIFollowUser(APIView):
         return Response({'status': 'ko'})
 
 
-class GetFollowUsers(APIView):
-    http_method_names = ['get', 'post']
+class GetUserFollowers(APIView):
+    http_method_names = ['post', ]
 
     def get(self, request):
         followings = request.user.following.all()
@@ -225,6 +225,23 @@ class GetFollowUsers(APIView):
         return Response(serializer.data)
 
     def post(self, request):
-        followers = request.user.followers.all()
-        serializer = ProfileSerializer(followers, many=True)
-        return Response(serializer.data)
+        username = request.data.get('username')
+        if username:
+            profile = Profile.objects.get(username=username)
+            followers = profile.followers.all()
+            serializer = ProfileSerializer(followers, many=True)
+            return Response(serializer.data)
+        return Response({'status': 'ko'})
+
+
+class GetUserFollowings(APIView):
+    http_method_names = ['post', ]
+
+    def post(self, request):
+        username = request.data.get('username')
+        if username:
+            profile = Profile.objects.get(username=username)
+            followers = profile.following.all()
+            serializer = ProfileSerializer(followers, many=True)
+            return Response(serializer.data)
+        return Response({'status': 'ko'})

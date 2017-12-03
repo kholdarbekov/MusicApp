@@ -89,6 +89,75 @@ class PlaylistDetail(APIView):
         return Response({'error': 'you should send pk field'})
 
 
+class AlbumDetail(APIView):
+    """
+    Retrieve, update or delete a snippet instance.
+    """
+    def get_object(self, pk):
+        try:
+            return Album.objects.get(pk=pk)
+        except Album.DoesNotExist:
+            raise Http404
+
+    def post(self, request):
+        pk = request.data.get('pk', None)
+        if pk:
+            album = self.get_object(pk)
+            if album:
+                musics = album.musics.all()
+                serializer = MusicSerializer(musics, many=True)
+
+                return Response(serializer.data)
+            return Response({'error': 'such album does not exist!'})
+        return Response({'error': 'you should send pk field'})
+
+
+class GenreDetail(APIView):
+    """
+    Retrieve, update or delete a snippet instance.
+    """
+    def get_object(self, genre_name):
+        try:
+            return Genre.objects.get(genre_name=genre_name)
+        except Genre.DoesNotExist:
+            raise Http404
+
+    def post(self, request):
+        genre_name = request.data.get('genre_name', None)
+        if genre_name:
+            genre = self.get_object(genre_name)
+            if genre:
+                musics = genre.all_music_in_genre.all()
+                serializer = MusicSerializer(musics, many=True)
+
+                return Response(serializer.data)
+            return Response({'error': 'such album does not exist!'})
+        return Response({'error': 'you should send pk field'})
+
+
+class DeletePlaylist(APIView):
+    """
+    Retrieve, update or delete a snippet instance.
+    """
+    def get_object(self, pk):
+        try:
+            return Playlist.objects.get(pk=pk)
+        except Playlist.DoesNotExist:
+            raise Http404
+
+    def post(self, request):
+        pk = request.data.get('pk', None)
+        if pk:
+            playlist = self.get_object(pk)
+            if playlist:
+                if playlist.creator.username.__eq__(request.user.username):
+                    playlist.delete()
+                    return Response({'status': 'playlist successfully removed'})
+                return Response({'status': 'you can not remove this playlist'})
+            return Response({'status': 'such playlist does not exist!'})
+        return Response({'status': 'you should send pk field'})
+
+
 class Search(APIView):
     http_method_names = ['post', ]
 

@@ -21,7 +21,7 @@
                                 <span class="pull-right text-sm">{{ total_followers }} <br>Follower{{ total_followers|pluralize }}</span>
                                 {% endwith %}
                                 <span class="h2 font-thin">{{ playlist.name }}</span></div>
-                        <img class="img-full" src="{{ playlist.photo|thumbnail_url:'playlist_cover'|default:'images/m43.jpg' }}" alt="...">
+                        <img class="img-full" src="{{ playlist.photo|thumbnail_url:'playlist_cover'|default:'static/images/m43.jpg' }}" alt="...">
 {#                            {% if playlist.photo %}#}
 {#                                <img class="img-full" src="{{ playlist.photo|thumbnail_url:'playlist_cover' }}" alt="...">#}
 {#                            {% else %}#}

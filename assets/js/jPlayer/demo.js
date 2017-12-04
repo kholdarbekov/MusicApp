@@ -18,18 +18,18 @@ $(document).ready(function () {
             audioFullScreen: false
         });
 
-    // playlist.setPlaylist([
-    //     {
-    //         title: "Cro Magnon Man",
-    //         artist: "The Stark Palace",
-    //         mp3: "http://www.jplayer.org/audio/mp3/TSP-01-Cro_magnon_man.mp3",
-    //     },
-    //     {
-    //         title: "Hidden",
-    //         artist: "Miaow",
-    //         mp3: "http://www.jplayer.org/audio/mp3/Miaow-02-Hidden.mp3",
-    //     }
-    // ]);
+    myPlaylist.setPlaylist([
+        {
+            title: "Cro Magnon Man",
+            artist: "The Stark Palace",
+            mp3: "http://www.jplayer.org/audio/mp3/TSP-01-Cro_magnon_man.mp3",
+        },
+        {
+            title: "Hidden",
+            artist: "Miaow",
+            mp3: "http://www.jplayer.org/audio/mp3/Miaow-02-Hidden.mp3",
+        }
+    ]);
 
     $(document).on($.jPlayer.event.pause, myPlaylist.cssSelector.jPlayer, function () {
         $('.musicbar').removeClass('animate');

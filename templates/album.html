@@ -18,7 +18,7 @@
                                     class="bar5 a2 dker"></span> </span></div>
                             <div class="bottom gd bg-info wrapper-lg"><span class="pull-right text-sm">{{ album.number_of_views }} <br>view{{ album.number_of_views|pluralize }}</span>
                                 <span class="h2 font-thin">{{ album.name }}</span></div>
-                        <img class="img-full" src="{{ album.photo|thumbnail_url:'album_cover' }}" alt="...">
+                        <img class="img-full" src="{{ album.photo|thumbnail_url:'album_cover'|default:'images/m43.jpg' }}" alt="...">
 {#                        <img class="img-full" src="{% static 'images/m0.jpg' %}" style="height: 400px !important;" alt="...">#}
 {#                            {% if album.photo %}#}
 {#                                <img class="img-full" src="{{ album.photo|thumbnail_url:'album_cover' }}" alt="...">#}
